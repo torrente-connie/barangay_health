@@ -66,24 +66,24 @@
          <div class="section-body">
             <div class="card card-secondary">
               <div class="card-header">
-                hello
+                <h4><strong>Pictures</strong></h4>
               </div>
 
                 <div class="card-body">
                   <div class="row">
                   <div class="col-lg-6">
                     <div class="owl-carousel">
-                        <div>
-                        <img class="single-item rounded-circle" src="assets/img/liloan-logo-2.png">
-                        </div>
-                         <div>
-                        <img class="single-item rounded-circle" src="assets/img/liloan-logo-2.png">
-                        </div>
+                          <div>
+                            <img class="single-item rounded-circle" src="assets/img/liloan-logo-2.png">
+                          </div>
+                         <!--   <div>
+                          <img class="single-item rounded-circle" src="assets/img/liloan-logo-2.png">
+                          </div> -->
                         </div>
                     </div>
                   
                   <div class="col-lg-6">
-                    <p>Add Description Here</p>
+                      <p class="lead text-justify"><strong>San Vicente</strong> is a barangay in the municipality of Liloan, in the province of Cebu. The BrgyHealth: Barangay Health Center Appointment, Scheduling and Online Consultation System can help provide the Barangay San Vincente Liloan. An easier way to book an appointment, set schedules and to have online consultation for the residents living in the barangay.</p>
                   </div>
                 </div>
 
@@ -179,7 +179,7 @@
 <script>
   $(document).ready(function(){
    $('.owl-carousel').owlCarousel({
-      loop:true,
+      loop:false,
       items: 1,
       margin: 10,
       singleItem: true

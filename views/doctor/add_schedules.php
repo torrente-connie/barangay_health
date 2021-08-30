@@ -76,79 +76,63 @@
       <div class="main-content" style="min-height: 566px;">
         <section class="section">
           <div class="section-header">
-            <h1>Schedules</h1>
-            </div>
-
-   
-        <div class="section-body">
-            <div class="card">
-              <div class="card-header">
+            <h1>Add Barangay Health Worker Accounts</h1>
+          
+          </div>
+          <div class="section-body">
+            <div class="row mt-sm-4">
+              <div class="col-12 col-md-12 col-lg-12">
+                <div class="card">
+                  <form method="POST" action="../../backend/admin_accounts_bhw.php">
+                   <div class="card-header">
                  <h4></h4>
                   <div class="card-header-action">
-                    <a href="add_schedules.php" class="btn btn-success btn-sm">Add Schedule</a>
+                    <a href="schedules.php" class="btn btn-danger btn-sm">Return</a>
                   </div>
               </div>
-
-                       <div class="card-body">
-                    <div class="table-responsive">
-                      <table class="table table-striped">
-                      <tbody>
-                        <tr>
-                          <th>Account ID</th>
-                          <th>Doctor Position</th>
-                          <th>Available Day</th>
-                          <th>Available Time</th>
-                          <th>Status</th>
-                        </tr>
-
-                      <?php 
-
-                      // query for getting doctor schedules
-                      $sqlDoctorSched = "SELECT * FROM doctor_schedule ds
-                      JOIN user u 
-                      ON ds.doctor_id = u.user_id 
-                      WHERE u.user_bool = '1' AND u.user_type = 'Doctor'
-                      AND ds.doctor_id = '$doctor_id'
-                      ";
-
-                      $resultDoctorSched = mysqli_query($connection,$sqlDoctorSched);
-                      while($rowDoctorSched = mysqli_fetch_assoc($resultDoctorSched)) {
-
-                        // doctor account id
-                        $account_id   = $rowDoctorSched['user_account_id'];
-
-                        // doctor full name
-                        $firstname    = ucfirst($rowDoctorSched['user_firstname']);
-                        $middlename   = ucfirst($rowDoctorSched['user_middlename']);
-                        $lastname     = ucfirst($rowDoctorSched['user_lastname']);
-
-                        $fullname = $firstname.' '.$middlename[0].'.'.' '.$lastname;
-
-                        // doctor schedule
-                        $sched_day    = $rowDoctorSched['schedule_day'];
-                        $sched_start  = $rowDoctorSched['schedule_start_time']; 
-                        $sched_end    = $rowDoctorSched['schedule_end_time'];
-
-                      ?>   
-                      <tr>
-                        <td><a href="#"><?php echo $account_id ?></a></td>
-                        <td><div class="badge badge-primary">General Physician</div></td>
-                        <td><?php echo $sched_day ?></td>
-                        <td><?php echo $sched_start ?> - <?php echo $sched_end ?> </td>
-                      </tr>
-
-                      <?php 
-                          }
-                        ?>
-
-                        </tbody>
-                      </table>                    
+                    <div class="card-body">
+                        <div class="row">
+                          <div class="form-group col-md-4 col-12">
+                            <label>First Name</label>
+                            <input type="text" class="form-control" placeholder="Enter First Name" name="bhw_firstname">
+                          </div>
+                           <div class="form-group col-md-4 col-12">
+                            <label>Middle Name</label>
+                            <input type="text" class="form-control" placeholder="Enter Middle Name" name="bhw_middlename">
+                          </div>
+                           <div class="form-group col-md-4 col-12">
+                            <label>Last Name</label>
+                            <input type="text" class="form-control" placeholder="Enter Last Name" name="bhw_lastname">
+                          </div>
+                        </div>
+                         <div class="row">
+                          <div class="form-group col-md-6 col-12">
+                            <label>Email</label>
+                            <input type="email" class="form-control" placeholder="Enter Email Address" name="bhw_email">
+                          </div>
+                           <div class="form-group col-md-6 col-12">
+                            <label>Phone Number</label>
+                            <input type="text" class="form-control" placeholder="Enter Phone Number" name="bhw_phonenumber">
+                          </div>
+                        </div>
+                         <div class="row">
+                          <div class="form-group col-md-6 col-12">
+                            <label>Date of Birth</label>
+                            <input type="date" class="form-control" name="bhw_dob">
+                          </div>
+                        </div>
                     </div>
-                  </div>
-              <div class="card-footer bg-whitesmoke"> </div>
+                    <div class="card-footer text-left">
+                      <button name="addBhwSubmitBtn" class="btn btn-primary">Submit</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
-         </section>
+
+     
+        </section>
       </div>
     </div>
 
@@ -165,7 +149,8 @@
 
     </div>
 
-  <!-- Menu for Footer Links -->
+
+   <!-- Menu for Footer Links -->
     <?php require("scripts_footer.php"); ?>
     <!-- -->
 
