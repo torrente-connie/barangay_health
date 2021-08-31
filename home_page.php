@@ -59,7 +59,7 @@
       <div class="main-content" style="min-height: 566px;">
         <section class="section">
           <div class="section-header">
-            <h1 class="text-center">123456 Welcome to BrgyHealth: Barangay Health Center Appointment, Scheduling and Online Consultation System</h1>
+            <h1 class="text-center">123456789 Welcome to BrgyHealth: Barangay Health Center Appointment, Scheduling and Online Consultation System</h1>
             </div>
 
    
