@@ -85,24 +85,21 @@
               <div class="card-header">
                  <h4></h4>
                   <div class="card-header-action">
-                    <a href="add_schedules.php" class="btn btn-success btn-sm">Add Schedule</a>
+                    <a href="add_schedules.php" class="btn btn-success btn-sm">Add Schedules</a>
                   </div>
               </div>
 
-                       <div class="card-body">
+                  <div class="card-body">
                     <div class="table-responsive">
                       <table class="table table-striped">
                       <tbody>
                         <tr>
-                          <th>Account ID</th>
-                          <th>Doctor Position</th>
                           <th>Available Day</th>
                           <th>Available Time</th>
                           <th>Status</th>
                         </tr>
 
                       <?php 
-
                       // query for getting doctor schedules
                       $sqlDoctorSched = "SELECT * FROM doctor_schedule ds
                       JOIN user u 
@@ -114,27 +111,23 @@
                       $resultDoctorSched = mysqli_query($connection,$sqlDoctorSched);
                       while($rowDoctorSched = mysqli_fetch_assoc($resultDoctorSched)) {
 
-                        // doctor account id
-                        $account_id   = $rowDoctorSched['user_account_id'];
-
-                        // doctor full name
-                        $firstname    = ucfirst($rowDoctorSched['user_firstname']);
-                        $middlename   = ucfirst($rowDoctorSched['user_middlename']);
-                        $lastname     = ucfirst($rowDoctorSched['user_lastname']);
-
-                        $fullname = $firstname.' '.$middlename[0].'.'.' '.$lastname;
-
+                      
                         // doctor schedule
                         $sched_day    = $rowDoctorSched['schedule_day'];
                         $sched_start  = $rowDoctorSched['schedule_start_time']; 
                         $sched_end    = $rowDoctorSched['schedule_end_time'];
 
+
+                        // time format
+
+                        $format_start = date("h:i:A", strtotime($sched_start));
+                        $format_end   = date("h:i:A", strtotime($sched_end));
+
                       ?>   
                       <tr>
-                        <td><a href="#"><?php echo $account_id ?></a></td>
-                        <td><div class="badge badge-primary">General Physician</div></td>
                         <td><?php echo $sched_day ?></td>
-                        <td><?php echo $sched_start ?> - <?php echo $sched_end ?> </td>
+                        <td><?php echo $format_start ?> - <?php echo $format_end ?> </td>
+                        <td><span></span></td>
                       </tr>
 
                       <?php 

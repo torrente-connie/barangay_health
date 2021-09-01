@@ -83,7 +83,7 @@
             <div class="row mt-sm-4">
               <div class="col-12 col-md-12 col-lg-12">
                 <div class="card">
-                  <form method="POST" action="../../backend/admin_accounts_bhw.php">
+                  <form method="POST" action="../../backend/doctor_schedules.php">
                    <div class="card-header">
                  <h4></h4>
                   <div class="card-header-action">
@@ -91,39 +91,35 @@
                   </div>
               </div>
                     <div class="card-body">
+
+                      <input type="hidden" value="<?php echo $doctor_id ?>" name="doctorID">
+
                         <div class="row">
-                          <div class="form-group col-md-4 col-12">
-                            <label>First Name</label>
-                            <input type="text" class="form-control" placeholder="Enter First Name" name="bhw_firstname">
-                          </div>
-                           <div class="form-group col-md-4 col-12">
-                            <label>Middle Name</label>
-                            <input type="text" class="form-control" placeholder="Enter Middle Name" name="bhw_middlename">
-                          </div>
-                           <div class="form-group col-md-4 col-12">
-                            <label>Last Name</label>
-                            <input type="text" class="form-control" placeholder="Enter Last Name" name="bhw_lastname">
-                          </div>
-                        </div>
-                         <div class="row">
                           <div class="form-group col-md-6 col-12">
-                            <label>Email</label>
-                            <input type="email" class="form-control" placeholder="Enter Email Address" name="bhw_email">
-                          </div>
-                           <div class="form-group col-md-6 col-12">
-                            <label>Phone Number</label>
-                            <input type="text" class="form-control" placeholder="Enter Phone Number" name="bhw_phonenumber">
-                          </div>
+                            <label>Day</label>
+                              <select class="form-control" name="sched_day">
+                                <option hidden selected>Select A Day</option>
+                                <option value="Monday">Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="Wednesday">Wednesday</option>
+                                <option value="Thursday">Thursday</option>
+                                <option value="Friday">Friday</option>
+                              </select>
+                          </div>  
                         </div>
-                         <div class="row">
-                          <div class="form-group col-md-6 col-12">
-                            <label>Date of Birth</label>
-                            <input type="date" class="form-control" name="bhw_dob">
-                          </div>
+                          <div class="row">
+                            <div class="form-group col-md-4 col-12">
+                              <label>Start Time</label>
+                              <input type="time" class="form-control" placeholder="Enter Schedule Start Time" name="sched_start">
+                            </div>
+                             <div class="form-group col-md-4 col-12">
+                              <label>End Time</label>
+                              <input type="time" class="form-control" placeholder="Enter Schedule End time" name="sched_end">
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer text-left">
-                      <button name="addBhwSubmitBtn" class="btn btn-primary">Submit</button>
+                      <button name="addDoctorSchedBtn" class="btn btn-primary">Submit</button>
                     </div>
                   </form>
                 </div>

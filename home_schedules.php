@@ -76,10 +76,12 @@
             <div class="row">
              <?php 
            
-             $sql = "SELECT * FROM doctor_schedule ds
-             JOIN user d 
-             ON ds.doctor_id = d.user_id
-             ";
+             // $sql = "SELECT DISTINCT(doctor_id) FROM doctor_schedule ds
+             // JOIN user d 
+             // ON ds.doctor_id = d.user_id
+             // ";
+
+             $sql = "SELECT * FROM user WHERE user_type = 'Doctor'";
              $result = mysqli_query($connection,$sql);
 
              while($row = mysqli_fetch_assoc($result)) {
@@ -91,11 +93,7 @@
 
               $fullname = $firstname.' '.$middlename.'.'.' '.$lastname;
 
-              // doctor schedules
-              $day = $row['schedule_day'];
-              $start_time = $row['schedule_start_time'];
-              $end_time = $row['schedule_end_time'];
-
+              $doctor_id    = $row['user_id'];
 
              ?>
 
@@ -136,7 +134,27 @@
               <div class="col-lg-6">
                  <ul class="list-group mb-5">
                     <li class="list-group-item text-center bg-primary text-white text-bold"><h5>Doctor Schedules</h5></li>
-                    <li class="list-group-item"><h5><?php echo $day ?> - <?php echo $start_time ?> to <?php echo $end_time?> </h5></li>
+                   <?php 
+
+                    $sqlSched = "SELECT * FROM doctor_schedule WHERE doctor_id = '$doctor_id' ";
+                    $result1 = mysqli_query($connection,$sqlSched);
+                    while($row2 = mysqli_fetch_assoc($result1)) {
+
+                    // doctor schedules
+                    $day = $row2['schedule_day'];
+                    $start_time = $row2['schedule_start_time'];
+                    $end_time = $row2['schedule_end_time'];
+
+                    // time format
+
+                    $format_start = date("h:i:A", strtotime($start_time));
+                    $format_end   = date("h:i:A", strtotime($end_time));
+
+
+                   ?> 
+
+                   <li class="list-group-item"><h5><?php echo $day ?> - <?php echo $format_start ?> to <?php echo $format_end?> </h5></li>
+                   <?php } ?>
                   </ul>
                 </div>
 
