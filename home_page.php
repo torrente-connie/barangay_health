@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
   
   require("scripts_header.php");
 

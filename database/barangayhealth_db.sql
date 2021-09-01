@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 06, 2021 at 05:07 PM
+-- Generation Time: Aug 31, 2021 at 07:48 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -146,7 +146,9 @@ INSERT INTO `user` (`user_id`, `user_account_id`, `user_email`, `user_password`,
 (1, 'BH20210650', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'connie rose', 'T', 'torrente', '2021-06-20', '09254540012', 'Administrator', 1, 1),
 (2, 'BH20210800', 'patient@gmail.com', 'b39024efbc6de61976f585c8421c6bba', 'Nina Angelina', 'S.', 'Morcilla', '2021-06-20', '09234567894', 'Patient', 1, 1),
 (3, 'BH20210680', 'doctor@gmail.com', 'f9f16d97c90d8c6f2cab37bb6d1f1992', 'Remie Kaye', 'B', 'Pulmones', '2021-06-20', '09284561234', 'Doctor', 1, 1),
-(4, 'BH20210660', 'bhw@gmail.com', '6adcff9bb6c324d349dfd67c82e1e832', 'Gerald', 'S', 'Montoya', '2021-06-20', '09287154234', 'Barangay Health Worker', 1, 1);
+(4, 'BH20210660', 'bhw@gmail.com', '6adcff9bb6c324d349dfd67c82e1e832', 'Gerald', 'S', 'Montoya', '2021-06-20', '09287154234', 'Barangay Health Worker', 1, 1),
+(8, 'BH20210681', 'benedict_gothong@yahoo.com', '3b07de63fd4dd08a4d8ffd6b65cb5c32', 'Chad Benedict', 'L', 'Gothong', '2021-08-07', '+639328734193', 'Doctor', 1, 1),
+(9, 'BH20210682', 'asda@gmail.com', 'ad82f8937d46d85e8b02918b9fd6b425', 'asdasd', 'asd', 'asda', '2021-08-21', 'asda', 'Doctor', 1, 1);
 
 --
 -- Indexes for dumped tables
@@ -226,7 +228,7 @@ ALTER TABLE `service`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
