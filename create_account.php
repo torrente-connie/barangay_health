@@ -25,13 +25,17 @@ require('scripts_header.php');
               </div>
 
               <div class="card-body">
-                <form method="POST" action="#">
+                <form method="POST" action="backend/user_registration.php">
                   <div class="row">
-                    <div class="form-group col-6">
+                    <div class="form-group col-4">
                       <label for="first_name">First Name</label>
                       <input id="first_name" type="text" class="form-control" name="first_name" autofocus>
                     </div>
-                    <div class="form-group col-6">
+                    <div class="form-group col-4">
+                      <label for="middle_name">Middle Name</label>
+                      <input id="middle_name" type="text" class="form-control" name="middle_name">
+                    </div>
+                    <div class="form-group col-4">
                       <label for="last_name">Last Name</label>
                       <input id="last_name" type="text" class="form-control" name="last_name">
                     </div>
@@ -47,11 +51,7 @@ require('scripts_header.php');
                   <div class="row">
                     <div class="form-group col-6">
                       <label for="password" class="d-block">Password</label>
-                      <input id="password" type="password" class="form-control pwstrength" data-indicator="pwindicator" name="password">
-                      <div id="pwindicator" class="pwindicator">
-                        <div class="bar"></div>
-                        <div class="label"></div>
-                      </div>
+                      <input id="password" type="password" class="form-control pwstrength" data-indicator="password2" name="password">
                     </div>
                     <div class="form-group col-6">
                       <label for="password2" class="d-block">Confirm Password</label>
@@ -73,7 +73,7 @@ require('scripts_header.php');
                   </div>
 
                   <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block" name="registerUser">
                       Register
                     </button>
                     <a href="login.php"class="btn btn-danger btn-lg btn-block">
