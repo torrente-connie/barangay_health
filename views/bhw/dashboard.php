@@ -145,7 +145,8 @@
                 <div class="card-body p-0">
                   <div class="table-responsive table-invoice">
                     <table class="table table-striped">
-                      <tbody><tr>
+                       <tbody>
+                      <tr>
                         <th></th>
                         <th>User Fullname</th>
                         <th>User Role</th>
@@ -154,7 +155,7 @@
                       </tr>
                       <tr>
                         <td><a href="#">INV-87239</a></td>
-                        <td class="font-weight-600">Kusnadi</td>
+                        <td class="font-weight-600">Remie Kaye Pulmones</td>
                         <td><div class="badge badge-primary">Doctor</div></td>
                         <td>Logged in into the system</td>
                         <td>July 19, 2018</td>
@@ -162,7 +163,7 @@
 
                       <tr>
                         <td><a href="#">INV-48574</a></td>
-                        <td class="font-weight-600">Hasan Basri</td>
+                        <td class="font-weight-600">Nina Angelina Morcilla</td>
                         <td><div class="badge badge-primary">Patient</div></td>
                         <td>Newly registered patient account</td>
                         <td>July 21, 2018</td>

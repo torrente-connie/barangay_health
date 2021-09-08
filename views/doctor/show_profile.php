@@ -12,6 +12,25 @@
   // db connection
   require("../../backend/dbconn.php");
   $connection = dbConn();
+
+  $displayCurrentUserInfo = "SELECT * FROM user WHERE user_type = 'Doctor' AND user_id = '$doctor_id'";
+  $resultDisplay = mysqli_query($connection,$displayCurrentUserInfo);
+
+
+  while($rowDisplay = mysqli_fetch_assoc($resultDisplay)) {
+      $account_id     = $rowDisplay['user_account_id'];
+      $account_type   = $rowDisplay['user_type'];
+      $account_email  = $rowDisplay['user_email'];
+      $account_phone  = $rowDisplay['user_cnum'];
+      $account_dob    = $rowDisplay['user_dob'];
+
+      // user full name
+      $firstname    = ucfirst($rowDisplay['user_firstname']);
+      $middlename   = ucfirst($rowDisplay['user_middlename']);
+      $lastname     = ucfirst($rowDisplay['user_lastname']);
+
+      $fullname = $firstname.' '.$middlename.'.'.' '.$lastname;
+  }
   
 ?>
 
@@ -90,8 +109,8 @@
       </nav>
 
 
-          <!-- Main Content -->
-     <div class="main-content" style="min-height: 566px;">
+      <!-- Main Content -->
+       <div class="main-content" style="min-height: 566px;">
         <section class="section">
           <div class="section-header">
             <h1>Account Profile</h1>
@@ -105,19 +124,19 @@
                     <div class="profile-widget-items">
                       <div class="profile-widget-item">
                         <div class="profile-widget-item-label">Account ID</div>
-                        <div class="profile-widget-item-value">BH202109701</div>
+                        <div class="profile-widget-item-value"><?php echo $account_id ?></div>
                       </div>
                       <div class="profile-widget-item">
                         <div class="profile-widget-item-label">Account Type</div>
-                        <div class="profile-widget-item-value">Administrator</div>
+                        <div class="profile-widget-item-value"><?php echo $account_type ?></div>
                       </div>
                     </div>
                   </div>
                   <div class="profile-widget-description">
-                    <div class="profile-widget-name"> Connie Rose Torrente </div>
+                    <div class="profile-widget-name"> <?php echo $fullname ?> </div>
                       <ul class="list-group list-group-flush">
-                      <li class="list-group-item">Email: rose.torrente@gmail.com</li>
-                      <li class="list-group-item">Phone: 09254561234</li>
+                      <li class="list-group-item">Email: <?php echo $account_email ?></li>
+                      <li class="list-group-item">Phone: <?php echo $account_phone ?></li>
                      
                     </ul>
                    
@@ -129,45 +148,42 @@
               </div>
               <div class="col-12 col-md-12 col-lg-7">
                 <div class="card">
-                  <form method="post" class="needs-validation" novalidate="">
+                  <form action="../../backend/doctor_profile.php" method="POST">
                     <div class="card-header">
                       <h4>Edit Profile</h4>
                     </div>
                     <div class="card-body">
+
+                        <input type="hidden" name="user_id" value="<?php echo $doctor_id ?>">
+
                         <div class="row">
-                          <div class="form-group col-md-6 col-12">
+                          <div class="form-group col-md-4 col-12">
                             <label>First Name</label>
-                            <input type="text" class="form-control" value="Ujang" required="">
-                            <div class="invalid-feedback">
-                              Please fill in the first name
-                            </div>
+                            <input type="text" class="form-control" name="firstname" value="<?php echo $firstname ?>" >
                           </div>
-                          <div class="form-group col-md-6 col-12">
+                           <div class="form-group col-md-4 col-12">
+                            <label>Middle Name</label>
+                            <input type="text" class="form-control" name="middlename" value="<?php echo $middlename ?>" >
+                          </div>
+                          <div class="form-group col-md-4 col-12">
                             <label>Last Name</label>
-                            <input type="text" class="form-control" value="Maman" required="">
-                            <div class="invalid-feedback">
-                              Please fill in the last name
-                            </div>
+                            <input type="text" class="form-control" name="lastname" value="<?php echo $lastname ?>">
                           </div>
                         </div>
                         <div class="row">
                           <div class="form-group col-md-7 col-12">
                             <label>Email</label>
-                            <input type="email" class="form-control" value="ujang@maman.com" required="">
-                            <div class="invalid-feedback">
-                              Please fill in the email
-                            </div>
+                            <input type="email" class="form-control" name="email" value="<?php echo $account_email ?>">
                           </div>
                           <div class="form-group col-md-5 col-12">
                             <label>Phone</label>
-                            <input type="tel" class="form-control" value="">
+                            <input type="text" class="form-control" name="phone" value="<?php echo $account_phone ?>">
                           </div>
                         </div>
-                       
-                      
-                    </div>
+                       </div>
                     <div class="card-footer text-right">
-                      <button class="btn btn-primary">Save Changes</button>
+                      <button class="btn btn-primary" type="submit" name="editDoctorProfile">Save Changes</button>
+                      <a href="dashboard.php"  class="btn btn-danger text-white">Cancel</a>
                     </div>
                   </form>
                 </div>

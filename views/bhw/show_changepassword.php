@@ -103,7 +103,7 @@
                         <div class="row">
                           <div class="form-group col-md-6 col-12">
                             <label>Old Password</label>
-                            <input type="email" class="form-control" value="ujang@maman.com" required="">
+                            <input type="email" class="form-control" required="">
                             <div class="invalid-feedback">
                               Please fill in the email
                             </div>
@@ -112,7 +112,7 @@
                          <div class="row">
                           <div class="form-group col-md-6 col-12">
                             <label>New Password</label>
-                            <input type="email" class="form-control" value="ujang@maman.com" required="">
+                            <input type="email" class="form-control" required="">
                             <div class="invalid-feedback">
                               Please fill in the email
                             </div>
@@ -121,7 +121,7 @@
                          <div class="row">
                           <div class="form-group col-md-6 col-12">
                             <label>Confirm New Password</label>
-                            <input type="email" class="form-control" value="ujang@maman.com" required="">
+                            <input type="email" class="form-control" required="">
                             <div class="invalid-feedback">
                               Please fill in the email
                             </div>
