@@ -117,7 +117,7 @@
 
                       ?>
 
-                      <a href="#" class="btn btn-primary btn-sm text-white">Book An Appointment </a>
+                      <a href="book_appointments.php" class="btn btn-primary btn-sm text-white">Book An Appointment </a>
                      
                       <?php 
 
