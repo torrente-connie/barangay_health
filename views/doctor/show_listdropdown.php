@@ -1,5 +1,5 @@
          <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <img alt="image" src="../../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+            <img alt="image" src="<?php echo $doctor_image ?>" class="rounded-circle mr-1" style="width:30px;height:30px;">
             <div class="d-sm-none d-lg-inline-block text-capitalize">Hi, <?php echo $doctor_fullname; ?></div></a>
             <div class="dropdown-menu dropdown-menu-right">
               <a class="dropdown-item has-icon" href="show_changepassword.php" style="cursor: pointer">

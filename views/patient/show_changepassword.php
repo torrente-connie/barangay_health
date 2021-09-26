@@ -3,8 +3,15 @@
   // session info here
   session_start();
 
-  $patient_id = $_SESSION['patient_id']; // get session patient id
-  $patient_fullname = $_SESSION['patient_fullname']; // get session patient fullname
+   $patient_id = $_SESSION['patient_id']; // get session admin id
+  $patient_fullname = $_SESSION['patient_fullname']; // get session admin fullname
+  $patient_image = $_SESSION['patient_image'];
+
+   if($_SESSION['patient_image'] == '') {
+    $patient_image = "../../assets/img/avatar/avatar-1.png";
+  } else {
+    $patient_image = $patient_image;
+  }
 
   // header links here
   require("scripts_header.php");
@@ -43,7 +50,7 @@
 
           <!-- profile here -->
           <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <img alt="image" src="../../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+             <img alt="image" src="<?php echo $patient_image ?>" class="rounded-circle mr-1" style="width:30px;height:30px;">
             <div class="d-sm-none d-lg-inline-block text-capitalize">Hi, <?php echo $patient_fullname; ?></div></a>
             <div class="dropdown-menu dropdown-menu-right">
               <a class="dropdown-item active has-icon" href="show_changepassword.php" style="cursor: pointer">

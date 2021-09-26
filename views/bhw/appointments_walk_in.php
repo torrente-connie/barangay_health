@@ -5,6 +5,13 @@
 
   $bhw_id = $_SESSION['bhw_id']; // get session bhw id
   $bhw_fullname = $_SESSION['bhw_fullname']; // get session bhw fullname
+  $bhw_image = $_SESSION['bhw_image'];
+
+  if($_SESSION['bhw_image'] == '') {
+    $bhw_image = "../../assets/img/avatar/avatar-1.png";
+  } else {
+    $bhw_image = $bhw_image;
+  }
 
   // header links here
   require("scripts_header.php");

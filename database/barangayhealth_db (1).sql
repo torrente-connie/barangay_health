@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 07, 2021 at 10:32 AM
+-- Generation Time: Sep 26, 2021 at 05:17 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -71,7 +71,8 @@ CREATE TABLE `doctor_schedule` (
 
 INSERT INTO `doctor_schedule` (`schedule_id`, `doctor_id`, `schedule_day`, `schedule_start_time`, `schedule_end_time`, `schedule_status`, `schedule_bool`) VALUES
 (1, 3, 'Monday', '19:04:37', '20:04:37', 1, 1),
-(2, 3, 'Monday', '11:10:00', '23:10:00', 1, 1);
+(2, 3, 'Monday', '11:10:00', '23:10:00', 1, 1),
+(3, 3, 'Monday', '10:55:00', '22:55:00', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -135,6 +136,7 @@ CREATE TABLE `user` (
   `user_dob` date NOT NULL,
   `user_cnum` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `user_type` enum('Administrator','Patient','Doctor','Barangay Health Worker') COLLATE utf8_unicode_ci NOT NULL,
+  `user_image` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `user_status` tinyint(4) NOT NULL,
   `user_bool` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -143,11 +145,11 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `user_account_id`, `user_email`, `user_password`, `user_firstname`, `user_middlename`, `user_lastname`, `user_dob`, `user_cnum`, `user_type`, `user_status`, `user_bool`) VALUES
-(1, 'BH20210650', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'connie rose', 'T', 'torrente', '2021-06-20', '09254540012', 'Administrator', 1, 1),
-(2, 'BH20210800', 'patient@gmail.com', 'b39024efbc6de61976f585c8421c6bba', 'Nina Angelina', 'S.', 'Morcilla', '2021-06-20', '09234567894', 'Patient', 1, 1),
-(3, 'BH20210680', 'doctor@gmail.com', 'f9f16d97c90d8c6f2cab37bb6d1f1992', 'Remie Kaye', 'B', 'Pulmones', '2021-06-20', '09284561234', 'Doctor', 1, 1),
-(4, 'BH20210660', 'bhw@gmail.com', '6adcff9bb6c324d349dfd67c82e1e832', 'Gerald', 'S', 'Montoya', '2021-06-20', '09287154234', 'Barangay Health Worker', 1, 1);
+INSERT INTO `user` (`user_id`, `user_account_id`, `user_email`, `user_password`, `user_firstname`, `user_middlename`, `user_lastname`, `user_dob`, `user_cnum`, `user_type`, `user_image`, `user_status`, `user_bool`) VALUES
+(1, 'BH20210650', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'Connie Rose', 'T', 'Torrente', '2021-06-20', '09254540012', 'Administrator', '../../assets/img/profile_pictures/profile-connie.jpg', 1, 1),
+(2, 'BH20210800', 'patient@gmail.com', 'b39024efbc6de61976f585c8421c6bba', 'Nina Angelina', 'S', 'Morcilla', '2021-06-20', '09234567894', 'Patient', '../../assets/img/profile_pictures/profile-angelina.jpg', 1, 1),
+(3, 'BH20210680', 'doctor@gmail.com', 'f9f16d97c90d8c6f2cab37bb6d1f1992', 'Remie Kaye', 'B', 'Pulmones', '2021-06-20', '09284561234', 'Doctor', '../../assets/img/profile_pictures/profile-remie.jpg', 1, 1),
+(4, 'BH20210660', 'bhw@gmail.com', '6adcff9bb6c324d349dfd67c82e1e832', 'Gerald', 'S', 'Montoya', '2021-06-20', '09287154234', 'Barangay Health Worker', '../../assets/img/profile_pictures/profile-austin.jpg', 1, 1);
 
 --
 -- Indexes for dumped tables
@@ -203,7 +205,7 @@ ALTER TABLE `appointment`
 -- AUTO_INCREMENT for table `doctor_schedule`
 --
 ALTER TABLE `doctor_schedule`
-  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `medical_history`
@@ -227,7 +229,7 @@ ALTER TABLE `service`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

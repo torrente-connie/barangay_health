@@ -3,8 +3,15 @@
   // session info here
   session_start();
 
-  $admin_id = $_SESSION['admin_id']; // get session admin id
-  $admin_fullname = $_SESSION['admin_fullname']; // get session admin fullname
+  $bhw_id = $_SESSION['bhw_id']; // get session bhw id
+  $bhw_fullname = $_SESSION['bhw_fullname']; // get session bhw fullname
+  $bhw_image = $_SESSION['bhw_image'];
+
+  if($_SESSION['bhw_image'] == '') {
+    $bhw_image = "../../assets/img/avatar/avatar-1.png";
+  } else {
+    $bhw_image = $bhw_image;
+  }
 
   // header links here
   require("scripts_header.php");

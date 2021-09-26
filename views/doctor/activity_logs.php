@@ -3,8 +3,16 @@
   // session info here
   session_start();
 
-  $admin_id = $_SESSION['admin_id']; // get session admin id
-  $admin_fullname = $_SESSION['admin_fullname']; // get session admin fullname
+  $doctor_id = $_SESSION['doctor_id']; // get session doctor id
+  $doctor_fullname = $_SESSION['doctor_fullname']; // get session doctor fullname
+  $doctor_image = $_SESSION['doctor_image'];
+
+  if($_SESSION['doctor_image'] == '') {
+    $doctor_image = "../../assets/img/avatar/avatar-1.png";
+  } else {
+    $doctor_image = $doctor_image;
+  }
+
 
   // header links here
   require("scripts_header.php");

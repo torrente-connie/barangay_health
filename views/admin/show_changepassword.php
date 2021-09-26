@@ -5,6 +5,13 @@
 
   $admin_id = $_SESSION['admin_id']; // get session admin id
   $admin_fullname = $_SESSION['admin_fullname']; // get session admin fullname
+  $admin_image = $_SESSION['admin_image'];
+
+   if($_SESSION['admin_image'] == '') {
+    $admin_image = "../../assets/img/avatar/avatar-1.png";
+  } else {
+    $admin_image = $admin_image;
+  }
 
   // header links here
   require("scripts_header.php");
@@ -43,7 +50,7 @@
 
           <!-- profile here -->
           <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <img alt="image" src="../../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+            <img alt="image" src="<?php echo $admin_image ?>" class="rounded-circle mr-1" style="width:30px;height:30px;">
             <div class="d-sm-none d-lg-inline-block text-capitalize">Hi, <?php echo $admin_fullname; ?></div></a>
             <div class="dropdown-menu dropdown-menu-right">
               <a class="dropdown-item active has-icon" href="show_changepassword.php" style="cursor: pointer">

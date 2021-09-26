@@ -5,6 +5,14 @@
 
   $doctor_id = $_SESSION['doctor_id']; // get session doctor id
   $doctor_fullname = $_SESSION['doctor_fullname']; // get session doctor fullname
+  $doctor_image = $_SESSION['doctor_image'];
+
+  if($_SESSION['doctor_image'] == '') {
+    $doctor_image = "../../assets/img/avatar/avatar-1.png";
+  } else {
+    $doctor_image = $doctor_image;
+  }
+
 
   // header links here
   require("scripts_header.php");
@@ -62,7 +70,7 @@
 
           <!-- profile here -->
           <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <img alt="image" src="../../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+            <img alt="image" src="<?php echo $doctor_image ?>" class="rounded-circle mr-1" style="width:30px;height:30px;">
             <div class="d-sm-none d-lg-inline-block text-capitalize">Hi, <?php echo $doctor_fullname; ?></div></a>
             <div class="dropdown-menu dropdown-menu-right">
               <a class="dropdown-item has-icon" href="show_changepassword.php" style="cursor: pointer">

@@ -29,6 +29,7 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
         $_SESSION['logged_in'] = $secret;
         $_SESSION['admin_id'] = $row['user_id'];
         $_SESSION['admin_fullname'] = $row['user_firstname'].' '.$row['user_middlename'].'.'.' '. $row['user_lastname'];
+        $_SESSION['admin_image'] = $row['user_image'];
         header('location:../views/admin/dashboard.php'); 
     }
 
@@ -42,6 +43,7 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
         $_SESSION['logged_in'] = $secret;
         $_SESSION['patient_id'] = $row['user_id'];
         $_SESSION['patient_fullname'] = $row['user_firstname'].' '.$row['user_middlename'].'.'.' '. $row['user_lastname'];
+        $_SESSION['patient_image'] = $row['user_image'];
         header('location:../views/patient/dashboard.php');
     }
   } else if($getInfoUserType == 'Doctor') {
@@ -54,6 +56,7 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
         $_SESSION['logged_in'] = $secret;
         $_SESSION['doctor_id'] = $row['user_id'];
         $_SESSION['doctor_fullname'] = $row['user_firstname'].' '.$row['user_middlename'].'.'.' '. $row['user_lastname'];
+        $_SESSION['doctor_image'] = $row['user_image'];
         header('location:../views/doctor/dashboard.php');
 
     }
@@ -67,6 +70,7 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
         $_SESSION['logged_in'] = $secret;
         $_SESSION['bhw_id'] = $row['user_id'];
         $_SESSION['bhw_fullname'] = $row['user_firstname'].' '.$row['user_middlename'].'.'.' '. $row['user_lastname'];
+        $_SESSION['bhw_image'] = $row['user_image'];
         header('location:../views/bhw/dashboard.php');
     }
   } else if($getInfoUserType == '') {
@@ -99,6 +103,7 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
         $_SESSION['logged_in'] = $secret;
         $_SESSION['admin_id'] = $row['user_id'];
         $_SESSION['admin_fullname'] = $row['user_firstname'].' '.$row['user_middlename'].'.'.' '. $row['user_lastname'];
+        $_SESSION['admin_image'] = $row['user_image'];
         header('location:../home_schedules.php'); 
     }
 
@@ -112,6 +117,7 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
         $_SESSION['logged_in'] = $secret;
         $_SESSION['patient_id'] = $row['user_id'];
         $_SESSION['patient_fullname'] = $row['user_firstname'].' '.$row['user_middlename'].'.'.' '. $row['user_lastname'];
+        $_SESSION['patient_image'] = $row['user_image'];
         header('location:../home_schedules.php');
     }
   } else if($getInfoUserType == 'Doctor') {
@@ -124,6 +130,7 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
         $_SESSION['logged_in'] = $secret;
         $_SESSION['doctor_id'] = $row['user_id'];
         $_SESSION['doctor_fullname'] = $row['user_firstname'].' '.$row['user_middlename'].'.'.' '. $row['user_lastname'];
+        $_SESSION['doctor_image'] = $row['user_image'];
         header('location:../home_schedules.php');
 
     }
@@ -137,6 +144,7 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
         $_SESSION['logged_in'] = $secret;
         $_SESSION['bhw_id'] = $row['user_id'];
         $_SESSION['bhw_fullname'] = $row['user_firstname'].' '.$row['user_middlename'].'.'.' '. $row['user_lastname'];
+        $_SESSION['bhw_image'] = $row['user_image'];
         header('location:../home_schedules.php');
     }
   } else if($getInfoUserType == '') {

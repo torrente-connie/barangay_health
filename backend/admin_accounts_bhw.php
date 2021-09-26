@@ -35,7 +35,7 @@ function addBhw() {
 	$getUniqueYear = date("Y");
 	$getUniqueAccNum = '066';
 	$bhw_uname = 'BH'.''.$getUniqueYear.''.$getUniqueAccNum.''.$displayUnique[0];
-	$bhw_pass = md5($bhw_uname);
+	$bhw_pass = md5($bhw_email);
 
     $sql = "INSERT INTO user (user_id,user_account_id,user_email,user_password,user_firstname,user_middlename,user_lastname,user_dob,user_cnum,user_type,user_status,user_bool) VALUES
 	(NULL,'$bhw_uname','$bhw_email','$bhw_pass','$bhw_fname','$bhw_mname','$bhw_lname','$bhw_dob','$bhw_pnum','$bhw_type','$bhw_status','$bhw_bool')";

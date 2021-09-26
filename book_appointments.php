@@ -23,7 +23,7 @@
     <div class="main-wrapper container">
       <div class="navbar-bg" style="background-color:rgba(40, 102, 199, 0.97)"></div>
       <nav class="navbar navbar-expand-lg main-navbar" style="background-color:rgba(40, 102, 199, 0.97)">
-        <a href="home_page.php" class="navbar-brand sidebar-gone-hide text-capitalize"><img class="sidebar-gone-hide" src="assets/img/bh-logo-2.png" style="width:300px;">
+        <a href="home_page.php" class="navbar-brand sidebar-gone-hide text-capitalize"><img class="sidebar-gone-hide" src="assets/img/bh-logo-2.png">
         </a>
         <img class="sidebar-gone-hide rounded-circle" src="assets/img/liloan-logo-2.png" style="height: 85px; width: 90px; padding:10px;">
         <div class="navbar-nav">
@@ -78,46 +78,33 @@
         <div class="section-body">
             <div class="card">
               <div class="card-header">
-                 <h4>Choose An Appointment Schedule</h4>
+                 <h4>Preview Selected Doctor</h4>
                </div>
-            <form action="#backend/bookappointment.php" method="POST">
-               <div class="card-body">
-                        <div class="row">
-                          <div class="form-group col-md-4 col-12">
-                            <label>First Name</label>
-                            <input type="text" class="form-control" value="<?php echo $pfname ?>" name="patient_firstname">
-                          </div>
-                           <div class="form-group col-md-4 col-12">
-                            <label>Middle Name</label>
-                            <input type="text" class="form-control" value="<?php echo $pmname ?>" name="patient_middlename">
-                          </div>
-                           <div class="form-group col-md-4 col-12">
-                            <label>Last Name</label>
-                            <input type="text" class="form-control" value="<?php echo $plname ?>" name="patient_lastname">
-                          </div>
-                        </div>
-                         <div class="row">
-                          <div class="form-group col-md-6 col-12">
-                            <label>Email</label>
-                            <input type="email" class="form-control" placeholder="Enter Email Address" name="bhw_email">
-                          </div>
-                           <div class="form-group col-md-6 col-12">
-                            <label>Phone Number</label>
-                            <input type="text" class="form-control" placeholder="Enter Phone Number" name="bhw_phonenumber">
-                          </div>
-                        </div>
-                         <div class="row">
-                          <div class="form-group col-md-6 col-12">
-                            <label>Date of Birth</label>
-                            <input type="date" class="form-control" name="bhw_dob">
-                          </div>
-                        </div>
+           <div class="col-12 col-md-12 col-lg-12">
+                <div class="card profile-widget">
+                  <div class="profile-widget-header">
+                    <img alt="image" src="assets/img/avatar/avatar-1.png" class=" profile-widget-picture mt-1 mr-2" style="width:100px;height:100px;">
+                    <div class="profile-widget-items">
+                      <div class="profile-widget-item">
+                        <div class="profile-widget-item-value mb-2">Dr. Remie Kaye B. Pulmones</div>
+                        <div class="profile-widget-item-label">General Physician</div>
+                      </div>
                     </div>
-                    <div class="card-footer text-left">
-                      <button name="bookAppointmentBtn" class="btn btn-primary">Submit</button>
-                       <a href="home_schedules.php" class="btn btn-danger">Cancel</a>
-                    </div>
-                     </form>
+                  </div>
+                  <div class="profile-widget-description">
+                    <div class="profile-widget-name">Doctor Schedule</div>
+                      <ul class="list-group list-group-flush">
+                      <li class="list-group-item">Mon - 07:04:PM to 08:04:PM</li>
+                      <li class="list-group-item">Tue - 07:04:PM to 08:04:PM</li>
+                      <li class="list-group-item">Wed - 07:04:PM to 08:04:PM</li>
+                    </ul>
+                   
+                  </div>
+                </div>
+              </div>  
+                <!-- <div class="card-footer text-center">
+                      <button class="btn btn-primary">View Doctor Information</button>
+                  </div> -->
                  </div>
             </div>
 

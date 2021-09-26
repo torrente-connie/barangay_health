@@ -5,6 +5,14 @@
 
   $admin_id = $_SESSION['admin_id']; // get session admin id
   $admin_fullname = $_SESSION['admin_fullname']; // get session admin fullname
+  $admin_image = $_SESSION['admin_image'];
+
+   if($_SESSION['admin_image'] == '') {
+    $admin_image = "../../assets/img/avatar/avatar-1.png";
+  } else {
+    $admin_image = $admin_image;
+  }
+
 
   // header links here
   require("scripts_header.php");

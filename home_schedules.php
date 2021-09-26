@@ -100,7 +100,7 @@
               <div class="col-lg-6">
                 <ul class="list-unstyled">
                  <li class="media mt-3">
-                      <img class="mr-4 rounded-circle" width="100" src="assets/img/avatar/avatar-1.png" alt="avatar">
+                      <img class="mr-4" style="width:100px;height:100px;" src="assets/img/avatar/avatar-1.png" alt="avatar">
                       <div class="media-body">
                         <div class="float-right text-primary"></div>
                         <div class="media-title"><h4>Dr. <?php echo $fullname ?></h4></div>
