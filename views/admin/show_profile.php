@@ -7,7 +7,7 @@
   $admin_fullname = $_SESSION['admin_fullname']; // get session admin fullname
   $admin_image = $_SESSION['admin_image'];
 
-   if($_SESSION['admin_image'] == '') {
+  if($_SESSION['admin_image'] == '') {
     $admin_image = "../../assets/img/avatar/avatar-1.png";
   } else {
     $admin_image = $admin_image;
@@ -31,6 +31,12 @@
       $account_email  = $rowDisplay['user_email'];
       $account_phone  = $rowDisplay['user_cnum'];
       $account_dob    = $rowDisplay['user_dob'];
+     
+      if($rowDisplay['user_image'] == '') {
+         $account_profile = "../../assets/img/avatar/avatar-1.png";
+      } else {
+         $account_profile = $rowDisplay['user_image'];
+      }
 
       // user full name
       $firstname    = ucfirst($rowDisplay['user_firstname']);
@@ -70,7 +76,7 @@
 
           <!-- profile here -->
           <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <img alt="image" src="<?php echo $admin_image ?>" class="rounded-circle mr-1" style="width:30px;height:30px;">
+            <img alt="image" src="../<?php echo $admin_image ?>" class="rounded-circle mr-1" style="width:30px;height:30px;">
             <div class="d-sm-none d-lg-inline-block text-capitalize">Hi, <?php echo $admin_fullname; ?></div></a>
             <div class="dropdown-menu dropdown-menu-right">
               <a class="dropdown-item has-icon" href="show_changepassword.php" style="cursor: pointer">
@@ -141,7 +147,7 @@
               <div class="col-12 col-md-12 col-lg-5">
                 <div class="card profile-widget">
                   <div class="profile-widget-header">
-                    <img alt="image" src="../../assets/img/avatar/avatar-1.png" class="rounded-circle profile-widget-picture">
+                    <img alt="image" src="../<?php echo $account_profile ?>" class="rounded-circle profile-widget-picture" style="width:100px;height: 100px;">
                     <div class="profile-widget-items">
                       <div class="profile-widget-item">
                         <div class="profile-widget-item-label">Account ID</div>
@@ -169,13 +175,22 @@
               </div>
               <div class="col-12 col-md-12 col-lg-7">
                 <div class="card">
-                  <form action="../../backend/admin_profile.php" method="POST">
+                  <form action="../../backend/admin_profile.php" method="POST" enctype="multipart/form-data">
                     <div class="card-header">
                       <h4>Edit Profile</h4>
                     </div>
                     <div class="card-body">
 
                         <input type="hidden" name="user_id" value="<?php echo $admin_id ?>">
+                        <input type="hidden" name="account_image" value="<?php echo $account_profile ?>">
+
+
+                        <div class="row">
+                            <div class="form-group col-md-12 col-12">
+                               <label>Profile Picture</label>
+                                 <input type="file" class="form-control" name="profile_image">
+                              </div>
+                          </div>
 
                         <div class="row">
                           <div class="form-group col-md-4 col-12">

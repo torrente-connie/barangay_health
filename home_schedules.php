@@ -95,12 +95,18 @@
 
               $doctor_id    = $row['user_id'];
 
+              if($row['user_image'] == "") {
+                $doctor_image = "img/avatar/avatar-1.png";
+              } else {
+                $doctor_image = $row['user_image'];
+              }
+
              ?>
 
               <div class="col-lg-6">
                 <ul class="list-unstyled">
                  <li class="media mt-3">
-                      <img class="mr-4" style="width:100px;height:100px;" src="assets/img/avatar/avatar-1.png" alt="avatar">
+                      <img class="mr-4" style="width:100px;height:100px;" src="assets/<?php echo $doctor_image ?>" alt="avatar">
                       <div class="media-body">
                         <div class="float-right text-primary"></div>
                         <div class="media-title"><h4>Dr. <?php echo $fullname ?></h4></div>
@@ -117,7 +123,7 @@
 
                       ?>
 
-                      <a href="book_appointments.php" class="btn btn-primary btn-sm text-white">Book An Appointment </a>
+                      <a href="book_appointments.php?adid=<?php echo $doctor_id?>" class="btn btn-primary btn-sm text-white">Book An Appointment </a>
                      
                       <?php 
 

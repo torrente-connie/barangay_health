@@ -6,6 +6,7 @@ session_start();
 
   $patient_id = $_SESSION['patient_id'];
   $patient_fullname = $_SESSION['patient_fullname'];
+  $patient_image = $_SESSION['patient_image'];
 
   }
 

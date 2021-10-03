@@ -14,7 +14,10 @@
     $pfname = $rowPatientName['user_firstname'];
     $pmname = $rowPatientName['user_middlename'];
     $plname = $rowPatientName['user_lastname'];
+
   }
+
+
   
 ?>
 
@@ -41,6 +44,36 @@
 
             // profile dropdown here
             require("show_listdropdown.php"); 
+
+
+            $appointment_docid = $_GET['adid'];
+
+            $sql = "SELECT * FROM user WHERE user_id = '$appointment_docid' ";
+            $result = mysqli_query($connection,$sql);
+
+            while($row = mysqli_fetch_assoc($result)) {
+              $account_id = $row['user_account_id'];
+              $account_type = $row['user_type'];
+
+               // user full name
+               $firstname    = ucfirst($row['user_firstname']);
+               $middlename   = ucfirst($row['user_middlename']);
+               $lastname     = ucfirst($row['user_lastname']);
+
+               $fullname = $firstname.' '.$middlename[0].'.'.' '.$lastname;
+
+               if($row['user_image'] == "") {
+                $doctor_image = "img/avatar/avatar-1.png";
+              } else {
+                $doctor_image = $row['user_image'];
+              }
+
+               // user info
+               $email = $row['user_email'];
+               $phonenumber = $row['user_cnum'];
+
+            }
+
 
           ?>
 
@@ -83,10 +116,10 @@
            <div class="col-12 col-md-12 col-lg-12">
                 <div class="card profile-widget">
                   <div class="profile-widget-header">
-                    <img alt="image" src="assets/img/avatar/avatar-1.png" class=" profile-widget-picture mt-1 mr-2" style="width:100px;height:100px;">
+                    <img alt="image" src="assets/<?php echo $doctor_image ?>" class=" profile-widget-picture mt-1 mr-2" style="width:100px;height:100px;">
                     <div class="profile-widget-items">
                       <div class="profile-widget-item">
-                        <div class="profile-widget-item-value mb-2">Dr. Remie Kaye B. Pulmones</div>
+                        <div class="profile-widget-item-value mb-2">Dr. <?php echo $fullname ?></div>
                         <div class="profile-widget-item-label">General Physician</div>
                       </div>
                     </div>
@@ -94,9 +127,28 @@
                   <div class="profile-widget-description">
                     <div class="profile-widget-name">Doctor Schedule</div>
                       <ul class="list-group list-group-flush">
-                      <li class="list-group-item">Mon - 07:04:PM to 08:04:PM</li>
-                      <li class="list-group-item">Tue - 07:04:PM to 08:04:PM</li>
-                      <li class="list-group-item">Wed - 07:04:PM to 08:04:PM</li>
+                    <?php 
+
+                    $sqlSched = "SELECT * FROM doctor_schedule WHERE doctor_id = '$appointment_docid' ";
+                    $result1 = mysqli_query($connection,$sqlSched);
+                    while($row2 = mysqli_fetch_assoc($result1)) {
+
+                    // doctor schedules
+                    $day = $row2['schedule_day'];
+                    $start_time = $row2['schedule_start_time'];
+                    $end_time = $row2['schedule_end_time'];
+
+                    // time format
+
+                    $format_start = date("h:i:A", strtotime($start_time));
+                    $format_end   = date("h:i:A", strtotime($end_time));
+
+
+                   ?> 
+
+                   <li class="list-group-item"><?php echo $day ?> - <?php echo $format_start ?> to <?php echo $format_end?></li>
+                   <?php } ?>
+
                     </ul>
                    
                   </div>
@@ -146,8 +198,34 @@
                         </div>
                          <div class="row">
                           <div class="form-group col-md-6 col-12">
-                            <label>Date of Birth</label>
-                            <input type="date" class="form-control" name="bhw_dob">
+                            <label>Selected Date</label>
+                            <input type="date" class="form-control" name="selected_date">
+                          </div>
+                          <div class="form-group col-md-6 col-12">
+                            <label>Selected Appointment Schedule</label>
+                             <select class="form-control" name="selected_asched">
+                                 <?php 
+
+                              $sqlSched = "SELECT * FROM doctor_schedule WHERE doctor_id = '$appointment_docid' ";
+                              $result1 = mysqli_query($connection,$sqlSched);
+                              while($row2 = mysqli_fetch_assoc($result1)) {
+
+                              $schedule_id = $row2['schedule_id'];
+
+                              // doctor schedules
+                              $day = $row2['schedule_day'];
+                              $start_time = $row2['schedule_start_time'];
+                              $end_time = $row2['schedule_end_time'];
+
+                              // time format
+
+                              $format_start = date("h:i:A", strtotime($start_time));
+                              $format_end   = date("h:i:A", strtotime($end_time));
+
+                             ?> 
+                             <option value="<?php echo $schedule_id ?>"><?php echo $day ?> - <?php echo $format_start ?> to <?php echo $format_end?></option>
+                             <?php } ?>
+                             </select>
                           </div>
                         </div>
                     </div>

@@ -49,6 +49,30 @@
             // profile dropdown here
             require("show_listdropdown.php"); 
 
+
+            // patient information 
+            $doctor_id = $_GET['did'];
+
+            $sql = "SELECT * FROM user WHERE user_id = '$doctor_id' ";
+            $result = mysqli_query($connection,$sql);
+
+            while($row = mysqli_fetch_assoc($result)) {
+              $account_id = $row['user_account_id'];
+              $account_type = $row['user_type'];
+
+               // user full name
+               $firstname    = ucfirst($row['user_firstname']);
+               $middlename   = ucfirst($row['user_middlename']);
+               $lastname     = ucfirst($row['user_lastname']);
+
+               $fullname = $firstname.' '.$middlename[0].'.'.' '.$lastname;
+
+               // user info
+               $email = $row['user_email'];
+               $phonenumber = $row['user_cnum'];
+
+            }
+
           ?>
 
         </ul>
@@ -105,64 +129,68 @@
             <div class="card">
               <div class="card-header">
                  <h4></h4>
+                   <div class="card-header-action">
+                    <a href="schedules.php" class="btn btn-danger btn-sm">Return</a>
+                  </div>
                </div>
 
                 <div class="card-body">
                     <div class="table-responsive">
-                      <table class="table table-hover table-bordered" id="table-subject">
-                        <thead class="thead-light">
-                          <tr>
-                            <th>Account ID</th>
-                            <th>Fullname</th>
-                            <th>User Type</th>
-                            <!-- <th>Account Status</th> -->
-                            <th></th>
-                          </tr>
-                        </thead>
-                        <tbody>
+                      <table class="table table-striped">
+                      <tbody>
+                        <tr>
+                          <th>Available Day</th>
+                          <th>Available Time</th>
+                          <!-- <th>Status</th> -->
+                        </tr>
 
                       <?php 
 
-                      // query for getting patient
-                      $sqlDoctor = "SELECT * FROM user
-                      WHERE user_type = 'Doctor'
+                      // query for getting doctor schedules
+                      $sqlDoctorSched = "SELECT * FROM doctor_schedule ds
+                      JOIN user u 
+                      ON ds.doctor_id = u.user_id 
+                      WHERE u.user_bool = '1' AND u.user_type = 'Doctor' AND 
+                      ds.doctor_id = '$doctor_id'
                       ";
 
-                      $resultDoctor = mysqli_query($connection,$sqlDoctor);
-                      while($rowDoctor = mysqli_fetch_assoc($resultDoctor)) {
+                      $resultDoctorSched = mysqli_query($connection,$sqlDoctorSched);
+                      while($rowDoctorSched = mysqli_fetch_assoc($resultDoctorSched)) {
 
-                        // user account id
-                        $account_id   = $rowDoctor['user_account_id'];
+                        // doctor account id
+                        $account_id   = $rowDoctorSched['user_account_id'];
 
-                        // user full name
-                        $firstname    = ucfirst($rowDoctor['user_firstname']);
-                        $middlename   = ucfirst($rowDoctor['user_middlename']);
-                        $lastname     = ucfirst($rowDoctor['user_lastname']);
+                        // doctor full name
+                        $firstname    = ucfirst($rowDoctorSched['user_firstname']);
+                        $middlename   = ucfirst($rowDoctorSched['user_middlename']);
+                        $lastname     = ucfirst($rowDoctorSched['user_lastname']);
 
-                        $fullname = $firstname.' '.$middlename.'.'.' '.$lastname;
+                        $fullname = $firstname.' '.$middlename[0].'.'.' '.$lastname;
 
-                        // user info
-                        $user_type = ucfirst($rowDoctor['user_type']);
+                          
 
-                      ?>
+                        // doctor schedule
+                        $sched_day    = $rowDoctorSched['schedule_day'];
+                        $sched_start  = $rowDoctorSched['schedule_start_time']; 
+                        $sched_end    = $rowDoctorSched['schedule_end_time'];
 
-                        <tr>
-                          <td><?php echo $account_id ?> </td>
-                          <td><?php echo $fullname ?></td>
-                          <td><div class="badge badge-primary"><?php echo $user_type ?></div></td>
-                          <!-- <td>Approved</td> -->
-                          <td><a href="view_doctor_schedules.php?did=<?php echo $rowDoctor['user_id']?>" class="btn btn-primary">VIEW</a>
-                           </td>
-                         
-                         </tr>
-                      
-                      <?php } ?>
+                        $format_start = date("h:i:A", strtotime($sched_start));
+                        $format_end   = date("h:i:A", strtotime($sched_end));
+
+                      ?>   
+                      <tr>
+                        <td><?php echo $sched_day ?></td>
+                        <td><?php echo $format_start ?> - <?php echo $format_end ?> </td>
+                      </tr>
+
+                      <?php 
+                          }
+                        ?>
 
                         </tbody>
-                      </table>
+                      </table>                    
                     </div>
                   </div>
-
               <div class="card-footer bg-whitesmoke"> </div>
             </div>
           </div>
