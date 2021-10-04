@@ -67,6 +67,12 @@
 
                $fullname = $firstname.' '.$middlename[0].'.'.' '.$lastname;
 
+               if($row['user_image'] == '') {
+                $account_image = "../../assets/img/avatar/avatar-1.png";
+              } else {
+                $account_image = $row['user_image'];
+              }
+
                // user info
                $email = $row['user_email'];
                $phonenumber = $row['user_cnum'];
@@ -129,7 +135,7 @@
               <div class="col-12 col-md-12 col-lg-5">
                 <div class="card profile-widget">
                   <div class="profile-widget-header">
-                    <img alt="image" src="../../assets/img/avatar/avatar-1.png" class="rounded-circle profile-widget-picture">
+                    <img alt="image" src="../<?php echo $account_image ?>" class="rounded-circle profile-widget-picture" style="width:100px;height:100px">
                     <div class="profile-widget-items">
                       <div class="profile-widget-item">
                         <div class="profile-widget-item-label">Account ID</div>
@@ -160,8 +166,11 @@
               <div class="col-12 col-md-12 col-lg-7">
                 <div class="card">
                     <div class="card-header">
-                      <h4>Medical Records</h4>
-                    </div>
+                     <h4>Medical Records</h4>
+                        <div class="card-header-action">
+                          <a href="accounts_patient.php" class="btn btn-danger btn-sm">Return</a>
+                        </div>
+                     </div>
                     <div class="card-body">
                      <div class="table-responsive">
                       <table class="table table-hover table-bordered" id="table-subject" style="overflow-y:scroll;height:300px; display:block; " >
@@ -175,8 +184,6 @@
                         <tbody>
 
                       <?php 
-
-                    
 
                       ?>
 
