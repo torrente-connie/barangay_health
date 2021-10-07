@@ -94,7 +94,7 @@
               <div class="card-header">
                  <h4></h4>
                   <div class="card-header-action">
-                    <a href="pdf_test.php" class="btn btn-primary btn-sm">Print Ticket</a>
+                    <a href="pdf_test.php" class="btn btn-primary btn-sm">Print Schedule</a>
                   </div>
               </div>
 

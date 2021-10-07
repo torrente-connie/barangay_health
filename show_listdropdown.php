@@ -8,11 +8,8 @@
             <img alt="image" src="assets/<?php echo $patient_image ?>" class="rounded-circle mr-1" style="width:30px;height:30px;">
             <div class="d-sm-none d-lg-inline-block text-capitalize">Hi, <?php echo $patient_fullname; ?></div></a>
             <div class="dropdown-menu dropdown-menu-right">
-              <a class="dropdown-item has-icon" data-toggle="modal" data-target="#changePasswordModal" style="cursor: pointer">
-                <i class="fas fa-unlock"></i> Change Password
-              </a>
-              <a class="dropdown-item has-icon" data-toggle="modal" data-target="#profileModal" style="cursor: pointer">
-                <i class="far fa-user"></i> Profile
+              <a class="dropdown-item has-icon" style="cursor: pointer" href="views/patient/dashboard.php">
+                <i class="fas fa-arrow-right"></i> Dashboard
               </a>
               <div class="dropdown-divider"></div>
               <a href="logout.php" class="dropdown-item has-icon text-danger">

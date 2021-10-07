@@ -66,7 +66,7 @@
          <div class="section-body">
             <div class="card card-secondary">
               <div class="card-header">
-                <h4><strong>Pictures</strong></h4>
+                <h4></h4>
               </div>
 
                 <div class="card-body">
@@ -84,6 +84,11 @@
                   
                   <div class="col-lg-6">
                       <p class="lead text-justify"><strong>San Vicente</strong> is a barangay in the municipality of Liloan, in the province of Cebu. The BrgyHealth: Barangay Health Center Appointment, Scheduling and Online Consultation System can help provide the Barangay San Vincente Liloan. An easier way to book an appointment, set schedules and to have online consultation for the residents living in the barangay.</p>
+
+                      <div class="">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3924.284168383133!2d123.97116955054143!3d10.3989900688534!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a9a2d36113ca67%3A0x1a661f56d2c041b9!2sSan%20Vicente%20Barangay%20Hall!5e0!3m2!1sen!2sph!4v1633616800174!5m2!1sen!2sph"  style="border:0;width: 100%;height: 250px;" allowfullscreen loading="lazy"></iframe>
+                      </div>
+
                   </div>
                 </div>
 
@@ -94,6 +99,12 @@
             </div>
           </div>
 
+     <div class="section-body">
+      <div class="card card-primary">
+          <div class="card-header">
+                <h4> Process for booking an appointment: </h4>
+              </div>
+      </div>
       <div class="row">
         <div class="col-lg-3">
           <div class="section-body">
@@ -152,6 +163,7 @@
                 </div>
               </div>
             </div>
+          </div>
             
             </div>
          </section>

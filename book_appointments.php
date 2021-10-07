@@ -228,6 +228,38 @@
                              </select>
                           </div>
                         </div>
+                         <div class="row">
+                          <div class="form-group col-md-6 col-12">
+                             <label>Select An Appointment Type</label>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="book-appointment" id="exampleRadios1" checked="">
+                              <label class="form-check-label" for="exampleRadios1">
+                                Book Appointment
+                              </label>
+                            </div>
+                             <div class="form-check">
+                              <input class="form-check-input" type="radio" name="book-appointment" id="exampleRadios2" >
+                              <label class="form-check-label" for="exampleRadios2">
+                                Online Appointment
+                              </label>
+                            </div>
+                           <!--  <div class="form-check">
+                              <input class="form-check-input" type="radio" name="book-appointment" id="exampleRadios3" >
+                              <label class="form-check-label" for="exampleRadios3">
+                                Walk-in Appointment
+                              </label>
+                            </div> -->
+                          </div>
+                           <div class="form-group col-md-6 col-12">
+                             <label>Select An Appointment Type</label>
+                              <select class="form-control" name="selected_asched">
+                                <option hidden selected>Select An Appointment</option>
+                                <option value="book">Book Appointment</option>
+                                <option value="online">Online Appointment</option>
+                              </select>
+                          </div>
+                          
+                        </div>
                     </div>
                     <div class="card-footer text-left">
                       <button name="bookAppointmentBtn" class="btn btn-primary">Submit</button>

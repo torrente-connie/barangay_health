@@ -106,6 +106,8 @@
                             <th>Medical Service</th>
                             <th>Appointment Time</th>
                             <th>Appointment Date</th>
+                            <th>Appointment Status</th>
+                            <th></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -161,6 +163,10 @@
                           <td><?php echo $service_name ?></td>
                           <td>12:00PM - 1:30PM</td>
                           <td>8/6/2021</td>
+                          <td>Not Done</td>
+                          <td>
+                            <a class="btn btn-primary btn-sm text-white">Click To Done</a>
+                          </td>
                          
                          </tr>
                       
