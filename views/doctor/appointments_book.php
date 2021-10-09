@@ -165,7 +165,7 @@
                           <td>8/6/2021</td>
                           <td>Not Done</td>
                           <td>
-                            <a class="btn btn-primary btn-sm text-white">Click To Done</a>
+                            <a class="btn btn-primary btn-sm text-white">Done</a>
                           </td>
                          
                          </tr>

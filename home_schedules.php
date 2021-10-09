@@ -177,13 +177,13 @@
       </div>
     </div>
 
-      <!-- <footer class="main-footer" style="background-color:rgba(40, 102, 199, 0.97)">
+      <footer class="main-footer" style="background-color:rgba(40, 102, 199, 0.97)">
         <div class="container">
         <div class="footer-left text-white">
           © 2021 BRGYHEALTH: Barangay Health Center Appointment, Scheduling and Online Consultation System
         </div> 
       </div>
-      </footer> -->
+      </footer>
 
   </div>
 
