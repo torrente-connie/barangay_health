@@ -37,7 +37,7 @@
       
        <form class="form-inline ml-auto">
           <ul class="navbar-nav">
-            <!-- <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li> -->
+          
           </ul>
         </form>
         <ul class="navbar-nav navbar-right">
@@ -95,14 +95,14 @@
 
 
          <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-12">
               <div class="card card-statistic-1">
                 <div class="card-icon bg-primary">
                   <i class="fas fa-user-friends" style="padding:20px;font-size:30px;"></i>
                 </div>
                 <div class="card-wrap">
                   <div class="card-header">
-                    <h4>Total Accounts</h4>
+                    <h4>Total Appointment Bookings</h4>
                   </div>
                   <div class="card-body">
                     3                  
@@ -112,33 +112,17 @@
             </div>
 
           
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-12">
               <div class="card card-statistic-1">
                 <div class="card-icon bg-danger">
                   <i class="fas fa-calendar-check" style="padding:20px;font-size:30px;"></i>
                 </div>
                 <div class="card-wrap">
                   <div class="card-header">
-                    <h4>Total Appointments</h4>
+                    <h4>Total Online Consultations</h4>
                   </div>
                   <div class="card-body">
                     12 </div>
-                </div>
-              </div>
-            </div>
-
-          
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-              <div class="card card-statistic-1">
-                <div class="card-icon bg-warning">
-                  <i class="fas fa-clock" style="padding:20px;font-size:30px;"></i>
-                </div>
-                <div class="card-wrap">
-                  <div class="card-header">
-                    <h4>Total Schedules</h4>
-                  </div>
-                  <div class="card-body">
-                    5                  </div>
                 </div>
               </div>
             </div>
@@ -148,7 +132,7 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header">
-                  <h4>Recent Activities</h4>
+                  <h4>History</h4>
                   <div class="card-header-action">
                     <a href="#" class="btn btn-primary">View More <i class="fas fa-chevron-right"></i></a>
                   </div>

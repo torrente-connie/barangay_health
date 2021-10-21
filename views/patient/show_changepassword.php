@@ -53,6 +53,7 @@
              <img alt="image" src="../<?php echo $patient_image ?>" class="rounded-circle mr-1" style="width:30px;height:30px;">
             <div class="d-sm-none d-lg-inline-block text-capitalize">Hi, <?php echo $patient_fullname; ?></div></a>
             <div class="dropdown-menu dropdown-menu-right">
+              <a href="../../home_page.php" class="dropdown-item has-icon" style="cursor: pointer"><i class="fas fa-arrow-left"></i> Homepage </a>
               <a class="dropdown-item active has-icon" href="show_changepassword.php" style="cursor: pointer">
                 <i class="fas fa-unlock"></i> Change Password
               </a>
@@ -107,43 +108,36 @@
             <div class="row mt-sm-4">
               <div class="col-12 col-md-12 col-lg-12">
                 <div class="card">
-                  <form method="post" class="needs-validation" novalidate="">
+                   <form method="POST" action="../../backend/change_password.php">
                     <div class="card-header">
                       <h4>Change Password</h4>
                     </div>
+
+                    <input type="hidden" value="<?php echo $patient_id ?>" name="patient_id"> 
+
                     <div class="card-body">
                         <div class="row">
                           <div class="form-group col-md-6 col-12">
                             <label>Old Password</label>
-                            <input type="email" class="form-control" required="">
-                            <div class="invalid-feedback">
-                              Please fill in the email
-                            </div>
+                            <input type="password" class="form-control" name="old_password" required="">
                           </div>
                         </div>
                          <div class="row">
                           <div class="form-group col-md-6 col-12">
                             <label>New Password</label>
-                            <input type="email" class="form-control" required="">
-                            <div class="invalid-feedback">
-                              Please fill in the email
-                            </div>
+                            <input type="password" class="form-control" name="new_password" required="">
                           </div>
                         </div>
                          <div class="row">
                           <div class="form-group col-md-6 col-12">
                             <label>Confirm New Password</label>
-                            <input type="email" class="form-control" required="">
-                            <div class="invalid-feedback">
-                              Please fill in the email
-                            </div>
+                            <input type="password" class="form-control" name="confirm_new_password" required="">
                           </div>
                         </div>
-                       
-                      
                     </div>
+
                     <div class="card-footer text-left">
-                      <button class="btn btn-primary">Save Changes</button>
+                      <button class="btn btn-primary" name="patientChangePasswordSubmit">Save Changes</button>
                     </div>
                   </form>
                 </div>

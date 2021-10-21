@@ -21,6 +21,7 @@
   
 ?>
 
+
 <body class="layout-3">
   <div id="app">
     <div class="main-wrapper container">
@@ -170,7 +171,7 @@
               <div class="card-header">
                  <h4>Choose An Appointment Schedule</h4>
                </div>
-            <form action="#backend/bookappointment.php" method="POST">
+            <form action="backend/bookappointment.php" method="POST">
                <div class="card-body">
                         <div class="row">
                           <div class="form-group col-md-4 col-12">
@@ -189,11 +190,11 @@
                          <div class="row">
                           <div class="form-group col-md-6 col-12">
                             <label>Email</label>
-                            <input type="email" class="form-control" placeholder="Enter Email Address" name="bhw_email">
+                            <input type="email" class="form-control" placeholder="Enter Email Address" name="patient_email">
                           </div>
                            <div class="form-group col-md-6 col-12">
                             <label>Phone Number</label>
-                            <input type="text" class="form-control" placeholder="Enter Phone Number" name="bhw_phonenumber">
+                            <input type="text" class="form-control" placeholder="Enter Phone Number" name="patient_phonenumber">
                           </div>
                         </div>
                          <div class="row">
@@ -204,7 +205,7 @@
                           <div class="form-group col-md-6 col-12">
                             <label>Selected Appointment Schedule</label>
                              <select class="form-control" name="selected_asched">
-                                 <?php 
+                              <?php 
 
                               $sqlSched = "SELECT * FROM doctor_schedule WHERE doctor_id = '$appointment_docid' ";
                               $result1 = mysqli_query($connection,$sqlSched);
@@ -232,22 +233,27 @@
                           <div class="form-group col-md-6 col-12">
                              <label>Select An Appointment Type</label>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="book-appointment" id="exampleRadios1" checked="">
+                              <input class="form-check-input" type="radio" name="book_appointment" id="exampleRadios1" value="bookappointment" checked="">
                               <label class="form-check-label" for="exampleRadios1">
                                 Book Appointment
                               </label>
                             </div>
                              <div class="form-check">
-                              <input class="form-check-input" type="radio" name="book-appointment" id="exampleRadios2" >
+                              <input class="form-check-input" type="radio" name="book_appointment" value="onlineappointment" id="exampleRadios2" >
                               <label class="form-check-label" for="exampleRadios2">
                                 Online Appointment
                               </label>
                             </div>
                           </div>
                         </div>
+
+                      <!--   <div class="row">
+                          <p>Date: <input type="text" id="datepicker" class="form-control"></p>
+                        </div> -->
+
                     </div>
                     <div class="card-footer text-left">
-                      <button name="bookAppointmentBtn" class="btn btn-primary">Submit</button>
+                      <button name="bookAppointmentSubmit" class="btn btn-primary">Submit</button>
                        <a href="home_schedules.php" class="btn btn-danger">Cancel</a>
                     </div>
                      </form>
@@ -279,3 +285,16 @@
 
   </body>
 </html>
+
+<!-- <script>  
+
+  var dateToday = new Date();
+
+  $("#datepicker").datepicker({
+   minDate: dateToday,
+   beforeShowDay: function(date) { 
+    return [date.getDay() == 1 || date.getDay() == 3 || date.getDay() == 5 ,""]
+  },
+  });
+ 
+</script> -->

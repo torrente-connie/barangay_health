@@ -102,7 +102,7 @@
      <div class="section-body">
       <div class="card card-primary">
           <div class="card-header">
-                <h4> Process for booking an appointment: </h4>
+                <h4 style="font-size:24px;"> Process for booking an appointment: </h4>
               </div>
       </div>
       <div class="row">

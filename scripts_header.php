@@ -35,6 +35,8 @@ session_start();
 
   <link rel="stylesheet" href="assets/vendors/owlcarousel/dist/assets/owl.carousel.css">
 
+  <link rel="stylesheet" href="assets/vendors/jquery-ui/jquery-ui.css">
+
 </head>
 
 

@@ -10,6 +10,8 @@
 
   <script src="assets/vendors/owlcarousel/dist/owl.carousel.js"> </script>
 
+  <script src="assets/vendors/jquery-ui/jquery-ui.js"></script>
+
   <!-- JS Libraies -->
 
   <!-- Page Specific JS File -->
