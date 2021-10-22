@@ -5,7 +5,7 @@ require("dbconn.php");
 
 // add new schedules for doctor
 
-if(isset($_POST['addDoctorSchedBtn'])) {
+if(isset($_POST['addDoctorSchedSubmit'])) {
 	addDoctorSched();
 }
 
@@ -17,14 +17,13 @@ function addDoctorSched() {
 	$day 		= $_POST['sched_day'];
 	$start_time = $_POST['sched_start'];
 	$end_time 	= $_POST['sched_end'];
+	$time_interval = 60;
 
 	$status = '1';
 	$bool = '1';
 
-	$sql = "INSERT INTO doctor_schedule (schedule_id,doctor_id,schedule_day,schedule_start_time,schedule_end_time,schedule_status,schedule_bool) VALUES (NULL,'$doctor_id','$day','$start_time','$end_time','$status','$bool')";
+	$sql = "INSERT INTO doctor_schedule (schedule_id,doctor_id,schedule_day,schedule_start_time,schedule_end_time,schedule_time_interval,schedule_status,schedule_bool) VALUES (NULL,'$doctor_id','$day','$start_time','$end_time','$time_interval','$status','$bool')";
 	$result = mysqli_query($conn,$sql);
-
-	var_dump($conn);
 
 	if($result){
 		 $alert="Added New Schedule";

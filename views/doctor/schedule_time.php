@@ -84,7 +84,7 @@
       <div class="main-content" style="min-height: 566px;">
         <section class="section">
           <div class="section-header">
-            <h1>Schedules</h1>
+            <h1>Time Schedules</h1>
             </div>
 
    
@@ -93,7 +93,7 @@
               <div class="card-header">
                  <h4></h4>
                   <div class="card-header-action">
-                    <a href="add_schedules.php" class="btn btn-success btn-sm">Add Schedules</a>
+                    <a href="add_schedules.php" class="btn btn-success btn-sm">Add Time Schedules</a>
                   </div>
               </div>
 
@@ -102,8 +102,8 @@
                       <table class="table table-striped">
                       <tbody>
                         <tr>
-                          <th>Doctor Available Day</th>
-                          <th>Doctor Available Time</th>
+                          <th>Available Day</th>
+                          <th>Available Time</th>
                           <th></th>
                         </tr>
 
@@ -138,7 +138,7 @@
                         <td><?php echo $sched_day ?></td>
                         <td><?php echo $format_start ?> - <?php echo $format_end ?> <span class="badge badge-success ml-2"> <?php echo $sched_time_interval ?></span></td>
                         <!-- <td><span></span></td> -->
-                        <td><a href="schedule_time.php?sched_id=<?php echo $rowDoctorSched['schedule_id']?>&ti=<?php echo $sched_time_interval?>">View Time Schedules</a></td>
+                        <td><a href="time_test.php?sched_id=<?php echo $rowDoctorSched['schedule_id']?>&ti=<?php echo $sched_time_interval?>">View Schedules</a></td>
                       </tr>
 
                       <?php 

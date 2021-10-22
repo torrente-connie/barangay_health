@@ -49,6 +49,54 @@
             // profile dropdown here
             require("show_listdropdown.php"); 
 
+
+            // code here
+
+              $get_time_interval = $_GET['ti'];
+          $get_sched_id =  $_GET['sched_id'];
+
+          // sql query to display the doctor schedule; 
+
+          $sqlDoctorSchedule = "SELECT * FROM doctor_schedule WHERE schedule_id = '$get_sched_id' ";
+          $result = mysqli_query($connection,$sqlDoctorSchedule);
+
+          while($row = mysqli_fetch_assoc($result)) {
+             $get_startime = $row['schedule_start_time'];
+             $get_endtime = $row['schedule_end_time'];
+          }
+
+
+    
+          // interval can be place as $interval = "15 mins"  
+          // interval options 15, 30, 45 and 60                  
+          function create_time_range($start, $end, $interval, $format = '12') {
+              $startTime = strtotime($start); 
+              $endTime   = strtotime($end);
+              $returnTimeFormat = ($format == '24')?'g:i:s A':'G:i:s';
+
+              $current   = time(); 
+              $addTime   = strtotime('+'.$interval, $current); 
+              $diff      = $addTime - $current;
+
+              $times = array(); 
+              while ($startTime < $endTime) { 
+                  $times[] = date($returnTimeFormat, $startTime); 
+                  $startTime += $diff; 
+              } 
+              $times[] = date($returnTimeFormat, $startTime); 
+              return $times; 
+          }
+
+
+          $display_time_interval = $get_time_interval.' '."mins";
+          $display_start_time = $get_startime; 
+          $display_end_time = $get_endtime;
+
+    
+          // create array of time ranges 
+          $times = create_time_range($display_start_time, $display_end_time, $display_time_interval);
+
+
           ?>
 
         </ul>
@@ -93,61 +141,55 @@
               <div class="card-header">
                  <h4></h4>
                   <div class="card-header-action">
-                    <a href="add_schedules.php" class="btn btn-success btn-sm">Add Schedules</a>
+                    <a href="schedules.php" class="btn btn-success btn-sm">Return</a>
                   </div>
               </div>
 
                   <div class="card-body">
-                    <div class="table-responsive">
-                      <table class="table table-striped">
-                      <tbody>
-                        <tr>
-                          <th>Doctor Available Day</th>
-                          <th>Doctor Available Time</th>
-                          <th></th>
-                        </tr>
+                    <form method="POST" action="../../backend/doctor_schedules_time.php">
+                      
+                      Test:
+                       <select class="form-control" name="test_time">
+                        <?php 
 
-                      <?php 
-                      // query for getting doctor schedules
-                      $sqlDoctorSched = "SELECT * FROM doctor_schedule ds
-                      JOIN user u 
-                      ON ds.doctor_id = u.user_id 
-                      WHERE u.user_bool = '1' AND u.user_type = 'Doctor'
-                      AND ds.doctor_id = '$doctor_id'
-                      ";
+                        foreach($times as $key=>$val)  { 
 
-                      $resultDoctorSched = mysqli_query($connection,$sqlDoctorSched);
-                      while($rowDoctorSched = mysqli_fetch_assoc($resultDoctorSched)) {
+                        // this display the time into AM / PM format          
+                        require("show_display_time_format.php");
+
+                               
+                        ?> 
+
+                       <option value="<?php echo $val; ?>"><?php echo $display_val; ?></option>
+
+                        <?php } ?>
+
+                       </select>
+
+                        Test:
+                       <select class="form-control" name="test_time">
+                        <?php 
+
+                        foreach($times as $key=>$val)  { 
+
+                        // this display the time into AM / PM format          
+                        require("show_display_time_format.php");
+
+                               
+                        ?> 
+
+                       <option value="<?php echo $val; ?>"><?php echo $display_val; ?></option>
+
+                        <?php } ?>
+
+                       </select>
 
                       
-                        // doctor schedule
-                        $sched_day    = $rowDoctorSched['schedule_day'];
-                        $sched_start  = $rowDoctorSched['schedule_start_time']; 
-                        $sched_end    = $rowDoctorSched['schedule_end_time'];
-                        $sched_time_interval = $rowDoctorSched['schedule_time_interval'];
-
-                        // time format
-
-                        $format_start = date("h:i:A", strtotime($sched_start));
-                        $format_end   = date("h:i:A", strtotime($sched_end));
-
-
-
-                      ?>   
-                      <tr>
-                        <td><?php echo $sched_day ?></td>
-                        <td><?php echo $format_start ?> - <?php echo $format_end ?> <span class="badge badge-success ml-2"> <?php echo $sched_time_interval ?></span></td>
-                        <!-- <td><span></span></td> -->
-                        <td><a href="schedule_time.php?sched_id=<?php echo $rowDoctorSched['schedule_id']?>&ti=<?php echo $sched_time_interval?>">View Time Schedules</a></td>
-                      </tr>
-
-                      <?php 
-                          }
-                        ?>
-
-                        </tbody>
-                      </table>                    
+                        <div class="card-footer text-left">
+                      <button name="addDoctorSchedTimeSubmit" class="btn btn-primary">Submit</button>
                     </div>
+
+                    </form>
                   </div>
               <div class="card-footer bg-whitesmoke"> </div>
             </div>
