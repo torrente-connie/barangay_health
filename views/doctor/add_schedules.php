@@ -118,7 +118,7 @@
       <div class="main-content" style="min-height: 566px;">
         <section class="section">
           <div class="section-header">
-            <h1>Add Barangay Health Worker Accounts</h1>
+            <h1>Add Doctor Schedule</h1>
           
           </div>
           <div class="section-body">
@@ -128,9 +128,6 @@
                   <form method="POST" action="../../backend/doctor_schedules.php">
                    <div class="card-header">
                  <h4></h4>
-                  <div class="card-header-action">
-                    <a href="schedules.php" class="btn btn-danger btn-sm">Return</a>
-                  </div>
               </div>
                     <div class="card-body">
 
@@ -180,6 +177,7 @@
                     </div>
                     <div class="card-footer text-left">
                       <button name="addDoctorSchedSubmit" class="btn btn-primary">Submit</button>
+                      <a href="schedules.php" class="btn btn-danger">Cancel</a>
                     </div>
                   </form>
                 </div>

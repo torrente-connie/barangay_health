@@ -49,6 +49,14 @@
             // profile dropdown here
             require("show_listdropdown.php"); 
 
+            // code here 
+
+            $schedule_id = $_GET['sched_id'];
+
+            
+
+            $time_interval = $_GET['ti'];
+
           ?>
 
         </ul>
@@ -84,7 +92,7 @@
       <div class="main-content" style="min-height: 566px;">
         <section class="section">
           <div class="section-header">
-            <h1>Time Schedules</h1>
+            <h1>Time Schedules - </h1>
             </div>
 
    
