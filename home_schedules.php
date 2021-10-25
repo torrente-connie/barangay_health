@@ -142,7 +142,7 @@
                     <li class="list-group-item text-center bg-primary text-white text-bold"><h5>Doctor Schedules</h5></li>
                    <?php 
 
-                    $sqlSched = "SELECT * FROM doctor_schedule WHERE doctor_id = '$doctor_id' ";
+                    $sqlSched = "SELECT * FROM doctor_schedule WHERE doctor_id = '$doctor_id' ORDER BY schedule_day ASC ";
                     $result1 = mysqli_query($connection,$sqlSched);
                     while($row2 = mysqli_fetch_assoc($result1)) {
 
@@ -156,10 +156,26 @@
                     $format_start = date("h:i:A", strtotime($start_time));
                     $format_end   = date("h:i:A", strtotime($end_time));
 
+                     if($day == 0) {
+                      $display_day = "Sunday";
+                    } else if($day == 1) {
+                      $display_day = "Monday";
+                    } else if($day == 2) {
+                      $display_day = "Tuesday";
+                    } else if($day == 3) {
+                      $display_day = "Wednesday";
+                    } else if($day == 4) {
+                      $display_day = "Thursday";
+                    } else if($day == 5) {
+                      $display_day = "Friday";
+                    } else if($day == 6) {
+                      $display_day = "Saturday";
+                    } 
+
 
                    ?> 
 
-                   <li class="list-group-item"><h5><?php echo $day ?> - <?php echo $format_start ?> to <?php echo $format_end?> </h5></li>
+                   <li class="list-group-item"><h5><?php echo $display_day ?> - <?php echo $format_start ?> to <?php echo $format_end?> </h5></li>
                    <?php } ?>
                   </ul>
                 </div>

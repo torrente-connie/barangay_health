@@ -25,6 +25,7 @@ function addDoctorSched() {
 	$sql = "INSERT INTO doctor_schedule (schedule_id,doctor_id,schedule_day,schedule_start_time,schedule_end_time,schedule_time_interval,schedule_status,schedule_bool) VALUES (NULL,'$doctor_id','$day','$start_time','$end_time','$time_interval','$status','$bool')";
 	$result = mysqli_query($conn,$sql);
 
+
 	if($result){
 		 $alert="Added New Schedule";
 			header("Location:../views/doctor/schedules.php?s=".$alert);

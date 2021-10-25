@@ -130,8 +130,10 @@
                       <ul class="list-group list-group-flush">
                     <?php 
 
-                    $sqlSched = "SELECT * FROM doctor_schedule WHERE doctor_id = '$appointment_docid' ";
+                    $sqlSched = "SELECT * FROM doctor_schedule WHERE doctor_id = '$appointment_docid' ORDER BY schedule_day ";
                     $result1 = mysqli_query($connection,$sqlSched);
+
+                    $arrDays = array();
                     while($row2 = mysqli_fetch_assoc($result1)) {
 
                     // doctor schedules
@@ -139,18 +141,41 @@
                     $start_time = $row2['schedule_start_time'];
                     $end_time = $row2['schedule_end_time'];
 
+                    $convert_day = (int)$day;
+                    array_push($arrDays,$convert_day);
+                  
                     // time format
 
                     $format_start = date("h:i:A", strtotime($start_time));
                     $format_end   = date("h:i:A", strtotime($end_time));
 
-
+                    if($day == 0) {
+                      $display_day = "Sunday";
+                    } else if($day == 1) {
+                      $display_day = "Monday";
+                    } else if($day == 2) {
+                      $display_day = "Tuesday";
+                    } else if($day == 3) {
+                      $display_day = "Wednesday";
+                    } else if($day == 4) {
+                      $display_day = "Thursday";
+                    } else if($day == 5) {
+                      $display_day = "Friday";
+                    } else if($day == 6) {
+                      $display_day = "Saturday";
+                    } 
+        
+                
                    ?> 
 
-                   <li class="list-group-item"><?php echo $day ?> - <?php echo $format_start ?> to <?php echo $format_end?></li>
+
+                    <li class="list-group-item"><?php echo $display_day ?> - <?php echo $format_start ?> to <?php echo $format_end?></li>
                    <?php } ?>
 
+                
+
                     </ul>
+
                    
                   </div>
                 </div>
@@ -200,32 +225,12 @@
                          <div class="row">
                           <div class="form-group col-md-6 col-12">
                             <label>Selected Date</label>
-                            <input type="date" class="form-control" name="selected_date">
+                            <input type="text" id="datepicker" class="form-control" placeholder="MM/DD/YYYY" name="selected_date">
                           </div>
+
                           <div class="form-group col-md-6 col-12">
                             <label>Selected Appointment Schedule</label>
-                             <select class="form-control" name="selected_asched">
-                              <?php 
-
-                              $sqlSched = "SELECT * FROM doctor_schedule WHERE doctor_id = '$appointment_docid' ";
-                              $result1 = mysqli_query($connection,$sqlSched);
-                              while($row2 = mysqli_fetch_assoc($result1)) {
-
-                              $schedule_id = $row2['schedule_id'];
-
-                              // doctor schedules
-                              $day = $row2['schedule_day'];
-                              $start_time = $row2['schedule_start_time'];
-                              $end_time = $row2['schedule_end_time'];
-
-                              // time format
-
-                              $format_start = date("h:i:A", strtotime($start_time));
-                              $format_end   = date("h:i:A", strtotime($end_time));
-
-                             ?> 
-                             <option value="<?php echo $schedule_id ?>"><?php echo $day ?> - <?php echo $format_start ?> to <?php echo $format_end?></option>
-                             <?php } ?>
+                             <select class="form-control" name="selected_asched" id="selected_asched" required>
                              </select>
                           </div>
                         </div>
@@ -247,10 +252,7 @@
                           </div>
                         </div>
 
-                      <!--   <div class="row">
-                          <p>Date: <input type="text" id="datepicker" class="form-control"></p>
-                        </div> -->
-
+                      
                     </div>
                     <div class="card-footer text-left">
                       <button name="bookAppointmentSubmit" class="btn btn-primary">Submit</button>
@@ -286,15 +288,66 @@
   </body>
 </html>
 
-<!-- <script>  
+<script>  
 
-  var dateToday = new Date();
+//var disabledHolidayDays = ["2021-11-02","2021-11-09"];
+var showDays = $.parseJSON('<?php echo json_encode($arrDays); ?>');
 
+ function filterDays(date) {
+    var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+    return [showDays.indexOf(date.getDay()) > -1 ];
+ }
+
+ //  function filterDays(date) {
+ //    var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+ //    return [showDays.indexOf(date.getDay()) > -1 && disabledHolidayDays.indexOf(string) == -1 ];
+ // }
+
+var dateToday = new Date();
+var weekday=new Array(7);
+    weekday[1]=1;
+    weekday[2]=2;
+    weekday[3]=3;
+    weekday[4]=4;
+    weekday[5]=5;
+    weekday[6]=6;
+    weekday[7]=0;
+
+   
   $("#datepicker").datepicker({
    minDate: dateToday,
-   beforeShowDay: function(date) { 
-    return [date.getDay() == 1 || date.getDay() == 3 || date.getDay() == 5 ,""]
-  },
+   onSelect: function(dateText, inst) {
+                var date = $(this).datepicker('getDate'),
+                    day  = date.getDate(),
+                    month = date.getMonth() + 1,
+                    year =  date.getFullYear();
+                var dayOfWeek = weekday[date.getUTCDay()+1];
+                var appointmentID = <?php echo $appointment_docid ?>;
+                //var 
+                  //       $("#day").val(dayOfWeek);
+                  //       $("#month").val(month); 
+                  
+                       $.ajax({
+                      url: "book_selectappointmenttime.php",
+                      type: "POST",
+                      data: {
+                         dayOfWeek: dayOfWeek,
+                         appointmentID: appointmentID
+                      },
+                      success:function(data){
+                        $("#selected_asched").html(data);
+                      }, 
+                      error:function(){
+                        alert("fail")
+                      }
+                      }); 
+                   },
+  beforeShowDay: filterDays,
   });
+
+
+
  
-</script> -->
+</script>
+
+<!-- sources: https://stackoverflow.com/questions/46317356/onselectiong-date-in-jquery-datepicker-i-need-to-get-day-and-month-in-form-text, https://stackoverflow.com/questions/53395634/how-to-disable-certain-days-of-the-week-on-a-jquery-datepicker-based-on-a-result -->

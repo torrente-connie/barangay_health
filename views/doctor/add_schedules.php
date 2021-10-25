@@ -136,13 +136,15 @@
                         <div class="row">
                           <div class="form-group col-md-6 col-12">
                             <label>Day</label>
-                              <select class="form-control" name="sched_day">
-                                <option hidden selected>Select A Day</option>
-                                <option value="Monday">Monday</option>
-                                <option value="Tuesday">Tuesday</option>
-                                <option value="Wednesday">Wednesday</option>
-                                <option value="Thursday">Thursday</option>
-                                <option value="Friday">Friday</option>
+                              <select class="form-control" name="sched_day" required>
+                                <option hidden selected value="">Select A Day</option>
+                                <option value="0">Sunday</option>
+                                <option value="1">Monday</option>
+                                <option value="2">Tuesday</option>
+                                <option value="3">Wednesday</option>
+                                <option value="4">Thursday</option>
+                                <option value="5">Friday</option>
+                                <option value="6">Saturday</option>
                               </select>
                           </div>  
                         </div>
@@ -169,7 +171,7 @@
                                 foreach($time AS $timeValue => $rowEndTime) {
 
                                 ?>
-                                <option value="<?php echo $time ?>"><?php echo $rowEndTime ?></option>
+                                <option value="<?php echo $timeValue ?>"><?php echo $rowEndTime ?></option>
                                 <?php } ?>
                               </select>
                             </div>

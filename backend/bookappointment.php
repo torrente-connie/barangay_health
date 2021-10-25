@@ -12,8 +12,9 @@ if(isset($_POST['bookAppointmentSubmit'])) {
 function bookAppointment() {
 	$conn = dbConn();
 	
-	$patient_firstname 			= $_POST['patient_firstname'];
-	$patient_middlename 		= $_POST['patient_middlename'];
+	$patient_user_id 			= $_POST['patient_user_id']; // who made the booking
+	$patient_firstname 			= $_POST['patient_firstname']; // info of patient
+	$patient_middlename 		= $_POST['patient_middlename']; 
 	$patient_lastname 			= $_POST['patient_lastname'];
 	$patient_email				= $_POST['patient_email']; 
 	$patient_phonenumber		= $_POST['patient_phonenumber'];
@@ -22,7 +23,9 @@ function bookAppointment() {
 	$bookappointment 			= $_POST['book_appointment'];
 
 
-	$sql = "INSERT INTO appointment ()"
+
+
+	// $sql = "INSERT INTO appointment ()"
 
 
 	// if($result){

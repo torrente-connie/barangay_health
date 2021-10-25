@@ -1,4 +1,7 @@
-<?php 
+<?php
+
+
+  error_reporting(1); 
   
   // session info here
   session_start();
@@ -49,40 +52,52 @@
             // profile dropdown here
             require("show_listdropdown.php"); 
 
+// code here
 
-            // require("show_time_array.php");
+          $get_time_interval = $_GET['ti'];
+          $get_sched_id =  $_GET['sched_id'];
 
-             $get = "add_time_array";
+          // sql query to display the doctor schedule; 
 
-             if($get == "add_time_array") {
-                      $time = array(
-                                   "00:00" => "12:00 AM", 
-                                   "01:00" => "1:00 AM", 
-                                   "02:00" => "2:00 AM", 
-                                   "03:00" => "3:00 AM", 
-                                   "04:00" => "4:00 AM", 
-                                   "05:00" => "5:00 AM", 
-                                   "06:00" => "6:00 AM", 
-                                   "07:00" => "7:00 AM", 
-                                   "08:00" => "8:00 AM", 
-                                   "09:00" => "9:00 AM", 
-                                   "10:00" => "10:00 AM", 
-                                   "11:00" => "11:00 AM", 
-                                   "12:00" => "12:00 PM", 
-                                   "13:00" => "1:00 PM", 
-                                   "14:00" => "2:00 PM", 
-                                   "15:00" => "3:00 PM", 
-                                   "16:00" => "4:00 PM", 
-                                   "17:00" => "5:00 PM", 
-                                   "18:00" => "6:00 PM", 
-                                   "19:00" => "7:00 PM", 
-                                   "20:00" => "8:00 PM", 
-                                   "21:00" => "9:00 PM", 
-                                   "22:00" => "10:00 PM", 
-                                   "23:00" => "11:00 PM", 
-                                   "24:00" => "12:00 PM",
-                           );
-                    }
+          $sqlDoctorSchedule = "SELECT * FROM doctor_schedule WHERE schedule_id = '$get_sched_id' ";
+          $result = mysqli_query($connection,$sqlDoctorSchedule);
+
+          while($row = mysqli_fetch_assoc($result)) {
+             $get_startime = $row['schedule_start_time'];
+             $get_endtime = $row['schedule_end_time'];
+          }
+
+
+    
+          // interval can be place as $interval = "15 mins"  
+          // interval options 15, 30, 45 and 60                  
+          function create_time_range($start, $end, $interval, $format = '12') {
+              $startTime = strtotime($start); 
+              $endTime   = strtotime($end);
+              $returnTimeFormat = ($format == '24')?'g:i:s A':'G:i:s';
+
+              $current   = time(); 
+              $addTime   = strtotime('+'.$interval, $current); 
+              $diff      = $addTime - $current;
+
+              $times = array(); 
+              while ($startTime < $endTime) { 
+                  $times[] = date($returnTimeFormat, $startTime); 
+                  $startTime += $diff; 
+              } 
+              $times[] = date($returnTimeFormat, $startTime); 
+              return $times; 
+          }
+
+
+          $display_time_interval = $get_time_interval.' '."mins";
+          $display_start_time = $get_startime; 
+          $display_end_time = $get_endtime;
+
+    
+          // create array of time ranges 
+          $times = create_time_range($display_start_time, $display_end_time, $display_time_interval);
+
            ?>
 
         </ul>
@@ -118,68 +133,71 @@
       <div class="main-content" style="min-height: 566px;">
         <section class="section">
           <div class="section-header">
-            <h1>Add Barangay Health Worker Accounts</h1>
+            <h1>Add Time Schedules</h1>
           
           </div>
           <div class="section-body">
             <div class="row mt-sm-4">
               <div class="col-12 col-md-12 col-lg-12">
                 <div class="card">
-                  <form method="POST" action="../../backend/doctor_schedules.php">
+                  <form method="POST" action="../../backend/doctor_schedules_time.php">
                    <div class="card-header">
                  <h4></h4>
-                  <div class="card-header-action">
-                    <a href="schedules.php" class="btn btn-danger btn-sm">Return</a>
-                  </div>
               </div>
                     <div class="card-body">
 
-                      <input type="hidden" value="<?php echo $doctor_id ?>" name="doctorID">
+                      <input type="hidden" value="<?php echo $get_sched_id ?>" name="scheduleID">
 
-                        <div class="row">
-                          <div class="form-group col-md-6 col-12">
-                            <label>Day</label>
-                              <select class="form-control" name="sched_day">
-                                <option hidden selected>Select A Day</option>
-                                <option value="Monday">Monday</option>
-                                <option value="Tuesday">Tuesday</option>
-                                <option value="Wednesday">Wednesday</option>
-                                <option value="Thursday">Thursday</option>
-                                <option value="Friday">Friday</option>
-                              </select>
-                          </div>  
-                        </div>
+                       <input type="hidden" value="<?php echo $get_time_interval ?>" name="timeInterval">
+
                           <div class="row">
                             <div class="form-group col-md-4 col-12">
+
                               <label>Start Time</label>
-                              <select class="form-control" name="sched_start">
-                                <option hidden selected>Select Start Time</option>
+                                <select class="form-control" name="time_start">
+                                   <option hidden selected>Select End Time</option> 
                                 <?php 
 
-                                foreach($time AS $timeValue => $rowStartTime) {
+                                foreach($times as $key=>$val)  { 
 
-                                ?>
-                                <option value="<?php echo $timeValue ?>"><?php echo $rowStartTime ?></option>
+                                // this display the time into AM / PM format          
+                                require("show_display_time_format.php");
+
+                                       
+                                ?> 
+
+                               <option value="<?php echo $val; ?>"><?php echo $display_val; ?></option>
+
                                 <?php } ?>
                               </select>
                             </div>
+
                              <div class="form-group col-md-4 col-12">
                               <label>End Time</label>
-                              <select class="form-control" name="sched_end">
-                                <option hidden selected>Select End Time</option>
-                                <?php 
+                                 <select class="form-control" name="time_end">
+                                    <option hidden selected>Select End Time</option> 
+                              <?php 
 
-                                foreach($time AS $timeValue => $rowEndTime) {
+                              foreach($times as $key=>$val)  { 
 
-                                ?>
-                                <option value="<?php echo $time ?>"><?php echo $rowEndTime ?></option>
-                                <?php } ?>
-                              </select>
+                              // this display the time into AM / PM format          
+                              require("show_display_time_format.php");
+
+                                     
+                              ?> 
+
+                             <option value="<?php echo $val; ?>"><?php echo $display_val; ?></option>
+
+                              <?php } ?>
+
+                             </select>
                             </div>
+
                         </div>
                     </div>
                     <div class="card-footer text-left">
-                      <button name="addDoctorSchedSubmit" class="btn btn-primary">Submit</button>
+                      <button name="addDoctorSchedTimeSubmit" class="btn btn-primary">Submit</button>
+                      <a href="schedule_time.php?sched_id=<?php echo $get_sched_id ?>&ti=<?php echo $get_time_interval ?>" class="btn btn-danger"> Cancel </a>
                     </div>
                   </form>
                 </div>

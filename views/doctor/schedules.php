@@ -113,8 +113,8 @@
                       $sqlDoctorSched = "SELECT * FROM doctor_schedule ds
                       JOIN user u 
                       ON ds.doctor_id = u.user_id 
-                      WHERE u.user_bool = '1' AND u.user_type = 'Doctor'
-                      AND ds.doctor_id = '$doctor_id'
+                      WHERE u.user_bool = '1' AND u.user_type = 'Doctor' 
+                      AND ds.doctor_id = '$doctor_id' ORDER BY ds.schedule_day ASC
                       ";
 
                       $resultDoctorSched = mysqli_query($connection,$sqlDoctorSched);
@@ -132,11 +132,26 @@
                         $format_start = date("h:i:A", strtotime($sched_start));
                         $format_end   = date("h:i:A", strtotime($sched_end));
 
+                         if($sched_day == 0) {
+                          $display_day = "Sunday";
+                        } else if($sched_day == 1) {
+                          $display_day = "Monday";
+                        } else if($sched_day == 2) {
+                          $display_day = "Tuesday";
+                        } else if($sched_day == 3) {
+                          $display_day = "Wednesday";
+                        } else if($sched_day == 4) {
+                          $display_day = "Thursday";
+                        } else if($sched_day == 5) {
+                          $display_day = "Friday";
+                        } else if($sched_day == 6) {
+                          $display_day = "Saturday";
+                        } 
 
 
                       ?>   
                       <tr>
-                        <td><?php echo $sched_day ?></td>
+                        <td><?php echo $display_day ?></td>
                         <td><?php echo $format_start ?> - <?php echo $format_end ?> <span class="badge badge-success ml-2"> <?php echo $sched_time_interval ?></span></td>
                         <!-- <td><span></span></td> -->
                         <td><a class="btn btn-info text-white" href="schedule_time.php?sched_id=<?php echo $rowDoctorSched['schedule_id']?>&ti=<?php echo $sched_time_interval?>">View Time Schedules</a></td>

@@ -101,7 +101,8 @@
               <div class="card-header">
                  <h4></h4>
                   <div class="card-header-action">
-                    <a href="add_schedules.php" class="btn btn-success btn-sm">Add Time Schedules</a>
+                    <a href="add_schedule_time.php?sched_id=<?php echo $schedule_id ?>&ti=<?php echo $time_interval?>" class="btn btn-success btn-sm">Add Time Schedules</a>
+                     <a href="schedules.php" class="btn btn-danger btn-sm">Return</a>
                   </div>
               </div>
 
@@ -110,30 +111,27 @@
                       <table class="table table-striped">
                       <tbody>
                         <tr>
-                          <th>Available Day</th>
-                          <th>Available Time</th>
+                          <th>Available Start Time</th>
+                          <th>Available End Time</th>
                           <th></th>
                         </tr>
 
                       <?php 
                       // query for getting doctor schedules
-                      $sqlDoctorSched = "SELECT * FROM doctor_schedule ds
-                      JOIN user u 
-                      ON ds.doctor_id = u.user_id 
-                      WHERE u.user_bool = '1' AND u.user_type = 'Doctor'
-                      AND ds.doctor_id = '$doctor_id'
+                      $sqlTimeSched = "SELECT * FROM doctor_schedule_time dst
+                      WHERE dst.schedule_id = '$schedule_id'
                       ";
 
-                      $resultDoctorSched = mysqli_query($connection,$sqlDoctorSched);
-                      while($rowDoctorSched = mysqli_fetch_assoc($resultDoctorSched)) {
+                      $resultTimeSched = mysqli_query($connection,$sqlTimeSched);
+                      while($rowTimeSched = mysqli_fetch_assoc($resultTimeSched)) {
 
                       
-                        // doctor schedule
-                        $sched_day    = $rowDoctorSched['schedule_day'];
-                        $sched_start  = $rowDoctorSched['schedule_start_time']; 
-                        $sched_end    = $rowDoctorSched['schedule_end_time'];
-                        $sched_time_interval = $rowDoctorSched['schedule_time_interval'];
+                        $time_sched_id = $rowTimeSched['schedule_time_id'];
 
+                        // doctor schedule
+                        $sched_start  = $rowTimeSched['schedule_start_time']; 
+                        $sched_end    = $rowTimeSched['schedule_end_time'];
+                       
                         // time format
 
                         $format_start = date("h:i:A", strtotime($sched_start));
@@ -143,10 +141,10 @@
 
                       ?>   
                       <tr>
-                        <td><?php echo $sched_day ?></td>
-                        <td><?php echo $format_start ?> - <?php echo $format_end ?> <span class="badge badge-success ml-2"> <?php echo $sched_time_interval ?></span></td>
+                        <td><?php echo $format_start ?> </td>
+                        <td><?php echo $format_end ?> </td>
                         <!-- <td><span></span></td> -->
-                        <td><a href="time_test.php?sched_id=<?php echo $rowDoctorSched['schedule_id']?>&ti=<?php echo $sched_time_interval?>">View Schedules</a></td>
+                        <td><a class="btn btn-danger" href="../../backend/doctor_schedules_time.php?timeschedID=<?php echo $time_sched_id?>&ti=<?php echo $time_interval ?>&schedID=<?php echo $schedule_id ?>">Delete</a></td>
                       </tr>
 
                       <?php 
