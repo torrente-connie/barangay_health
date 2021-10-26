@@ -198,6 +198,11 @@
                </div>
             <form action="backend/bookappointment.php" method="POST">
                <div class="card-body">
+
+                        <input type="hidden" value="<?php echo $patient_id ?>" name="patient_user_id">
+
+                        <input type="hidden" value="<?php echo $appointment_docid ?>" name="selected_doctor_id">
+
                         <div class="row">
                           <div class="form-group col-md-4 col-12">
                             <label>First Name</label>
@@ -235,7 +240,7 @@
                           </div>
                         </div>
                          <div class="row">
-                          <div class="form-group col-md-6 col-12">
+                            <div class="form-group col-md-6 col-12">
                              <label>Select An Appointment Type</label>
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="book_appointment" id="exampleRadios1" value="bookappointment" checked="">
@@ -249,6 +254,17 @@
                                 Online Appointment
                               </label>
                             </div>
+                          </div>
+                            <div class="form-group col-md-6 col-12">
+                             <label>Select Barangay Health Service</label>
+                              <select class="form-control" name="selected_service" required>
+                                 <option selected hidden value="">Choose A Health Service</option>
+                                 <option value="Maternal Check-up">Maternal Check-up</option>
+                                 <option value="Senior Citizen Check-up">Senior Citizen Check-up</option>
+                                 <option value="Health Check-up">Health Check-up</option>
+                                 <!-- <option>Prenatal Care</option> -->
+                                 <!-- <option>Immunizations</option> -->
+                              </select>
                           </div>
                         </div>
 
