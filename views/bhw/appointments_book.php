@@ -92,48 +92,34 @@
                   </div>
               </div>
 
-            <div class="card-body">
+                 <div class="card-body">
                     <div class="table-responsive">
                       <table class="table table-hover table-bordered" id="table-subject">
                         <thead class="thead-light">
                           <tr>
+                            <th>Appointment Booked By</th>
+                            <th>Appointment Doctor</th>
                             <th>Patient Name</th>
                             <th>Medical Service</th>
-                            <th>Doctor</th>
-                            <th>Appointment Time</th>
-                            <th>Appointment Date</th>
+                           <!--     <th>Appointment Date</th>
+                            <th>Appointment Time</th> -->
+                            <th>Appointment Details</th>
+                            <th>Appointment Status</th>
                           </tr>
                         </thead>
                         <tbody>
 
                       <?php 
 
-                      // query for appointment
-                      // $sql = "SELECT 
-                      // d.user_firstname  as doc_fname, 
-                      // d.user_middlename as doc_mname, 
-                      // d.user_lastname   as doc_lname,
-                      // p.user_firstname  as patient_fname,
-                      // p.user_middlename as patient_mname,
-                      // p.user_lastname   as patient_lname,
-                      // s.service_name
-                      // FROM appointment a
-                      // JOIN user d
-                      // ON a.appointment_doctor_id = d.user_id
-                      // JOIN service s 
-                      // ON a.appointment_service_id = s.service_id
-                      // JOIN user p 
-                      // ON a.appointment_user_id = p.user_id
-                      // WHERE a.appointment_consultation_type = 'Book Appointment'
-                      // ";
-
                       $sql = "SELECT 
+                      d.user_account_id as doctor_account,
                       d.user_firstname  as doc_fname, 
                       d.user_middlename as doc_mname, 
                       d.user_lastname   as doc_lname,
                       p.user_firstname  as patient_fname,
                       p.user_middlename as patient_mname,
                       p.user_lastname   as patient_lname,
+                      p.user_account_id as patient_account,
                       a.appointment_patient_fname as appoint_pfname,
                       a.appointment_patient_mname as appoint_pmname,
                       a.appointment_patient_lname as appoint_plname,
@@ -160,6 +146,7 @@
                       while($row = mysqli_fetch_assoc($result)) {
                     
                       // doctor fullname
+                      $doc_account      = $row['doctor_account'];
                       $doc_firstname    = ucfirst($row['doc_fname']);
                       $doc_middlename   = ucfirst($row['doc_mname']);
                       $doc_lastname     = ucfirst($row['doc_lname']);
@@ -167,11 +154,19 @@
                       $doc_name = $doc_firstname.' '.$doc_middlename.'.'.' '.$doc_lastname;
 
                       // user patient fullname
+                      $patient_account      = $row['patient_account'];
                       $patient_firstname    = ucfirst($row['patient_fname']);
                       $patient_middlename   = ucfirst($row['patient_mname']);
                       $patient_lastname     = ucfirst($row['patient_lname']);
 
                       $patient_name = $patient_firstname.' '.$patient_middlename.'.'.' '.$patient_lastname;
+
+                      // appointed patient
+                      $appoint_pfname    = ucfirst($row['appoint_pfname']);
+                      $appoint_pmname   = ucfirst($row['appoint_pmname']);
+                      $appoint_plname     = ucfirst($row['appoint_plname']);
+
+                      $appoint_patient_name = $appoint_pfname.' '.$appoint_pmname.'.'.' '.$appoint_plname;
 
                       // the appointed patient name
                       $appoint_patient_email = $row['appoint_pemail'];
@@ -192,16 +187,25 @@
                       $format_start = date("h:i:A", strtotime($appoint_start_time));
                       $format_end   = date("h:i:A", strtotime($appoint_end_time));
 
-
+                      // for tool tip
+                      $acname_tooltip = $patient_name;
 
                       ?>
 
                         <tr>
-                          <td><?php echo $patient_name ?></td>
-                          <td><?php echo $appoint_service ?></td>
+                          <td><a href="#" style="text-decoration: none;"><?php echo $patient_name ?></a></td>
                           <td><?php echo $doc_name ?></td>
-                          <td><?php echo $format_start ?> - <?php echo $format_end ?></td>
-                          <td><?php echo $appoint_schedule_date ?></td>
+                          <td><?php echo $appoint_patient_name ?></td>
+                          <td><?php echo $appoint_service ?></td>
+                          <!--    <td><?php //echo $appoint_schedule_date ?></td>
+                          <td><?php //echo $format_start ?> - <?php //echo $format_end ?></td> -->
+                          <td>
+                            <button class="btn btn-info btn-block btn-sm" data-toggle="modal" data-target="#appointmentDetails"> View Details </button>
+                          </td>
+                          <td>
+                            <a class="btn btn-primary text-white btn-sm">Accept</a>
+                            <a class="btn btn-danger text-white btn-sm">Cancel</a>
+                          </td>
                         </tr>
                       
                       <?php } ?>
@@ -217,6 +221,37 @@
          </section>
       </div>
     </div>
+
+
+    <!-- Modal for View Appointment Details -->
+       <div class="modal fade" tabindex="-1" role="dialog" id="appointmentDetails">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">View Appointment Details</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+              </div>
+             <div class="card-body">
+              
+               <ul class="list-group">
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Date: 10/27/2021
+                        <span class="badge badge-success badge-pill">Completed</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Schedule Time: <?php echo $format_start ?> - <?php echo $format_end ?>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Status: 
+                      </li>
+                    </ul>        
+        
+              </div>
+            </div>
+          </div>
+        </div>
 
 
     

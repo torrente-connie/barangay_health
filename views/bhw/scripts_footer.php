@@ -16,7 +16,9 @@
 
   <script src="../../assets/vendors/jquery-validation/dist/jquery.validate.js"></script>
 
-  <script src="../../assets/vendors/moment/moment.js"></script>  
+  <script src="../../assets/vendors/moment/moment.js"></script> 
+
+
   
   <!-- JS Libraies -->
 

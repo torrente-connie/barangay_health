@@ -236,6 +236,7 @@
                           <div class="form-group col-md-6 col-12">
                             <label>Selected Appointment Schedule</label>
                              <select class="form-control" name="selected_asched" id="selected_asched" required>
+                              <option selected hidden value="">Choose A Schedule Time</option>
                              </select>
                           </div>
                         </div>
@@ -257,7 +258,8 @@
                           </div>
                             <div class="form-group col-md-6 col-12">
                              <label>Select Barangay Health Service</label>
-                              <select class="form-control" name="selected_service" required>
+                              <select class="form-control" name="selected_service" id="selected_service" required>
+                                 <option value="" hidden id="get_service"></option>
                                  <option selected hidden value="">Choose A Health Service</option>
                                  <option value="Maternal Check-up">Maternal Check-up</option>
                                  <option value="Senior Citizen Check-up">Senior Citizen Check-up</option>
@@ -319,7 +321,14 @@ var showDays = $.parseJSON('<?php echo json_encode($arrDays); ?>');
  //    return [showDays.indexOf(date.getDay()) > -1 && disabledHolidayDays.indexOf(string) == -1 ];
  // }
 
-var dateToday = new Date();
+    var mindateToday = new Date();
+
+    // code for disabled current week
+    // var dateToday = new Date();
+    // var dayNo = dateToday.getDay();
+    // var mindateToday = (8-dayNo);
+
+
 var weekday=new Array(7);
     weekday[1]=1;
     weekday[2]=2;
@@ -331,7 +340,8 @@ var weekday=new Array(7);
 
    
   $("#datepicker").datepicker({
-   minDate: dateToday,
+   // firstDay: 1,
+   minDate: mindateToday,
    onSelect: function(dateText, inst) {
                 var date = $(this).datepicker('getDate'),
                     day  = date.getDate(),
@@ -364,6 +374,26 @@ var weekday=new Array(7);
 
 
  
+</script>
+
+
+<script>
+  $(document).ready(function(){
+    $("#exampleRadios1").click(function(){
+        $("#exampleRadios1").prop("checked", true);
+          $("#selected_service").prop('disabled', false);
+             var none = "Choose A Health Service";
+              $("#get_service").html(none);
+         
+    });
+    $("#exampleRadios2").click(function(){
+        $("#exampleRadios2").prop("checked", true);
+          $("#selected_service").prop('disabled', true);
+              $('#get_service').prop('selected', true);
+                 var none = "None";
+                  $("#get_service").html(none);
+    });
+});
 </script>
 
 <!-- sources: https://stackoverflow.com/questions/46317356/onselectiong-date-in-jquery-datepicker-i-need-to-get-day-and-month-in-form-text, https://stackoverflow.com/questions/53395634/how-to-disable-certain-days-of-the-week-on-a-jquery-datepicker-based-on-a-result -->

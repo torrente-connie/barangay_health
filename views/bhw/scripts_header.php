@@ -18,6 +18,8 @@
   <!-- Newly Added -->
   <link rel="stylesheet" href="../../assets/vendors/bootstrap-social/bootstrap-social.css">
 
+  <link rel="stylesheet" href="../../assets/vendors/hintcss/hint.css">
+
 </head>
 
 <?php 

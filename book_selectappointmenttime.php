@@ -8,13 +8,14 @@ if(isset($_POST['dayOfWeek'])) {
   $connection = mysqli_connect("localhost","root","","barangayhealth_db");
   $sqlSched = "SELECT * FROM doctor_schedule WHERE doctor_id = '$appointment_docid' AND schedule_day = '$dayOfWeek' ";
   $result1 = mysqli_query($connection,$sqlSched);
+  $output = "";
 
-  // $output = '';                          
+  $output = '';                          
   while($row2 = mysqli_fetch_assoc($result1)) {
 
   $schedule_id = $row2['schedule_id'];
 
-	}
+  }
 
   $getScheduleID = $schedule_id;
   $sqlTimeSched = "SELECT * FROM doctor_schedule_time WHERE schedule_id = '$getScheduleID' ";
