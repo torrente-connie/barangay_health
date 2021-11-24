@@ -94,7 +94,6 @@
               <div class="card-header">
                  <h4></h4>
                   <div class="card-header-action">
-                    <a href="pdf_test.php" class="btn btn-primary btn-sm">Print Schedule</a>
                   </div>
               </div>
 
@@ -102,68 +101,193 @@
                     <div class="table-responsive">
                       <table class="table table-hover table-bordered" id="table-subject">
                         <thead class="thead-light">
-                          <tr>
+                           <tr>
+                            <!-- <th>Appointment Booked By</th> -->
+                            <th>Appointment Doctor</th>
                             <th>Patient Name</th>
                             <th>Medical Service</th>
-                            <th>Appointment Time</th>
-                            <th>Appointment Date</th>
+                           <!--     <th>Appointment Date</th>
+                            <th>Appointment Time</th> -->
+                            <th>Appointment Status</th>
+                            <th>Appointment Details</th>
+                            <th></th>
                           </tr>
                         </thead>
                         <tbody>
 
-                      <?php 
+                    <?php 
 
-                      // query for appointment
                       $sql = "SELECT 
+                      d.user_id as doctor_id,
+                      d.user_account_id as doctor_account,
                       d.user_firstname  as doc_fname, 
                       d.user_middlename as doc_mname, 
                       d.user_lastname   as doc_lname,
                       p.user_firstname  as patient_fname,
                       p.user_middlename as patient_mname,
                       p.user_lastname   as patient_lname,
-                      s.service_id,
-                      s.service_name,
-                      a.appointment_consultation_type,
-                      a.appointment_service_id,
-                      a.appointment_doctor_id,
-                      a.appointment_user_id
+                      p.user_account_id as patient_account,
+                      p.user_id as patient_id,
+                      a.appointment_id as appointment_id,
+                      a.appointment_patient_fname as appoint_pfname,
+                      a.appointment_patient_mname as appoint_pmname,
+                      a.appointment_patient_lname as appoint_plname,
+                      a.appointment_patient_email as appoint_pemail,
+                      a.appointment_patient_pnum as appoint_ppnum,
+                      a.appointment_selected_date as appoint_date,
+                      a.appointment_selected_time as appoint_dst_id, 
+                      dst.schedule_start_time as appoint_start_time,
+                      dst.schedule_end_time as appoint_end_time,
+                      a.appointment_selected_service as appoint_service,
+                      a.appointment_type as appointment_type,
+                      a.appointment_status as appointment_status,
+                      a.appointment_reason as appointment_reason
                       FROM appointment a
-                      JOIN user d
-                      ON a.appointment_doctor_id = d.user_id
-                      JOIN service s 
-                      ON a.appointment_service_id = s.service_id
+                      JOIN user d 
+                      ON a.appointment_doctor_id = d.user_id 
                       JOIN user p 
-                      ON a.appointment_user_id = p.user_id
-                      WHERE a.appointment_consultation_type = 'Book Appointment'
-                      AND a.appointment_user_id = '$patient_id'
+                      ON a.appointment_patient_id = p.user_id 
+                      JOIN doctor_schedule_time dst 
+                      ON a.appointment_selected_time = dst.schedule_time_id
+                      WHERE a.appointment_type = 'bookappointment' AND p.user_id = '$patient_id'
+                      ORDER BY a.appointment_id ASC
                       ";
+
                       $result = mysqli_query($connection,$sql);
 
                       while($row = mysqli_fetch_assoc($result)) {
                     
-                  
-                      // patient fullname
+                      // doctor fullname
+                      $doc_account      = $row['doctor_account'];
                       $doc_firstname    = ucfirst($row['doc_fname']);
                       $doc_middlename   = ucfirst($row['doc_mname']);
                       $doc_lastname     = ucfirst($row['doc_lname']);
 
                       $doc_name = $doc_firstname.' '.$doc_middlename.'.'.' '.$doc_lastname;
 
-                      
-                      // service info
-                      $service_name = $row['service_name'];
+                      // user patient fullname
+                      $patient_account      = $row['patient_account'];
+                      $patient_firstname    = ucfirst($row['patient_fname']);
+                      $patient_middlename   = ucfirst($row['patient_mname']);
+                      $patient_lastname     = ucfirst($row['patient_lname']);
 
+                      $patient_name = $patient_firstname.' '.$patient_middlename.'.'.' '.$patient_lastname;
 
+                      // appointed patient
+                      $appoint_pfname    = ucfirst($row['appoint_pfname']);
+                      $appoint_pmname   = ucfirst($row['appoint_pmname']);
+                      $appoint_plname     = ucfirst($row['appoint_plname']);
+
+                      $appoint_patient_name = $appoint_pfname.' '.$appoint_pmname.'.'.' '.$appoint_plname;
+
+                      // the appointed patient name
+                      $appoint_patient_email = $row['appoint_pemail'];
+                      $appoint_patient_email = $row['appoint_ppnum'];
+
+                      // appointment schedules
+                      $time_schedule_id = $row['appoint_dst_id'];
+                      $appoint_schedule_date = $row['appoint_date'];
+
+                      $appoint_start_time = $row['appoint_start_time'];
+                      $appoint_end_time = $row['appoint_end_time'];
+
+                      // appointment service and booking appointment type
+                      $appoint_service = $row['appoint_service'];
+                      $appoint_type = $row['appointment_type'];
+
+                      // format time
+                      $format_start = date("h:i:A", strtotime($appoint_start_time));
+                      $format_end   = date("h:i:A", strtotime($appoint_end_time));
+
+                      // for tool tip
+                      $acname_tooltip = $patient_name;
+
+                      // id
+                      $appointment_id = $row['appointment_id'];
+
+                      // reason
+                      $appointment_reason = $row['appointment_reason'];
+
+                      $appointment_status = $row['appointment_status'];
 
                       ?>
 
                         <tr>
+                         <!--  <td><a href="#" style="text-decoration: none;"><?php // echo $patient_name ?></a></td> -->
                           <td><?php echo $doc_name ?></td>
-                          <td><?php echo $service_name ?></td>
-                          <td>12:00PM - 1:30PM</td>
-                          <td>8/6/2021</td>
-                         
-                         </tr>
+                          <td><?php echo $appoint_patient_name ?></td> 
+                          <td><?php echo $appoint_service ?></td>
+                          <td>
+                          <?php  
+                          // if status = pending
+                          if($appointment_status == 1) {
+
+                          ?>
+                            <span class="badge badge-primary badge-pill">Pending</span>
+
+                          <?php 
+                          // if status = cancel
+                          } else if($appointment_status == 2) { ?>
+
+                            <span class="badge badge-danger badge-pill">Cancel</span>
+
+                          <?php 
+                          // if status = accept
+                          } else if($appointment_status == 3) { ?>
+
+                            <span class="badge badge-info badge-pill">Accepted</span>
+
+                          <?php } else if($appointment_status == 4) { ?>
+
+                            <span class="badge badge-success badge-pill">Approved</span>
+
+                          <?php } ?>
+                              
+                          </td>
+                          <!--    <td><?php //echo $appoint_schedule_date ?></td>
+                          <td><?php //echo $format_start ?> - <?php //echo $format_end ?></td> -->
+                          <td>
+                            <button class="btn btn-info btn-block btn-sm" data-toggle="modal" data-target="#appointmentDetails"> View Details </button>
+                          </td>
+                          <td>
+
+                          <?php  
+                          // if status = pending
+                          if($appointment_status == 1) {
+
+                          ?>
+
+                             <a class="btn btn-light text-dark  btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Accept</a>
+                             <a class="btn btn-light text-dark btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> Cancel </a>
+
+
+                          <?php 
+                          // if status = cancel
+                          } else if($appointment_status == 2) { ?>
+
+                             <a class="btn btn-light text-dark  btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Accept</a>
+                             <a class="btn btn-light text-dark btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> Cancel </a>
+
+
+                          <?php 
+                          // if status = accept
+                          } else if($appointment_status == 3) { ?>
+
+                             <a class="btn btn-light text-dark  btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Accept</a>
+                             <a class="btn btn-light text-dark btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> Cancel </a>
+
+
+                          <?php } else if($appointment_status == 4) { ?>
+
+
+                           
+                             <a href="pdf_test.php" target="_blank" class="btn btn-primary btn-sm">Print Schedule</a>
+
+
+                          <?php } ?>
+
+                          </td>
+                        </tr>
                       
                       <?php } ?>
 
@@ -180,7 +304,132 @@
     </div>
 
 
-    
+     <!-- Modal for View Appointment Details -->
+       <div class="modal fade" tabindex="-1" role="dialog" id="appointmentDetails">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">View Appointment Details</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+              </div>
+             <div class="card-body">
+              
+               <ul class="list-group">
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Date: 10/27/2021
+                        
+                        <?php 
+
+                        if($appointment_status == 1) {
+
+                        ?>
+
+                       <span class="badge badge-primary badge-pill">Pending</span>
+
+                       <?php } else if($appointment_status == 2) { ?>
+
+                       <span class="badge badge-danger badge-pill">Cancel</span>
+
+                       <?php } else if($appointment_status == 3) { ?>
+
+                       <span class="badge badge-info badge-pill">Accepted</span>
+
+                       <?php } else if($appointment_status == 4) { ?>
+
+                       <span class="badge badge-success badge-pull">Approved</span>
+
+                       <?php } ?>
+
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Schedule Time: <?php echo $format_start ?> - <?php echo $format_end ?>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Reason: <?php echo $appointment_reason ?>
+                      </li>
+                    </ul>        
+        
+              </div>
+            </div>
+          </div>
+        </div>
+
+                    <!-- Modal for View Appointment Details -->
+       <div class="modal fade" tabindex="-1" role="dialog" id="acceptAppointmentBhw">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Accept Appointment</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+              </div>
+             <div class="card-body">
+
+              <h4>Are you sure you want to accept this appointment?</h4>
+              
+              <form method="POST" action="../../backend/bhw_appointment_book.php">
+
+                  <input type="hidden" name="acceptID" id="acceptID">
+
+                  <div class="form-group mt-4">
+                    <button type="submit" name="acceptAppointmentSubmit" class="btn btn-success btn-block" tabindex="4">
+                      Yes
+                    </button>
+                    <button class="btn btn-danger btn-block" tabindex="4" data-dismiss="modal">
+                      No
+                    </button>
+                  </div>
+                </form>
+
+        
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+       <!-- Modal for View Appointment Details -->
+       <div class="modal fade" tabindex="-1" role="dialog" id="cancelAppointmentBhw">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Cancel Appointment</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+              </div>
+             <div class="card-body">
+
+              <h4>Are you sure you want to cancel this appointment?</h4>
+              
+              <form method="POST" action="../../backend/bhw_appointment_book.php">
+
+                  <input type="hidden" name="cancelID" id="cancelID">
+
+                  <div class="form-group mt-4">
+                    <label for="reason">Reason</label>
+                    <input id="reason" type="text" class="form-control" name="reason" tabindex="1" required="" autofocus="" placeholder="Please state the reason for the cancellation of the appointment..">
+                  </div>
+
+                  <div class="form-group">
+                    <button type="submit" name="cancelAppointmentSubmit" class="btn btn-success" tabindex="4">
+                      Submit
+                    </button>
+                    <button class="btn btn-danger" tabindex="4" data-dismiss="modal">
+                      Close
+                    </button>
+                  </div>
+                </form>
+
+        
+              </div>
+            </div>
+          </div>
+        </div>
+
   
       <!-- <footer class="main-footer" style="background-color:rgba(40, 102, 199, 0.97)">
         <div class="container">
@@ -196,6 +445,23 @@
    <!-- Menu for Footer Links -->
     <?php require("scripts_footer.php"); ?>
     <!-- -->
+
+    <script>
+      // tempo lang sani para maka display
+      $('#cancelAppointmentBhw').on('show.bs.modal', function(e) {
+        var cancelID = $(e.relatedTarget).data('cancel-id');
+      $(e.currentTarget).find('input[id="cancelID"]').val(cancelID);
+    });
+    </script>
+
+     <script>
+      // tempo lang sani para maka display
+      $('#acceptAppointmentBhw').on('show.bs.modal', function(e) {
+        var acceptID = $(e.relatedTarget).data('accept-id');
+      $(e.currentTarget).find('input[id="acceptID"]').val(acceptID);
+    });
+    </script>
+
 
 
   </body>

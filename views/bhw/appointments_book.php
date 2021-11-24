@@ -103,8 +103,9 @@
                             <th>Medical Service</th>
                            <!--     <th>Appointment Date</th>
                             <th>Appointment Time</th> -->
-                            <th>Appointment Details</th>
                             <th>Appointment Status</th>
+                            <th>Appointment Details</th>
+                            <th></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -120,6 +121,7 @@
                       p.user_middlename as patient_mname,
                       p.user_lastname   as patient_lname,
                       p.user_account_id as patient_account,
+                      a.appointment_id as appointment_id,
                       a.appointment_patient_fname as appoint_pfname,
                       a.appointment_patient_mname as appoint_pmname,
                       a.appointment_patient_lname as appoint_plname,
@@ -130,7 +132,9 @@
                       dst.schedule_start_time as appoint_start_time,
                       dst.schedule_end_time as appoint_end_time,
                       a.appointment_selected_service as appoint_service,
-                      a.appointment_type as appointment_type
+                      a.appointment_type as appointment_type,
+                      a.appointment_status as appointment_status,
+                      a.appointment_reason as appointment_reason
                       FROM appointment a
                       JOIN user d 
                       ON a.appointment_doctor_id = d.user_id 
@@ -139,6 +143,7 @@
                       JOIN doctor_schedule_time dst 
                       ON a.appointment_selected_time = dst.schedule_time_id
                       WHERE a.appointment_type = 'bookappointment'
+                      ORDER BY a.appointment_id ASC
                       ";
 
                       $result = mysqli_query($connection,$sql);
@@ -190,6 +195,14 @@
                       // for tool tip
                       $acname_tooltip = $patient_name;
 
+                      // id
+                      $appointment_id = $row['appointment_id'];
+
+                      // reason
+                      $appointment_reason = $row['appointment_reason'];
+
+                      $appointment_status = $row['appointment_status'];
+
                       ?>
 
                         <tr>
@@ -197,14 +210,63 @@
                           <td><?php echo $doc_name ?></td>
                           <td><?php echo $appoint_patient_name ?></td>
                           <td><?php echo $appoint_service ?></td>
+                          <td>
+                          <?php  
+                          // if status = pending
+                          if($appointment_status == 1) {
+
+                          ?>
+                            <span class="badge badge-primary badge-pill">Pending</span>
+
+                          <?php 
+                          // if status = cancel
+                          } else if($appointment_status == 2) { ?>
+
+                            <span class="badge badge-danger badge-pill">Danger</span>
+
+                          <?php 
+                          // if status = accept
+                          } else if($appointment_status == 3) { ?>
+
+                            <span class="badge badge-info badge-pill">Accepted</span>
+
+                          <?php } else if($appointment_status == 4) { ?>
+
+                            <span class="badge badge-success badge-pill">Approved</span>
+
+                          <?php } ?>
+                              
+                          </td>
                           <!--    <td><?php //echo $appoint_schedule_date ?></td>
                           <td><?php //echo $format_start ?> - <?php //echo $format_end ?></td> -->
                           <td>
                             <button class="btn btn-info btn-block btn-sm" data-toggle="modal" data-target="#appointmentDetails"> View Details </button>
                           </td>
                           <td>
-                            <a class="btn btn-primary text-white btn-sm">Accept</a>
-                            <a class="btn btn-danger text-white btn-sm">Cancel</a>
+
+                          <?php  
+                          // if status = pending
+                          if($appointment_status == 1) {
+
+                          ?>
+                            <a href="#acceptAppointmentBhw" class="btn btn-primary text-white btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Accept</a>
+                            <a href="#cancelAppointmentBhw" class="btn btn-danger btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> Cancel </a>
+
+                          <?php 
+                          // if status = cancel
+                          } else if($appointment_status == 2) { ?>
+
+                             <a class="btn btn-disabled text-white btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Accept</a>
+                             <a class="btn btn-disabled btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> Cancel </a>
+
+                          <?php 
+                          // if status = accept
+                          } else if($appointment_status == 3) { ?>
+
+                             <a class="btn btn-light text-dark  btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Accept</a>
+                             <a class="btn btn-light text-dark btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> Cancel </a>
+
+                          <?php } ?>
                           </td>
                         </tr>
                       
@@ -238,13 +300,35 @@
                <ul class="list-group">
                       <li class="list-group-item d-flex justify-content-between align-items-center">
                         Date: 10/27/2021
-                        <span class="badge badge-success badge-pill">Completed</span>
+                        
+                        <?php 
+
+                        if($appointment_status == 1) {
+
+                        ?>
+
+                       <span class="badge badge-primary badge-pill">Pending</span>
+
+                       <?php } else if($appointment_status == 2) { ?>
+
+                       <span class="badge badge-danger badge-pill">Cancel</span>
+
+                       <?php } else if($appointment_status == 3) { ?>
+
+                       <span class="badge badge-info badge-pill">Accepted</span>
+
+                       <?php } else if($appointment_status == 4) { ?>
+
+                       <span class="badge badge-success badge-pill">Approved</span>
+
+                       <?php } ?>
+
                       </li>
                       <li class="list-group-item d-flex justify-content-between align-items-center">
                         Schedule Time: <?php echo $format_start ?> - <?php echo $format_end ?>
                       </li>
                       <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Status: 
+                        Reason: <?php echo $appointment_reason ?>
                       </li>
                     </ul>        
         
@@ -253,9 +337,80 @@
           </div>
         </div>
 
+                <!-- Modal for View Appointment Details -->
+       <div class="modal fade" tabindex="-1" role="dialog" id="acceptAppointmentBhw">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Accept Appointment</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+              </div>
+             <div class="card-body">
 
-    
-  
+              <h4>Are you sure you want to accept this appointment?</h4>
+              
+              <form method="POST" action="../../backend/bhw_appointment_book.php">
+
+                  <input type="hidden" name="acceptID" id="acceptID">
+
+                  <div class="form-group mt-4">
+                    <button type="submit" name="acceptAppointmentSubmit" class="btn btn-success btn-block" tabindex="4">
+                      Yes
+                    </button>
+                    <button class="btn btn-danger btn-block" tabindex="4" data-dismiss="modal">
+                      No
+                    </button>
+                  </div>
+                </form>
+
+        
+              </div>
+            </div>
+          </div>
+        </div>
+
+            <!-- Modal for View Appointment Details -->
+       <div class="modal fade" tabindex="-1" role="dialog" id="cancelAppointmentBhw">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Cancel Appointment</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+              </div>
+             <div class="card-body">
+
+              <h4>Are you sure you want to cancel this appointment?</h4>
+              
+              <form method="POST" action="../../backend/bhw_appointment_book.php">
+
+                  <input type="hidden" name="cancelID" id="cancelID">
+
+                  <div class="form-group mt-4">
+                    <label for="reason">Reason</label>
+                    <input id="reason" type="text" class="form-control" name="reason" tabindex="1" required="" autofocus="" placeholder="Please state the reason for the cancellation of the appointment..">
+                  </div>
+
+                  <div class="form-group">
+                    <button type="submit" name="cancelAppointmentSubmit" class="btn btn-success" tabindex="4">
+                      Submit
+                    </button>
+                    <button class="btn btn-danger" tabindex="4" data-dismiss="modal">
+                      Close
+                    </button>
+                  </div>
+                </form>
+
+        
+              </div>
+            </div>
+          </div>
+        </div>
+
+
       <!-- <footer class="main-footer" style="background-color:rgba(40, 102, 199, 0.97)">
         <div class="container">
         <div class="footer-left text-white">
@@ -270,6 +425,23 @@
    <!-- Menu for Footer Links -->
     <?php require("scripts_footer.php"); ?>
     <!-- -->
+
+    <script>
+      // tempo lang sani para maka display
+      $('#cancelAppointmentBhw').on('show.bs.modal', function(e) {
+        var cancelID = $(e.relatedTarget).data('cancel-id');
+      $(e.currentTarget).find('input[id="cancelID"]').val(cancelID);
+    });
+    </script>
+
+     <script>
+      // tempo lang sani para maka display
+      $('#acceptAppointmentBhw').on('show.bs.modal', function(e) {
+        var acceptID = $(e.relatedTarget).data('accept-id');
+      $(e.currentTarget).find('input[id="acceptID"]').val(acceptID);
+    });
+    </script>
+
 
 
   </body>

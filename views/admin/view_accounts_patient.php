@@ -101,9 +101,9 @@
                     </ul>
                 </li>
 
-           <li class="nav-item">
+            <!--  <li class="nav-item">
               <a href="activity_logs.php" class="nav-link"><i class="fas fa-clipboard-list"></i><span>Activity Logs</span></a>
-             </li>
+             </li> -->
 
              <li class="nav-item dropdown">
                 <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-calendar-check"></i>

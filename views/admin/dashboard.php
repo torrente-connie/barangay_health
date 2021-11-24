@@ -20,6 +20,21 @@
   require("../../backend/dbconn.php");
   $connection = dbConn();
 
+  // display counts
+
+  // SQL Query for Accounts
+  $sql1 = "SELECT * FROM user WHERE user_type != 'Administrator' ";
+  $result1 = mysqli_query($connection,$sql1);
+  $numrows1 = mysqli_num_rows($result1);
+
+  // SQL Query for Appoinments
+
+  // SQL Query for Schedules
+  $sql3 = "SELECT DISTINCT(doctor_id) FROM doctor_schedule WHERE schedule_status = 1 ";
+  $result3 = mysqli_query($connection,$sql3);
+  $numrows3 = mysqli_num_rows($result3); 
+
+
 ?>
 
 
@@ -71,9 +86,9 @@
                     </ul>
                 </li>
 
-             <li class="nav-item">
+             <!--  <li class="nav-item">
               <a href="activity_logs.php" class="nav-link"><i class="fas fa-clipboard-list"></i><span>Activity Logs</span></a>
-             </li>
+             </li> -->
 
              <li class="nav-item dropdown">
                 <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-calendar-check"></i>
@@ -116,7 +131,7 @@
                     <h4>Total Accounts</h4>
                   </div>
                   <div class="card-body">
-                    3                  
+                    <?php echo $numrows1 ?>                  
                   </div>
                 </div>
               </div>
@@ -149,7 +164,8 @@
                     <h4>Total Schedules</h4>
                   </div>
                   <div class="card-body">
-                    5                  </div>
+                    <?php echo $numrows3 ?>
+                  </div>
                 </div>
               </div>
             </div>

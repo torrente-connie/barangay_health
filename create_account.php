@@ -66,7 +66,7 @@ require('scripts_header.php');
             
                   <div class="form-group">
                     <div class="custom-control custom-checkbox">
-                      <input type="checkbox" name="agree" class="custom-control-input" id="agree">
+                      <input type="checkbox" name="agree" class="custom-control-input" id="agree" required>
                       <label class="custom-control-label" for="agree">I agree with the terms and conditions</label> <a href="#" data-toggle="modal" data-target="#bookAppointment" data-backdrop="static"> Click here to view the terms and conditions 
                       </a>
                     </div>

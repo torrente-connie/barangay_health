@@ -68,7 +68,7 @@
               <div class="card-header">
                  <h4></h4>
                   <div class="card-header-action">
-                    <a href="doctorschedules_view_more.php" class="btn btn-primary btn-sm">View More</a>
+                   <!--  <a href="doctorschedules_view_more.php" class="btn btn-primary btn-sm">View More</a> -->
                   </div>
               </div>
 
