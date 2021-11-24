@@ -63,8 +63,8 @@
             </li>
           
              <li class="nav-item active dropdown">
-                <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-user-friends"></i>
-                  <span>Manage Patients</span>
+                <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-calendar-check"></i>
+                  <span>Manage Appointments</span>
                 </a>
                   <ul class="dropdown-menu" style="display: none;">
                       <li class="nav-item active"><a href="appointments_book.php" class="nav-link"> <span>Book Appointment</span> </a></li>
@@ -72,6 +72,10 @@
                       <li class="nav-item"><a href="appointments_walk_in.php" class="nav-link"> <span>Walk-in Appointment</span> </a></li>
                     </ul>
                 </li>
+
+             <li class="nav-item">
+              <a href="patients.php" class="nav-link"><i class="fas fa-user-friends"></i><span>Manage Patients</span></a>
+            </li>
 
             <li class="nav-item">
               <a href="schedules.php" class="nav-link"><i class="fas fa-clock"></i><span>Schedules</span></a>
@@ -106,10 +110,10 @@
                             <!-- <th>Appointment Doctor</th> -->
                             <th>Patient Name</th>
                             <th>Medical Service</th>
-                           <!--     <th>Appointment Date</th>
-                            <th>Appointment Time</th> -->
+                            <th>Appointment Date</th>
+                            <th>Appointment Time</th>
                             <th>Appointment Status</th>
-                            <th>Appointment Details</th>
+                          <!--   <th>Appointment Details</th> -->
                             <th></th>
                           </tr>
                         </thead>
@@ -230,7 +234,8 @@
                           // if status = cancel
                           } else if($appointment_status == 2) { ?>
 
-                            <span class="badge badge-danger badge-pill">Danger</span>
+                            <span class="badge badge-danger badge-pill">Cancel</span>
+                            <p>Reason: <?php echo $appointment_reason ?></p>
 
                           <?php 
                           // if status = accept
@@ -249,11 +254,11 @@
                           <?php } ?>
                               
                           </td>
-                          <!--    <td><?php //echo $appoint_schedule_date ?></td>
-                          <td><?php //echo $format_start ?> - <?php //echo $format_end ?></td> -->
-                          <td>
+                          <td><?php echo $appoint_schedule_date ?></td>
+                          <td><?php echo $format_start ?> - <?php echo $format_end ?></td>
+                          <!-- <td>
                             <button class="btn btn-info btn-block btn-sm" data-toggle="modal" data-target="#appointmentDetails"> View Details </button>
-                          </td>
+                          </td> -->
                           <td>
 
                           <?php  
@@ -262,38 +267,30 @@
 
                           ?>
 
-                            <a class="btn btn-light text-dark btn-sm btn-block" data-toggle="modal" data-approve-id="<?php echo $appointment_id ?>">Approve</a>
-                             <a class="btn btn-light text-dark btn-block btn-sm" data-toggle="modal" data-reschedule-id="<?php echo $appointment_id ?>"> Reschedule </a>
-
-
+                        
                           <?php 
                           // if status = cancel
                           } else if($appointment_status == 2) { ?>
 
-                             <a class="btn btn-light text-dark btn-sm btn-block" data-toggle="modal" data-approve-id="<?php echo $appointment_id ?>">Approve</a>
-                             <a class="btn btn-light text-dark btn-block btn-sm" data-toggle="modal" data-reschedule-id="<?php echo $appointment_id ?>"> Reschedule </a>
-
+                           
                           <?php 
                           // if status = accept
                           } else if($appointment_status == 3) { ?>
 
                              <a href="#approveAppointmentDoctor" class="btn btn-primary text-white  btn-sm btn-block" data-toggle="modal" data-approve-id="<?php echo $appointment_id ?>">Approve</a>
-                             <a href="#rescheduleAppointmentDoctor" class="btn btn-danger text-white btn-block btn-sm" data-toggle="modal" data-reschedule-id="<?php echo $appointment_id ?>"> Reschedule </a>
+                             <a href="#asdrescheduleAppointmentDoctor" class="btn btn-danger text-white btn-block btn-sm" data-toggle="modal" data-reschedule-id="<?php echo $appointment_id ?>"> Reschedule </a>
 
                           <?php }
                           // if status = approve
                           else if($appointment_status == 4) { ?>
 
-                             <a class="btn btn-light text-dark btn-sm btn-block" data-toggle="modal" data-approve-id="<?php echo $appointment_id ?>">Approve</a>
-
-                             <a class="btn btn-light text-dark btn-block btn-sm" data-toggle="modal" data-reschedule-id="<?php echo $appointment_id ?>"> Reschedule </a>
-
+              
                           <?php }
                           // if status = reschedule
                           else if($appointment_status == 5) { ?>
 
                            <a href="#approveAppointmentDoctor" class="btn btn-primary text-white  btn-sm btn-block" data-toggle="modal" data-approve-id="<?php echo $appointment_id ?>">Approve</a>
-                             <a href="#rescheduleAppointmentDoctor" class="btn btn-danger text-white btn-block btn-sm" data-toggle="modal" data-reschedule-id="<?php echo $appointment_id ?>"> Reschedule </a>
+                             <a href="#ssrescheduleAppointmentDoctor" class="btn btn-danger text-white btn-block btn-sm" data-toggle="modal" data-reschedule-id="<?php echo $appointment_id ?>"> Reschedule </a>
                       
                           <?php } ?>
 
@@ -408,7 +405,7 @@
         </div>
 
                <!-- Modal for View Appointment Details -->
-       <div class="modal fade" tabindex="-1" role="dialog" id="rescheduleAppointmentDoctor">
+       <div class="modal fade" tabindex="-1" role="dialog" id="123rescheduleAppointmentDoctor">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -466,7 +463,7 @@
 
    <script>
       // tempo lang sani para maka display
-      $('#rescheduleAppointmentDoctor').on('show.bs.modal', function(e) {
+      $('#asdrescheduleAppointmentDoctor').on('show.bs.modal', function(e) {
         var rescheduleID = $(e.relatedTarget).data('reschedule-id');
       $(e.currentTarget).find('input[id="rescheduleID"]').val(rescheduleID);
     });

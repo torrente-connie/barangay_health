@@ -41,7 +41,7 @@
         </form>
         <ul class="navbar-nav navbar-right">
 
-           <?php 
+         <?php 
 
             // notification here
             require("show_notification.php");
@@ -51,32 +51,20 @@
 
           ?>
 
-
         </ul>
       </nav>
-      
+
+
       <nav class="navbar navbar-secondary navbar-expand-lg">
         <div class="container">
           <ul class="navbar-nav">
             <li class="nav-item">
               <a href="dashboard.php" class="nav-link"><i class="fas fa-columns"></i><span>Dashboard</span></a>
             </li>
-            <li class="nav-item dropdown">
-                    <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-user-friends"></i><span>Accounts</span></a>
-                    <ul class="dropdown-menu" style="display: none;">
-                      <li class="nav-item"><a href="accounts_patient.php" class="nav-link"> <span>Patient</span> </a></li>
-                      <li class="nav-item"><a href="accounts_doctor.php" class="nav-link"> <span>Doctor</span> </a></li>
-                      <li class="nav-item"><a href="accounts_bhw.php" class="nav-link"> <span>Barangay Health Worker</span> </a></li>
-                    </ul>
-                </li>
-
-          <li class="nav-item active">
-              <a href="activity_logs.php" class="nav-link"><i class="fas fa-clipboard-list"></i><span>Activity Logs</span></a>
-             </li>
-
+          
              <li class="nav-item dropdown">
                 <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-calendar-check"></i>
-                  <span>Appointments</span>
+                  <span>Manage Appointments</span>
                 </a>
                   <ul class="dropdown-menu" style="display: none;">
                       <li class="nav-item"><a href="appointments_book.php" class="nav-link"> <span>Book Appointment</span> </a></li>
@@ -85,20 +73,24 @@
                     </ul>
                 </li>
 
+            <li class="nav-item active">
+              <a href="patients.php" class="nav-link"><i class="fas fa-user-friends"></i><span>Manage Patients</span></a>
+            </li>
+
             <li class="nav-item">
               <a href="schedules.php" class="nav-link"><i class="fas fa-clock"></i><span>Schedules</span></a>
             </li>
-
 
           </ul>
         </div>
       </nav>
 
+
         <!-- Main Content -->
       <div class="main-content" style="min-height: 566px;">
         <section class="section">
           <div class="section-header">
-            <h1>Activity Logs</h1>
+            <h1>Patient Accounts</h1>
             </div>
 
    
@@ -110,36 +102,66 @@
                     <a href="class_add.php" class="btn btn-success btn-sm">Add Class</a>
                   </div>
               </div>
-
-            <div class="card-body">
+ 
+                  <div class="card-body">
                     <div class="table-responsive">
-                      <table class="table table-striped">
-                      <tbody><tr>
-                        <th></th>
-                        <th>User Fullname</th>
-                        <th>User Role</th>
-                        <th>User Activity</th>
-                        <th>Date</th>
-                      </tr>
-                      <tr>
-                        <td><a href="#">INV-87239</a></td>
-                        <td class="font-weight-600">Kusnadi</td>
-                        <td><div class="badge badge-primary">Doctor</div></td>
-                        <td>Logged in into the system</td>
-                        <td>July 19, 2018</td>
-                      </tr>
+                      <table class="table table-hover table-bordered" id="table-subject">
+                        <thead class="thead-light">
+                          <tr>
+                            <th>Account ID</th>
+                            <th>Fullname</th>
+                            <th>User Type</th>
+                            <th>Contact Number</th>
+                            <th>Date of Birth</th>
+                          </tr>
+                        </thead>
+                        <tbody>
 
-                      <tr>
-                        <td><a href="#">INV-48574</a></td>
-                        <td class="font-weight-600">Hasan Basri</td>
-                        <td><div class="badge badge-primary">Patient</div></td>
-                        <td>Newly registered patient account</td>
-                        <td>July 21, 2018</td>
-                      </tr>
-     
-                    </tbody>
-                  </table>                    </div>
+                      <?php 
+
+                      // query for getting patient
+                      $sqlPatient = "SELECT * FROM user
+                      WHERE user_type = 'Patient'
+                      ";
+
+                      $resultPatient = mysqli_query($connection,$sqlPatient);
+                      while($rowPatient = mysqli_fetch_assoc($resultPatient)) {
+
+                        // user account id
+                        $account_id   = $rowPatient['user_account_id'];
+
+                        // user full name
+                        $firstname    = ucfirst($rowPatient['user_firstname']);
+                        $middlename   = ucfirst($rowPatient['user_middlename']);
+                        $lastname     = ucfirst($rowPatient['user_lastname']);
+
+                        $fullname = $firstname.' '.$middlename.'.'.' '.$lastname;
+
+                        // user info
+                        $user_dob  = $rowPatient['user_dob'];
+                        $user_cnum = ucfirst($rowPatient['user_cnum']); 
+                        $user_type = ucfirst($rowPatient['user_type']);
+
+                      ?>
+
+                        <tr>
+                          <td><?php echo $account_id ?> </td>
+                          <td><?php echo $fullname ?></td>
+                          <td><div class="badge badge-primary"><?php echo $user_type ?></div></td>
+                          <td><?php echo $user_cnum ?></td>
+                          <td><?php echo $user_dob ?></td>
+                         
+                         </tr>
+                      
+                      <?php } ?>
+
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
+
+
+
               <div class="card-footer bg-whitesmoke"> </div>
             </div>
           </div>

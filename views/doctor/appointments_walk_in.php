@@ -62,8 +62,8 @@
             </li>
           
              <li class="nav-item active dropdown">
-                <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-user-friends"></i>
-                  <span>Manage Patients</span>
+                <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-calendar-check"></i>
+                  <span>Manage Appointments</span>
                 </a>
                   <ul class="dropdown-menu" style="display: none;">
                       <li class="nav-item"><a href="appointments_book.php" class="nav-link"> <span>Book Appointment</span> </a></li>
@@ -71,6 +71,11 @@
                       <li class="nav-item active"><a href="appointments_walk_in.php" class="nav-link"> <span>Walk-in Appointment</span> </a></li>
                     </ul>
                 </li>
+
+            <li class="nav-item">
+              <a href="patients.php" class="nav-link"><i class="fas fa-user-friends"></i><span>Manage Patients</span></a>
+            </li>
+
 
             <li class="nav-item">
               <a href="schedules.php" class="nav-link"><i class="fas fa-clock"></i><span>Schedules</span></a>

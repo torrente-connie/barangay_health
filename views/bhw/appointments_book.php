@@ -101,11 +101,11 @@
                             <th>Appointment Doctor</th>
                             <th>Patient Name</th>
                             <th>Medical Service</th>
-                           <!--     <th>Appointment Date</th>
-                            <th>Appointment Time</th> -->
                             <th>Appointment Status</th>
-                            <th>Appointment Details</th>
-                            <th></th>
+                            <th>Appointment Date</th>
+                            <th>Appointment Time</th>
+                            <!-- <th>Appointment Details</th>
+                            <th></th> -->
                           </tr>
                         </thead>
                         <tbody>
@@ -142,7 +142,7 @@
                       ON a.appointment_patient_id = p.user_id 
                       JOIN doctor_schedule_time dst 
                       ON a.appointment_selected_time = dst.schedule_time_id
-                      WHERE a.appointment_type = 'bookappointment'
+                      WHERE a.appointment_type = 'bookappointment' OR a.appointment_status IN (0,6,7)
                       ORDER BY a.appointment_id ASC
                       ";
 
@@ -222,7 +222,8 @@
                           // if status = cancel
                           } else if($appointment_status == 2) { ?>
 
-                            <span class="badge badge-danger badge-pill">Danger</span>
+                            <span class="badge badge-danger badge-pill">Cancel</span>
+                            <p>Reason: <?php echo $appointment_reason ?></p>
 
                           <?php 
                           // if status = accept
@@ -237,11 +238,11 @@
                           <?php } ?>
                               
                           </td>
-                          <!--    <td><?php //echo $appoint_schedule_date ?></td>
-                          <td><?php //echo $format_start ?> - <?php //echo $format_end ?></td> -->
-                          <td>
+                          <td><?php echo $appoint_schedule_date ?></td>
+                          <td><?php echo $format_start ?> - <?php echo $format_end ?></td> 
+                         <!--  <td>
                             <button class="btn btn-info btn-block btn-sm" data-toggle="modal" data-target="#appointmentDetails"> View Details </button>
-                          </td>
+                          </td> -->
                           <td>
 
                           <?php  
@@ -249,6 +250,7 @@
                           if($appointment_status == 1) {
 
                           ?>
+
                             <a href="#acceptAppointmentBhw" class="btn btn-primary text-white btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Accept</a>
                             <a href="#cancelAppointmentBhw" class="btn btn-danger btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> Cancel </a>
 
@@ -256,15 +258,16 @@
                           // if status = cancel
                           } else if($appointment_status == 2) { ?>
 
-                             <a class="btn btn-disabled text-white btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Accept</a>
-                             <a class="btn btn-disabled btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> Cancel </a>
-
+                            
                           <?php 
                           // if status = accept
                           } else if($appointment_status == 3) { ?>
 
-                             <a class="btn btn-light text-dark  btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Accept</a>
-                             <a class="btn btn-light text-dark btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> Cancel </a>
+                        
+                          <?php } else if($appointment_status == 4) { ?>
+
+                             <a href="#acceptAppointmentBhw" class="btn btn-primary text-white btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Proceed Appointment</a>
+                             <a href="#cancelAppointmentBhw" class="btn btn-danger btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> No Show </a>
 
                           <?php } ?>
                           </td>
@@ -353,7 +356,7 @@
               
               <form method="POST" action="../../backend/bhw_appointment_book.php">
 
-                  <input type="hidden" name="acceptID" id="acceptID">
+                  <input type="text" name="acceptID" id="acceptID">
 
                   <div class="form-group mt-4">
                     <button type="submit" name="acceptAppointmentSubmit" class="btn btn-success btn-block" tabindex="4">
@@ -387,7 +390,7 @@
               
               <form method="POST" action="../../backend/bhw_appointment_book.php">
 
-                  <input type="hidden" name="cancelID" id="cancelID">
+                  <input type="text" name="cancelID" id="cancelID">
 
                   <div class="form-group mt-4">
                     <label for="reason">Reason</label>

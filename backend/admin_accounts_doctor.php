@@ -26,6 +26,9 @@ function addDoctor() {
     $doc_status = 1;
     $doc_bool = 1;
 
+    // add default image;
+    $doc_default_image = '../assets/img/user.png';
+
 
 	// get unique id number, username and password 
 	$getUniqueSql = "SELECT COUNT(*) FROM user 
@@ -37,8 +40,8 @@ function addDoctor() {
 	$doc_uname = 'BH'.''.$getUniqueYear.''.$getUniqueAccNum.''.$displayUnique[0];
 	$doc_pass = md5($doc_email);
 
-    $sql = "INSERT INTO user (user_id,user_account_id,user_email,user_password,user_firstname,user_middlename,user_lastname,user_dob,user_cnum,user_type,user_status,user_bool) VALUES
-	(NULL,'$doc_uname','$doc_email','$doc_pass','$doc_fname','$doc_mname','$doc_lname','$doc_dob','$doc_pnum','$doc_type','$doc_status','$doc_bool')";
+    $sql = "INSERT INTO user (user_id,user_account_id,user_email,user_password,user_firstname,user_middlename,user_lastname,user_dob,user_cnum,user_type,user_image,user_status,user_bool) VALUES
+	(NULL,'$doc_uname','$doc_email','$doc_pass','$doc_fname','$doc_mname','$doc_lname','$doc_dob','$doc_pnum','$doc_type','$doc_default_image','$doc_status','$doc_bool')";
 
 	$result = mysqli_query($conn,$sql);
 

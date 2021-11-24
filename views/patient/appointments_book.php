@@ -106,10 +106,10 @@
                             <th>Appointment Doctor</th>
                             <th>Patient Name</th>
                             <th>Medical Service</th>
-                           <!--     <th>Appointment Date</th>
-                            <th>Appointment Time</th> -->
+                            <th>Appointment Date</th>
+                            <th>Appointment Time</th>
                             <th>Appointment Status</th>
-                            <th>Appointment Details</th>
+                          <!--   <th>Appointment Details</th> -->
                             <th></th>
                           </tr>
                         </thead>
@@ -230,6 +230,7 @@
                           } else if($appointment_status == 2) { ?>
 
                             <span class="badge badge-danger badge-pill">Cancel</span>
+                            <p>Reason: <?php echo $appointment_reason ?></p>
 
                           <?php 
                           // if status = accept
@@ -244,40 +245,33 @@
                           <?php } ?>
                               
                           </td>
-                          <!--    <td><?php //echo $appoint_schedule_date ?></td>
-                          <td><?php //echo $format_start ?> - <?php //echo $format_end ?></td> -->
-                          <td>
+                          <td><?php echo $appoint_schedule_date ?></td>
+                          <td><?php echo $format_start ?> - <?php echo $format_end ?></td>
+                         <!--  <td>
                             <button class="btn btn-info btn-block btn-sm" data-toggle="modal" data-target="#appointmentDetails"> View Details </button>
-                          </td>
+                          </td> -->
                           <td>
 
                           <?php  
+
                           // if status = pending
                           if($appointment_status == 1) {
 
                           ?>
 
-                             <a class="btn btn-light text-dark  btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Accept</a>
-                             <a class="btn btn-light text-dark btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> Cancel </a>
-
-
                           <?php 
                           // if status = cancel
                           } else if($appointment_status == 2) { ?>
 
-                             <a class="btn btn-light text-dark  btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Accept</a>
-                             <a class="btn btn-light text-dark btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> Cancel </a>
-
-
+                           
                           <?php 
                           // if status = accept
                           } else if($appointment_status == 3) { ?>
 
-                             <a class="btn btn-light text-dark  btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Accept</a>
-                             <a class="btn btn-light text-dark btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> Cancel </a>
-
-
-                          <?php } else if($appointment_status == 4) { ?>
+                           
+                          <?php 
+                          // if status = approve
+                          } else if($appointment_status == 4) { ?>
 
 
                            
