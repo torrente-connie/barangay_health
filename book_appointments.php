@@ -206,7 +206,7 @@
                         <div class="row">
                           <div class="form-group col-md-4 col-12">
                             <label>First Name</label>
-                            <input type="text" class="form-control" value="<?php echo $pfname ?>" name="patient_firstname">
+                            <input type="text" class="form-control" value="<?php echo $pfname ?>" name="patient_firstname" required>
                           </div>
                            <div class="form-group col-md-4 col-12">
                             <label>Middle Name</label>
@@ -214,23 +214,23 @@
                           </div>
                            <div class="form-group col-md-4 col-12">
                             <label>Last Name</label>
-                            <input type="text" class="form-control" value="<?php echo $plname ?>" name="patient_lastname">
+                            <input type="text" class="form-control" value="<?php echo $plname ?>" name="patient_lastname" required>
                           </div>
                         </div>
                          <div class="row">
                           <div class="form-group col-md-6 col-12">
                             <label>Email</label>
-                            <input type="email" class="form-control" placeholder="Enter Email Address" name="patient_email">
+                            <input type="email" class="form-control" placeholder="Enter Email Address" name="patient_email" required>
                           </div>
                            <div class="form-group col-md-6 col-12">
                             <label>Phone Number</label>
-                            <input type="text" class="form-control" placeholder="Enter Phone Number" name="patient_phonenumber">
+                            <input type="text" class="form-control" placeholder="Enter Phone Number" name="patient_phonenumber" required>
                           </div>
                         </div>
                          <div class="row">
                           <div class="form-group col-md-6 col-12">
                             <label>Selected Date</label>
-                            <input type="text" id="datepicker" class="form-control" placeholder="MM/DD/YYYY" name="selected_date">
+                            <input type="text" id="datepicker" class="form-control" placeholder="MM/DD/YYYY" name="selected_date" required>
                           </div>
 
                           <div class="form-group col-md-6 col-12">

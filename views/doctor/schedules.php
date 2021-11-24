@@ -156,7 +156,7 @@
                       ?>   
                       <tr>
                         <td><?php echo $display_day ?></td>
-                        <td><?php echo $format_start ?> - <?php echo $format_end ?> <span class="badge badge-success ml-2"> <?php echo $sched_time_interval ?></span></td>
+                        <td><?php echo $format_start ?> - <?php echo $format_end ?> <!-- <span class="badge badge-success ml-2"> <?php // echo $sched_time_interval ?></span> --> </td>
                         <!-- <td><span></span></td> -->
                         <td><a class="btn btn-info text-white" href="schedule_time.php?sched_id=<?php echo $rowDoctorSched['schedule_id']?>&ti=<?php echo $sched_time_interval?>">View Time Schedules</a></td>
                         <td>

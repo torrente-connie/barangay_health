@@ -90,7 +90,7 @@
       <div class="main-content" style="min-height: 566px;">
         <section class="section">
           <div class="section-header">
-            <h1>Patient Accounts</h1>
+            <h1>List of patients <!-- - <?php //echo date('Y-m-d'); ?> --></h1>
             </div>
 
    
@@ -99,7 +99,7 @@
               <div class="card-header">
                  <h4></h4>
                   <div class="card-header-action">
-                    <a href="class_add.php" class="btn btn-success btn-sm">Add Class</a>
+                   <!--  <a href="class_add.php" class="btn btn-success btn-sm">Add Class</a> -->
                   </div>
               </div>
  
@@ -109,15 +109,15 @@
                         <thead class="thead-light">
                           <tr>
                             <th>Account ID</th>
-                            <th>Fullname</th>
-                            <th>User Type</th>
+                            <th>Patient Name</th>
+                            <th>Medical Service</th>
                             <th>Contact Number</th>
-                            <th>Date of Birth</th>
+                            <th></th>
                           </tr>
                         </thead>
                         <tbody>
 
-                      <?php 
+                    <!--   <?php 
 
                       // query for getting patient
                       $sqlPatient = "SELECT * FROM user
@@ -154,7 +154,7 @@
                          </tr>
                       
                       <?php } ?>
-
+ -->
                         </tbody>
                       </table>
                     </div>

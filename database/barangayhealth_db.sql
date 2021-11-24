@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 27, 2021 at 03:49 PM
+-- Generation Time: Nov 24, 2021 at 05:09 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -41,17 +41,9 @@ CREATE TABLE `appointment` (
   `appointment_selected_service` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `appointment_type` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `appointment_status` tinyint(4) NOT NULL,
+  `appointment_reason` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `appointment_bool` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `appointment`
---
-
-INSERT INTO `appointment` (`appointment_id`, `appointment_doctor_id`, `appointment_patient_id`, `appointment_patient_fname`, `appointment_patient_mname`, `appointment_patient_lname`, `appointment_patient_email`, `appointment_patient_pnum`, `appointment_selected_date`, `appointment_selected_time`, `appointment_selected_service`, `appointment_type`, `appointment_status`, `appointment_bool`) VALUES
-(4, 3, 2, 'Chad', 'S', 'Gothong', 'benedict_gothong@yahoo.com', '+639328734193', '2021-10-26', 19, 'Maternal Check-up', 'bookappointment', 1, 1),
-(5, 3, 2, 'Chad123', 'S', 'Gothong', 'benedict_gothong@yahoo.com', '+639328734193', '2021-10-29', 23, 'Health Check-up', 'bookappointment', 1, 1),
-(6, 3, 2, 'Chad', 'S', 'Gothong', 'benedict_gothong@yahoo.com', '+639328734193', '2021-10-29', 22, '', 'onlineappointment', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -133,8 +125,7 @@ INSERT INTO `doctor_schedule_time` (`schedule_time_id`, `schedule_id`, `schedule
 (20, 10, '09:00:00', '10:00:00', 60, 1),
 (21, 10, '10:00:00', '11:00:00', 60, 1),
 (22, 11, '08:00:00', '09:00:00', 60, 1),
-(23, 11, '09:00:00', '10:00:00', 60, 1),
-(24, 11, '10:00:00', '11:00:00', 60, 1);
+(23, 11, '09:00:00', '10:00:00', 60, 1);
 
 -- --------------------------------------------------------
 
@@ -161,13 +152,6 @@ CREATE TABLE `online_consultation` (
   `online_consultation_message` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `online_consultation_status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `online_consultation`
---
-
-INSERT INTO `online_consultation` (`online_consultation_id`, `online_consultation_user_id`, `online_consultation_message`, `online_consultation_status`) VALUES
-(1, 2, 'asdasdasdasdasda', 1);
 
 -- --------------------------------------------------------
 
@@ -218,8 +202,7 @@ INSERT INTO `user` (`user_id`, `user_account_id`, `user_email`, `user_password`,
 (1, 'BH20210650', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'Connie Rose', 'T', 'Torrente', '2021-06-20', '09254540012', 'Administrator', '../assets/img/profile_pictures/2021-10-04_1-41_cupcake2.jpg', 1, 1),
 (2, 'BH20210800', 'patient@gmail.com', 'b39024efbc6de61976f585c8421c6bba', 'Nina Angelina', 'S', 'Morcilla', '2021-06-20', '09234567894', 'Patient', '../assets/img/profile_pictures/2021-10-02_profile-angelina.jpg', 1, 1),
 (3, 'BH20210680', 'doctor@gmail.com', 'f9f16d97c90d8c6f2cab37bb6d1f1992', 'Remie Kaye', 'B', 'Pulmones', '2021-06-20', '09284561234', 'Doctor', '../assets/img/profile_pictures/2021-10-02_profile-remie.jpg', 1, 1),
-(4, 'BH20210660', 'bhw@gmail.com', '6adcff9bb6c324d349dfd67c82e1e832', 'Gerald', 'S', 'Montoya', '2021-06-20', '09287154234', 'Barangay Health Worker', '../assets/img/profile_pictures/2021-10-02_profile-austin.jpg', 1, 1),
-(14, 'BH20210681', 'chad@gmail.com', '84bd008db7403006e47cba4042e2d68a', 'Chad', 'A', 'Gothong', '0000-00-00', '+639328734193', 'Doctor', '', 1, 1);
+(4, 'BH20210660', 'bhw@gmail.com', '6adcff9bb6c324d349dfd67c82e1e832', 'Gerald', 'S', 'Montoya', '2021-06-20', '09287154234', 'Barangay Health Worker', '../assets/img/profile_pictures/2021-10-02_profile-austin.jpg', 1, 1);
 
 --
 -- Indexes for dumped tables
@@ -281,7 +264,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `appointment`
 --
 ALTER TABLE `appointment`
-  MODIFY `appointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `appointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `appointment_old`
@@ -293,13 +276,13 @@ ALTER TABLE `appointment_old`
 -- AUTO_INCREMENT for table `doctor_schedule`
 --
 ALTER TABLE `doctor_schedule`
-  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `doctor_schedule_time`
 --
 ALTER TABLE `doctor_schedule_time`
-  MODIFY `schedule_time_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `schedule_time_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `medical_history`
@@ -323,7 +306,7 @@ ALTER TABLE `service`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

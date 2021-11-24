@@ -266,8 +266,8 @@
                         
                           <?php } else if($appointment_status == 4) { ?>
 
-                             <a href="#acceptAppointmentBhw" class="btn btn-primary text-white btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Proceed Appointment</a>
-                             <a href="#cancelAppointmentBhw" class="btn btn-danger btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> No Show </a>
+                             <a href="#123acceptAppointmentBhw" class="btn btn-primary text-white btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Proceed Appointment</a>
+                             <a href="#123cancelAppointmentBhw" class="btn btn-danger btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> No Show </a>
 
                           <?php } ?>
                           </td>
@@ -356,7 +356,7 @@
               
               <form method="POST" action="../../backend/bhw_appointment_book.php">
 
-                  <input type="text" name="acceptID" id="acceptID">
+                  <input type="hidden" name="acceptID" id="acceptID">
 
                   <div class="form-group mt-4">
                     <button type="submit" name="acceptAppointmentSubmit" class="btn btn-success btn-block" tabindex="4">
@@ -390,7 +390,7 @@
               
               <form method="POST" action="../../backend/bhw_appointment_book.php">
 
-                  <input type="text" name="cancelID" id="cancelID">
+                  <input type="hidden" name="cancelID" id="cancelID">
 
                   <div class="form-group mt-4">
                     <label for="reason">Reason</label>

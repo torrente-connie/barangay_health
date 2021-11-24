@@ -114,68 +114,154 @@
                       <table class="table table-hover table-bordered" id="table-subject">
                         <thead class="thead-light">
                           <tr>
+                            <th>Appointment Booked By</th>
+                            <th>Appointment Doctor</th>
                             <th>Patient Name</th>
                             <th>Medical Service</th>
-                            <th>Doctor</th>
-                            <th>Appointment Time</th>
                             <th>Appointment Date</th>
+                            <th>Appointment Time</th>
+                            <th>Appointment Status</th>
+                           <!--  <th>Appointment Details</th> -->
                           </tr>
                         </thead>
                         <tbody>
 
-                      <?php 
+                        <?php 
 
-                      // query for appointment
                       $sql = "SELECT 
+                      d.user_account_id as doctor_account,
                       d.user_firstname  as doc_fname, 
                       d.user_middlename as doc_mname, 
                       d.user_lastname   as doc_lname,
                       p.user_firstname  as patient_fname,
                       p.user_middlename as patient_mname,
                       p.user_lastname   as patient_lname,
-                      s.service_name
+                      p.user_account_id as patient_account,
+                      a.appointment_id as appointment_id,
+                      a.appointment_patient_fname as appoint_pfname,
+                      a.appointment_patient_mname as appoint_pmname,
+                      a.appointment_patient_lname as appoint_plname,
+                      a.appointment_patient_email as appoint_pemail,
+                      a.appointment_patient_pnum as appoint_ppnum,
+                      a.appointment_selected_date as appoint_date,
+                      a.appointment_selected_time as appoint_dst_id, 
+                      dst.schedule_start_time as appoint_start_time,
+                      dst.schedule_end_time as appoint_end_time,
+                      a.appointment_selected_service as appoint_service,
+                      a.appointment_type as appointment_type,
+                      a.appointment_status as appointment_status,
+                      a.appointment_reason as appointment_reason
                       FROM appointment a
-                      JOIN user d
-                      ON a.appointment_doctor_id = d.user_id
-                      JOIN service s 
-                      ON a.appointment_service_id = s.service_id
+                      JOIN user d 
+                      ON a.appointment_doctor_id = d.user_id 
                       JOIN user p 
-                      ON a.appointment_user_id = p.user_id
-                      WHERE a.appointment_consultation_type = 'Online Appointment'
+                      ON a.appointment_patient_id = p.user_id 
+                      JOIN doctor_schedule_time dst 
+                      ON a.appointment_selected_time = dst.schedule_time_id
+                      WHERE a.appointment_type = 'onlineappointment'
+                      ORDER BY a.appointment_id ASC
                       ";
+
                       $result = mysqli_query($connection,$sql);
 
                       while($row = mysqli_fetch_assoc($result)) {
                     
                       // doctor fullname
+                      $doc_account      = $row['doctor_account'];
                       $doc_firstname    = ucfirst($row['doc_fname']);
                       $doc_middlename   = ucfirst($row['doc_mname']);
                       $doc_lastname     = ucfirst($row['doc_lname']);
 
                       $doc_name = $doc_firstname.' '.$doc_middlename.'.'.' '.$doc_lastname;
 
-                      // patient fullname
+                      // user patient fullname
+                      $patient_account      = $row['patient_account'];
                       $patient_firstname    = ucfirst($row['patient_fname']);
                       $patient_middlename   = ucfirst($row['patient_mname']);
                       $patient_lastname     = ucfirst($row['patient_lname']);
 
                       $patient_name = $patient_firstname.' '.$patient_middlename.'.'.' '.$patient_lastname;
 
-                      
-                      // service info
-                      $service_name = $row['service_name'];
+                      // appointed patient
+                      $appoint_pfname    = ucfirst($row['appoint_pfname']);
+                      $appoint_pmname   = ucfirst($row['appoint_pmname']);
+                      $appoint_plname     = ucfirst($row['appoint_plname']);
 
+                      $appoint_patient_name = $appoint_pfname.' '.$appoint_pmname.'.'.' '.$appoint_plname;
+
+                      // the appointed patient name
+                      $appoint_patient_email = $row['appoint_pemail'];
+                      $appoint_patient_email = $row['appoint_ppnum'];
+
+                      // appointment schedules
+                      $time_schedule_id = $row['appoint_dst_id'];
+                      $appoint_schedule_date = $row['appoint_date'];
+
+                      $appoint_start_time = $row['appoint_start_time'];
+                      $appoint_end_time = $row['appoint_end_time'];
+
+                      // appointment service and booking appointment type
+                      $appoint_service = $row['appoint_service'];
+                      $appoint_type = $row['appointment_type'];
+
+                      // format time
+                      $format_start = date("h:i:A", strtotime($appoint_start_time));
+                      $format_end   = date("h:i:A", strtotime($appoint_end_time));
+
+
+                      // for tool tip
+                      $acname_tooltip = $patient_name;
+
+                      // id
+                      $appointment_id = $row['appointment_id'];
+
+                      // reason
+                      $appointment_reason = $row['appointment_reason'];
+
+                      $appointment_status = $row['appointment_status'];
 
                       ?>
 
                         <tr>
-                          <td><?php echo $patient_name ?></td>
-                          <td><?php echo $service_name ?></td>
+                          <td><a href="#" style="text-decoration: none;"><?php echo $patient_name ?></a></td>
                           <td><?php echo $doc_name ?></td>
-                          <td>12:00PM - 1:30PM</td>
-                          <td>8/6/2021</td>
-                         
-                         </tr>
+                          <td><?php echo $appoint_patient_name ?></td>
+                          <td><?php //echo $appoint_service ?> None </td>
+                          <td>
+                          <?php  
+                          // if status = pending
+                          if($appointment_status == 1) {
+
+                          ?>
+                            <span class="badge badge-primary badge-pill">Pending</span>
+
+                          <?php 
+                          // if status = cancel
+                          } else if($appointment_status == 2) { ?>
+
+                            <span class="badge badge-danger badge-pill">Cancel</span>
+
+                            <p>Reason: <?php echo $appointment_reason ?></p>
+
+                          <?php 
+                          // if status = accept
+                          } else if($appointment_status == 3) { ?>
+
+                            <span class="badge badge-info badge-pill">Accepted</span>
+
+                          <?php } else if($appointment_status == 4) { ?>
+
+                            <span class="badge badge-success badge-pill">Approved</span>
+
+                          <?php } ?>
+                              
+                          </td>
+                          <td><?php echo $appoint_schedule_date ?></td>
+                          <td><?php echo $format_start ?> - <?php echo $format_end ?></td> 
+                          <!-- <td>
+                            <button class="btn btn-info btn-block btn-sm" data-toggle="modal" data-target="#appointmentDetails"> View Details </button>
+                          </td> -->
+                        </tr>
                       
                       <?php } ?>
 
