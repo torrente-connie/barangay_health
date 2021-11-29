@@ -246,13 +246,13 @@
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="book_appointment" id="exampleRadios1" value="bookappointment" checked="">
                               <label class="form-check-label" for="exampleRadios1">
-                                Book Appointment
+                                Face to Face Appointment
                               </label>
                             </div>
                              <div class="form-check">
                               <input class="form-check-input" type="radio" name="book_appointment" value="onlineappointment" id="exampleRadios2" >
                               <label class="form-check-label" for="exampleRadios2">
-                                Online Appointment
+                                Virtual Consultation Appointment
                               </label>
                             </div>
                           </div>

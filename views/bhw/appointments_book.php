@@ -66,8 +66,8 @@
                   <span>Appointments</span>
                 </a>
                   <ul class="dropdown-menu" style="display: none;">
-                      <li class="nav-item active"><a href="appointments_book.php" class="nav-link"> <span>Book Appointment</span> </a></li>
-                      <li class="nav-item"><a href="appointments_oc.php" class="nav-link"> <span>Online Consultation</span> </a></li>
+                      <li class="nav-item active"><a href="appointments_book.php" class="nav-link" style="padding-right:0 !important"> <span>Face to Face Appointment</span> </a></li>
+                      <li class="nav-item"><a href="appointments_oc.php" class="nav-link"> <span>Virtual Consultation</span> </a></li>
                       <li class="nav-item"><a href="appointments_walk_in.php" class="nav-link"> <span>Walk-in Appointment</span> </a></li>
                     </ul>
                 </li>
@@ -80,7 +80,7 @@
       <div class="main-content" style="min-height: 566px;">
         <section class="section">
           <div class="section-header">
-            <h1>Book Appointments</h1>
+            <h1>Face to Face Appointments</h1>
             </div>
 
    

@@ -18,6 +18,7 @@
   <!-- Newly Added -->
   <link rel="stylesheet" href="../../assets/vendors/bootstrap-social/bootstrap-social.css">
 
+
 </head>
 
 <?php 
