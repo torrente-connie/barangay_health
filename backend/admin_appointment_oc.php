@@ -49,7 +49,6 @@ function getAllDataForAppointmentBook(){
     echo json_encode($row);
 }
 
-
 // code for accept appointment
 if(isset($_POST['approveAppointmentSubmit'])) {
 	
@@ -62,10 +61,10 @@ if(isset($_POST['approveAppointmentSubmit'])) {
 
 	if($result) {
 	 	$alert="Appointment Book Approve by Doctor ";
-			header("Location:../views/doctor/appointments_book.php?s=".$alert);
+			header("Location:../views/doctor/appointments_oc.php?s=".$alert);
 		}else{
 		 $alert="Error";
-			header("Location:../views/doctor/appointments_book.php?s=".$alert);
+			header("Location:../views/doctor/appointments_oc.php?s=".$alert);
 		}	
 	}
 
@@ -82,10 +81,10 @@ if(isset($_POST['rescheduleAppointmentSubmit'])) {
 
 	if($result) {
 	 	$alert="Appointment Book Cancel by Barangay Health Worker";
-			header("Location:../views/doctor/appointments_book.php?s=".$alert);
+			header("Location:../views/doctor/appointments_oc.php?s=".$alert);
 		}else{
 		 $alert="Error";
-			header("Location:../views/doctor/appointments_book.php?s=".$alert);
+			header("Location:../views/doctor/appointments_oc.php?s=".$alert);
 		}	
 	}
 
