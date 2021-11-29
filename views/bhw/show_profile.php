@@ -98,7 +98,7 @@
 			<nav class="navbar navbar-secondary navbar-expand-lg">
 				<div class="container">
 					<ul class="navbar-nav">
-						<li class="nav-item active">
+						<li class="nav-item">
 							<a href="dashboard.php" class="nav-link"><i class="fas fa-columns"></i><span>Dashboard</span></a>
 						</li>
 
@@ -107,9 +107,9 @@
 									<span>Appointments</span>
 								</a>
 									<ul class="dropdown-menu" style="display: none;">
-											<li class="nav-item"><a href="#appointments_book.php" class="nav-link" style="padding-right:0 !important"> <span>Face to Face Appointment</span> </a></li>
-											<li class="nav-item"><a href="#appointments_oc.php" class="nav-link"> <span>Virtual Consultation</span> </a></li>
-											<li class="nav-item"><a href="#appointments_walk_in.php" class="nav-link"> <span>Walk-in Appointment</span> </a></li>
+											<li class="nav-item"><a href="appointments_book.php" class="nav-link" style="padding-right:0 !important"> <span>Face to Face Appointment</span> </a></li>
+											<li class="nav-item"><a href="appointments_oc.php" class="nav-link"> <span>Virtual Consultation</span> </a></li>
+											<li class="nav-item"><a href="appointments_walk_in.php" class="nav-link"> <span>Walk-in Appointment</span> </a></li>
 										</ul>
 								</li>
 

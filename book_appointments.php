@@ -260,7 +260,7 @@
                              <label>Select Barangay Health Service</label>
                               <select class="form-control" name="selected_service" id="selected_service" required>
                                  <option value="" hidden id="get_service"></option>
-                                 <option selected hidden value="">Choose A Health Service</option>
+                                 <option selected hidden>Choose A Health Service</option>
                                  <option value="Maternal Check-up">Maternal Check-up</option>
                                  <option value="Senior Citizen Check-up">Senior Citizen Check-up</option>
                                  <option value="Health Check-up">Health Check-up</option>
