@@ -106,9 +106,9 @@
                             <th>Appointment Doctor</th>
                             <th>Patient Name</th>
                             <th>Medical Service</th>
-                            <th>Appointment Date</th>
-                            <!-- <th>Appointment Time</th>
-                            <th>Appointment Status</th> -->
+                            <!-- <th>Appointment Date</th>
+                            <th>Appointment Time</th> -->
+                            <th>Appointment Status</th>
                             <th>Appointment Details</th>
                             <th></th>
                           </tr>
@@ -252,6 +252,7 @@
                              <button class="btn btn-info btn-sm btn-block appointmentDetailsPatient" id='<?php echo $appointment_id ?>'> View Details </button> 
 
                           </td>
+                          
                           <td>
 
                           <?php  

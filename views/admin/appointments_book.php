@@ -117,10 +117,10 @@
                             <th>Appointment Booked By</th>
                             <th>Appointment Doctor</th>
                             <th>Patient Name</th>
-                            <th>Medical Service</th>
-                            <th>Appointment Date</th><!-- 
-                            <th>Appointment Time</th>
-                            <th>Appointment Status</th> -->
+                            <th>Medical Service</th><!-- 
+                            <th>Appointment Date</th> 
+                            <th>Appointment Time</th> -->
+                            <th>Appointment Status</th> 
                             <th>Appointment Details</th>
                           </tr>
                         </thead>

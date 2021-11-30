@@ -3,14 +3,14 @@
 require("dbconn.php");
 
 //fetch data for subject using update,delete and view
-if(isset($_POST['bookID'])){
-  getAllDataForAppointmentBook();
+if(isset($_POST['ocID'])){
+  getAllDataForAppointmentOnlineConsult();
 }
 
 
-function getAllDataForAppointmentBook(){
+function getAllDataForAppointmentOnlineConsult(){
     $conn = dbConn();
-    $id = $_POST['bookID'];
+    $id = $_POST['ocID'];
     $sql = "SELECT 
     		d.user_id as doctor_id,
             d.user_account_id as doctor_account,

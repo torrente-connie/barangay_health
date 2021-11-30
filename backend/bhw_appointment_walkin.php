@@ -3,14 +3,14 @@
 require("dbconn.php");
 
 //fetch data for subject using update,delete and view
-if(isset($_POST['ocID'])){
-  getAllDataForAppointmentOnlineConsultation();
+if(isset($_POST['walkInID'])){
+  getAllDataForAppointmentWalkIn();
 }
 
 
-function getAllDataForAppointmentOnlineConsultation(){
+function getAllDataForAppointmentWalkIn(){
     $conn = dbConn();
-    $id = $_POST['ocID'];
+    $id = $_POST['walkInID'];
     $sql = "SELECT 
     		d.user_id as doctor_id,
             d.user_account_id as doctor_account,
@@ -51,41 +51,41 @@ function getAllDataForAppointmentOnlineConsultation(){
 
 
 // code for accept appointment
-if(isset($_POST['approveAppointmentSubmit'])) {
+if(isset($_POST['acceptAppointmentSubmit'])) {
 	
 	$connection = dbConn();
-	$approveID = $_POST['approveID'];
+	$acceptID = $_POST['acceptID'];
 	$reason = "";
 	
-	$sql = "UPDATE appointment SET `appointment_status` = '4', `appointment_reason` = '$reason' WHERE appointment_id = '$approveID' ";
+	$sql = "UPDATE appointment SET `appointment_status` = '3', `appointment_reason` = '$reason' WHERE appointment_id = '$acceptID' ";
 	$result = mysqli_query($connection,$sql);
 
 	if($result) {
-	 	$alert="Appointment Book Approve by Doctor ";
-			header("Location:../views/doctor/appointments_oc.php?s=".$alert);
+	 	$alert="Appointment Book Accept by Barangay Health Worker";
+			header("Location:../views/bhw/appointments_oc.php?s=".$alert);
 		}else{
 		 $alert="Error";
-			header("Location:../views/doctor/appointments_oc.php?s=".$alert);
+			header("Location:../views/bhw/appointments_oc.php?s=".$alert);
 		}	
 	}
 
 
 // code for cancel appointment
-if(isset($_POST['rescheduleAppointmentSubmit'])) {
+if(isset($_POST['cancelAppointmentSubmit'])) {
 	
 	$connection = dbConn();
-	$rescheduleID = $_POST['rescheduleID'];
+	$cancelID = $_POST['cancelID'];
 	$reason = $_POST['reason'];
 
-	$sql = "UPDATE appointment SET `appointment_status` = '5', `appointment_reason` = '$reason' WHERE appointment_id = '$rescheduleID' ";
+	$sql = "UPDATE appointment SET `appointment_status` = '2', `appointment_reason` = '$reason' WHERE appointment_id = '$cancelID' ";
 	$result = mysqli_query($connection,$sql);
 
 	if($result) {
 	 	$alert="Appointment Book Cancel by Barangay Health Worker";
-			header("Location:../views/doctor/appointments_oc.php?s=".$alert);
+			header("Location:../views/bhw/appointments_oc.php?s=".$alert);
 		}else{
 		 $alert="Error";
-			header("Location:../views/doctor/appointments_oc.php?s=".$alert);
+			header("Location:../views/bhw/appointments_oc.php?s=".$alert);
 		}	
 	}
 

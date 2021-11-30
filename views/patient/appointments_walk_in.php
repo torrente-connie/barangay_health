@@ -101,14 +101,14 @@
                       <table class="table table-hover table-bordered" id="table-subject">
                         <thead class="thead-light">
                          <tr>
-                            <!-- <th>Appointment Booked By</th> -->
+                            <th>Appointment Booked By</th>
                             <th>Appointment Doctor</th>
                             <th>Patient Name</th>
                             <th>Medical Service</th>
-                            <th>Appointment Date</th>
-                            <th>Appointment Time</th>
+                           <!--  <th>Appointment Date</th>
+                            <th>Appointment Time</th> -->
                             <th>Appointment Status</th>
-                          <!--   <th>Appointment Details</th> -->
+                            <th>Appointment Details</th>
                             <th></th>
                           </tr>
                         </thead>
@@ -216,9 +216,10 @@
                           <td><?php echo $doc_name ?></td>
                           <td><?php echo $appoint_patient_name ?></td>
 
-                          <?php if($appointment_type == 'onlineappointment') { ?>
+                          <?php if($appointment_type == 'walkinappointment') { ?>
                             <td>None</td>
                           <?php } ?>
+                          
                           <td>
                           <?php  
                           // if status = pending
@@ -231,7 +232,8 @@
                           // if status = cancel
                           } else if($appointment_status == 2) { ?>
 
-                            <span class="badge badge-danger badge-pill">Danger</span>
+                            <span class="badge badge-danger badge-pill">Cancel</span>
+                            <p>Reason: <?php echo $appointment_reason ?></p>
 
                           <?php 
                           // if status = accept
@@ -239,37 +241,48 @@
 
                             <span class="badge badge-info badge-pill">Accepted</span>
 
+                          <?php } else if($appointment_status == 4) { ?>
+
+                            <span class="badge badge-success badge-pill">Approved</span>
+
                           <?php } ?>
                               
                           </td>
                           <td>
-                            <button class="btn btn-info btn-block btn-sm" data-toggle="modal" data-target="#appointmentDetails"> View Details </button>
+                           
+                             <button class="btn btn-info btn-sm btn-block appointmentDetailsPatient" id='<?php echo $appointment_id ?>'> View Details </button> 
                           </td>
+                              
                           <td>
 
                           <?php  
+
                           // if status = pending
                           if($appointment_status == 1) {
 
                           ?>
-                            <a href="#acceptAppointmentBhw" class="btn btn-primary text-white btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Accept</a>
-                            <a href="#cancelAppointmentBhw" class="btn btn-danger btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> Cancel </a>
 
                           <?php 
                           // if status = cancel
                           } else if($appointment_status == 2) { ?>
 
-                             <a class="btn btn-disabled text-white btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Accept</a>
-                             <a class="btn btn-disabled btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> Cancel </a>
-
+                           
                           <?php 
-                          // if status = approve
+                          // if status = accept
                           } else if($appointment_status == 3) { ?>
 
-                             <a class="btn btn-light text-dark  btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Accept</a>
-                             <a class="btn btn-light text-dark btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> Cancel </a>
+                           
+                          <?php 
+                          // if status = approve
+                          } else if($appointment_status == 4) { ?>
+
+
+                           
+                             <a href="pdf_test.php" target="_blank" class="btn btn-primary btn-sm">Print Schedule</a>
+
 
                           <?php } ?>
+
                           </td>
                         </tr>
                       
@@ -287,6 +300,109 @@
       </div>
     </div>
 
+   <!-- Modal for View Appointment Details -->
+       <div class="modal fade" tabindex="-1" role="dialog" id="appointmentDetailsPatient">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">View Appointment Details</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+              </div>
+             <div class="card-body">
+              
+              <ul class="list-group">
+                      <li class="list-group-item ">
+                        Date: <span id="view_appoint_date"></span>
+                      </li>
+                      <li class="list-group-item">
+                        Schedule Time: <span id="view_appoint_time"></span>
+                      </li>
+                       <li class="list-group-item">
+                        Appointment Status: <span id="view_appoint_status"></span>
+                      </li>
+                      <li class="list-group-item"> Reason: <span id="view_appointment_reason"></span>
+                      </li>
+                    </ul>        
+        
+              </div>
+            </div>
+          </div>
+        </div>
+
+                          <!-- Modal for View Appointment Details -->
+       <div class="modal fade" tabindex="-1" role="dialog" id="acceptAppointmentBhw">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Accept Appointment</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+              </div>
+             <div class="card-body">
+
+              <h4>Are you sure you want to accept this appointment?</h4>
+              
+              <form method="POST" action="../../backend/bhw_appointment_book.php">
+
+                  <input type="hidden" name="acceptID" id="acceptID">
+
+                  <div class="form-group mt-4">
+                    <button type="submit" name="acceptAppointmentSubmit" class="btn btn-success btn-block" tabindex="4">
+                      Yes
+                    </button>
+                    <button class="btn btn-danger btn-block" tabindex="4" data-dismiss="modal">
+                      No
+                    </button>
+                  </div>
+                </form>
+
+        
+              </div>
+            </div>
+          </div>
+        </div>
+
+     <!-- Modal for View Appointment Details -->
+       <div class="modal fade" tabindex="-1" role="dialog" id="cancelAppointmentBhw">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Cancel Appointment</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+              </div>
+             <div class="card-body">
+
+              <h4>Are you sure you want to cancel this appointment?</h4>
+              
+              <form method="POST" action="../../backend/bhw_appointment_book.php">
+
+                  <input type="hidden" name="cancelID" id="cancelID">
+
+                  <div class="form-group mt-4">
+                    <label for="reason">Reason</label>
+                    <input id="reason" type="text" class="form-control" name="reason" tabindex="1" required="" autofocus="" placeholder="Please state the reason for the cancellation of the appointment..">
+                  </div>
+
+                  <div class="form-group">
+                    <button type="submit" name="cancelAppointmentSubmit" class="btn btn-success" tabindex="4">
+                      Submit
+                    </button>
+                    <button class="btn btn-danger" tabindex="4" data-dismiss="modal">
+                      Close
+                    </button>
+                  </div>
+                </form>
+
+        
+              </div>
+            </div>
+          </div>
+        </div>
 
     
   
@@ -303,6 +419,66 @@
    <!-- Menu for Footer Links -->
     <?php require("scripts_footer.php"); ?>
     <!-- -->
+
+ <!-- View Details BHW -->
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(document).on('click','.appointmentDetailsPatient', function(){
+        var viewID = $(this).attr("id");
+        $.ajax({
+          url:"../../backend/patient_appointment_walkin.php",
+            method:"POST",
+            data:{walkInID:viewID},
+            dataType:"json",
+            success:function(data) {
+                // date format
+                var date = data.appoint_date;
+                var dateFormat = moment(date).format('MM/DD/YYYY');
+
+                var start_time = data.appoint_date + ' ' +data.appoint_start_time;
+                var startTimeFormat = moment(start_time).format('HH:mm A');
+
+                var end_time = data.appoint_date + ' ' +data.appoint_end_time;
+                var endTimeFormat = moment(end_time).format('HH:mm A');
+
+                var view_date = dateFormat;
+                var view_time = startTimeFormat + ' - ' + endTimeFormat;
+
+                // status format
+                if(data.appointment_status == 1) {
+                  $('#view_appoint_status').html("<span class='badge badge-primary badge-pill'>Pending</span>");
+                } else if(data.appointment_status == 2) {
+                  $('#view_appoint_status').html('');
+                } else if(data.appointment_status == 3) {
+                  $('#view_appoint_status').html("<span class='badge badge-info badge-pill'>Accepted</span>");
+                } else if(data.appointment_status == 4) {
+                  $('#view_appoint_status').html("<span class='badge badge-success badge-pill'>Approved</span>");
+                } else if(data.appointment_status == 5) {
+                  $('#view_appoint_status').html('');
+                } else if(data.appointment_status == 6) {
+                  $('#view_appoint_status').html('');
+                } else if(data.appointment_status == 7) {
+                  $('#view_appoint_status').html('');
+                } else if(data.appointment_status == 0) {
+                  $('#view_appoint_status').html("<span class='badge badge-success badge-pill'>Completed</span>");
+                }
+
+                // var test_result = "<span class='badge badge-danger'>Pending</span>";
+
+                // $('#accept_appoint_test').html(test_result);
+                
+          
+                // html - date and time
+                $('#view_appoint_date').html(view_date);
+                $('#view_appoint_time').html(view_time);
+                $('#view_appointment_reason').html(data.appointment_reason);
+                $('#appointmentDetailsPatient').modal('show');
+             }
+        })  
+    })
+});
+</script>
+
 
 
   </body>

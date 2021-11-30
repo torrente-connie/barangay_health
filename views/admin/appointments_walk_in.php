@@ -117,10 +117,10 @@
                             <th>Appointment Doctor</th>
                             <th>Patient Name</th>
                             <th>Medical Service</th>
-                            <th>Appointment Date</th>
-                            <th>Appointment Time</th>
+                           <!--  <th>Appointment Date</th> -->
+                            <!-- <th>Appointment Time</th> -->
                             <th>Appointment Status</th>
-                           <!--  <th>Appointment Details</th> -->
+                            <th>Appointment Details</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -255,11 +255,11 @@
                           <?php } ?>
                               
                           </td>
-                          <td><?php echo $appoint_schedule_date ?></td>
-                          <td><?php echo $format_start ?> - <?php echo $format_end ?></td> 
-                          <!-- <td>
-                            <button class="btn btn-info btn-block btn-sm" data-toggle="modal" data-target="#appointmentDetails"> View Details </button>
-                          </td> -->
+                         <!--  <td><?php echo $appoint_schedule_date ?></td>
+                          <td><?php echo $format_start ?> - <?php echo $format_end ?></td>  -->
+                          <td>
+                            <button class="btn btn-info btn-sm btn-block appointmentDetailsAdmin" id='<?php echo $appointment_id ?>'> View Details </button> 
+                          </td>
                         </tr>
                       
                       <?php } ?>
@@ -275,7 +275,37 @@
       </div>
     </div>
 
-
+<!-- Modal for View Appointment Details -->
+       <div class="modal fade" tabindex="-1" role="dialog" id="appointmentDetailsAdmin">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">View Appointment Details</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+              </div>
+             <div class="card-body">
+              
+                  <ul class="list-group">
+                      <li class="list-group-item ">
+                        Date: <span id="view_appoint_date"></span>
+                      </li>
+                      <li class="list-group-item">
+                        Schedule Time: <span id="view_appoint_time"></span>
+                      </li>
+                       <li class="list-group-item">
+                        Appointment Status: <span id="view_appoint_status"></span>
+                      </li>
+                      <li class="list-group-item"> Reason: <span id="view_appointment_reason"></span>
+                      </li>
+                    </ul>        
+          
+        
+              </div>
+            </div>
+          </div>
+        </div>
     
   
       <!-- <footer class="main-footer" style="background-color:rgba(40, 102, 199, 0.97)">
@@ -291,6 +321,65 @@
    <!-- Menu for Footer Links -->
     <?php require("scripts_footer.php"); ?>
     <!-- -->
+
+      <!-- View Details BHW -->
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(document).on('click','.appointmentDetailsAdmin', function(){
+        var viewID = $(this).attr("id");
+        $.ajax({
+          url:"../../backend/admin_appointment_walkin.php",
+            method:"POST",
+            data:{walkInID:viewID},
+            dataType:"json",
+            success:function(data) {
+                // date format
+                var date = data.appoint_date;
+                var dateFormat = moment(date).format('MM/DD/YYYY');
+
+                var start_time = data.appoint_date + ' ' +data.appoint_start_time;
+                var startTimeFormat = moment(start_time).format('HH:mm A');
+
+                var end_time = data.appoint_date + ' ' +data.appoint_end_time;
+                var endTimeFormat = moment(end_time).format('HH:mm A');
+
+                var view_date = dateFormat;
+                var view_time = startTimeFormat + ' - ' + endTimeFormat;
+
+                // status format
+                if(data.appointment_status == 1) {
+                  $('#view_appoint_status').html("<span class='badge badge-primary badge-pill'>Pending</span>");
+                } else if(data.appointment_status == 2) {
+                  $('#view_appoint_status').html('');
+                } else if(data.appointment_status == 3) {
+                  $('#view_appoint_status').html("<span class='badge badge-info badge-pill'>Accepted</span>");
+                } else if(data.appointment_status == 4) {
+                  $('#view_appoint_status').html("<span class='badge badge-success badge-pill'>Approved</span>");
+                } else if(data.appointment_status == 5) {
+                  $('#view_appoint_status').html('');
+                } else if(data.appointment_status == 6) {
+                  $('#view_appoint_status').html('');
+                } else if(data.appointment_status == 7) {
+                  $('#view_appoint_status').html('');
+                } else if(data.appointment_status == 0) {
+                  $('#view_appoint_status').html("<span class='badge badge-success badge-pill'>Completed</span>");
+                }
+
+                // var test_result = "<span class='badge badge-danger'>Pending</span>";
+
+                // $('#accept_appoint_test').html(test_result);
+                
+          
+                // html - date and time
+                $('#view_appoint_date').html(view_date);
+                $('#view_appoint_time').html(view_time);
+                $('#view_appointment_reason').html(data.appointment_reason);
+                $('#appointmentDetailsAdmin').modal('show');
+             }
+        })  
+    })
+});
+</script>
 
 
   </body>

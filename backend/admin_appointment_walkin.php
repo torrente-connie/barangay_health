@@ -3,14 +3,14 @@
 require("dbconn.php");
 
 //fetch data for subject using update,delete and view
-if(isset($_POST['ocID'])){
-  getAllDataForAppointmentOnlineConsultation();
+if(isset($_POST['walkInID'])){
+  getAllDataForAppointmentWalkIn();
 }
 
 
-function getAllDataForAppointmentOnlineConsultation(){
+function getAllDataForAppointmentWalkIn(){
     $conn = dbConn();
-    $id = $_POST['ocID'];
+    $id = $_POST['walkInID'];
     $sql = "SELECT 
     		d.user_id as doctor_id,
             d.user_account_id as doctor_account,
@@ -48,7 +48,6 @@ function getAllDataForAppointmentOnlineConsultation(){
     $row = mysqli_fetch_array($result);
     echo json_encode($row);
 }
-
 
 // code for accept appointment
 if(isset($_POST['approveAppointmentSubmit'])) {

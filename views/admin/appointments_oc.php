@@ -117,10 +117,10 @@
                             <th>Appointment Booked By</th>
                             <th>Appointment Doctor</th>
                             <th>Patient Name</th>
-                            <th>Medical Service</th>
-                            <th>Appointment Date</th><!-- 
-                            <th>Appointment Time</th>
-                            <th>Appointment Status</th> -->
+                            <th>Medical Service</th><!-- 
+                            <th>Appointment Date</th> 
+                            <th>Appointment Time</th> -->
+                            <th>Appointment Status</th>
                             <th>Appointment Details</th>
                           </tr>
                         </thead>
@@ -335,7 +335,7 @@
         $.ajax({
           url:"../../backend/admin_appointment_oc.php",
             method:"POST",
-            data:{bookID:viewID},
+            data:{ocID:viewID},
             dataType:"json",
             success:function(data) {
                 // date format
