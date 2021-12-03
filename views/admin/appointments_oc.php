@@ -226,7 +226,7 @@
                           <td><a href="#" style="text-decoration: none;"><?php echo $patient_name ?></a></td>
                           <td><?php echo $doc_name ?></td>
                           <td><?php echo $appoint_patient_name ?></td>
-                          <td><?php //echo $appoint_service ?> None </td>
+                          <td><?php echo $appoint_service ?> </td>
                           <td>
                           <?php  
                           // if status = pending

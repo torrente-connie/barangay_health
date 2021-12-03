@@ -102,10 +102,10 @@
                             <th>Patient Name</th>
                             <th>Medical Service</th>
                             <th>Appointment Status</th>
-                            <th>Appointment Date</th>
-                            <th>Appointment Time</th>
-                            <!-- <th>Appointment Details</th>
-                            <th></th> -->
+                           <!--  <th>Appointment Date</th>
+                            <th>Appointment Time</th> -->
+                            <th>Appointment Details</th>
+                            <th></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -142,10 +142,11 @@
                       ON a.appointment_patient_id = p.user_id 
                       JOIN doctor_schedule_time dst 
                       ON a.appointment_selected_time = dst.schedule_time_id
-                      WHERE a.appointment_type = 'onlineappointment' OR a.appointment_status IN (0,6,7)
+                      WHERE a.appointment_type = 'onlineappointment' AND a.appointment_status IN (1,2,3,4,5,6)
                       ORDER BY a.appointment_id ASC
                       ";
 
+                     
                       $result = mysqli_query($connection,$sql);
 
                       while($row = mysqli_fetch_assoc($result)) {
@@ -209,7 +210,7 @@
                           <td><a href="#" style="text-decoration: none;"><?php echo $patient_name ?></a></td>
                           <td><?php echo $doc_name ?></td>
                           <td><?php echo $appoint_patient_name ?></td>
-                          <td><?php //echo $appoint_service ?> None</td>
+                          <td><?php echo $appoint_service ?></td>
                           <td>
                           <?php  
                           // if status = pending
@@ -235,14 +236,17 @@
 
                             <span class="badge badge-success badge-pill">Approved</span>
 
+                          <?php } else if($appointment_status == 7) {?>
+
+
                           <?php } ?>
                               
                           </td>
-                          <td><?php echo $appoint_schedule_date ?></td>
-                          <td><?php echo $format_start ?> - <?php echo $format_end ?></td> 
-                         <!--  <td>
-                            <button class="btn btn-info btn-block btn-sm" data-toggle="modal" data-target="#appointmentDetails"> View Details </button>
-                          </td> -->
+                          <!-- <td><?php //echo $appoint_schedule_date ?></td>
+                          <td><?php //echo $format_start ?> - <?php //echo $format_end ?></td>  -->
+                          <td>
+                             <button class="btn btn-info btn-sm btn-block appointmentDetailsBhw" id='<?php echo $appointment_id ?>'> View Details </button> 
+                          </td>
                           <td>
 
                           <?php  
@@ -251,8 +255,10 @@
 
                           ?>
 
-                            <a href="#acceptAppointmentBhw" class="btn btn-primary text-white btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Accept</a>
-                            <a href="#cancelAppointmentBhw" class="btn btn-danger btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> Cancel </a>
+                            <button class="btn btn-primary btn-sm btn-block acceptAppointmentBhw" id='<?php echo $appointment_id ?>'> Accept </button> 
+
+                            <button class="btn btn-danger btn-sm btn-block cancelAppointmentBhw" id='<?php echo $appointment_id ?>'> Reschedule </button> 
+
 
                           <?php 
                           // if status = cancel
@@ -266,8 +272,10 @@
                         
                           <?php } else if($appointment_status == 4) { ?>
 
-                            <!--  <a href="#123acceptAppointmentBhw" class="btn btn-primary text-white btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Proceed Appointment</a>
-                             <a href="#123cancelAppointmentBhw" class="btn btn-danger btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> No Show </a> -->
+
+                            <button class="btn btn-primary btn-sm btn-block consultationLinkBhw" id='<?php echo $appointment_id ?>'> Consultation Link </button> 
+
+                            <!-- <button class="btn btn-danger btn-sm btn-block cancelAppointmentBhw" id='<?php //echo $appointment_id ?>'> Reschedule </button>  -->
 
                           <?php } ?>
                           </td>
@@ -334,12 +342,43 @@
           </div>
         </div>
 
+            <!-- Modal for View Appointment Details -->
+       <div class="modal fade" tabindex="-1" role="dialog" id="appointmentDetailsBhw">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title"><span class="badge badge-info badge-pill">View Appointment Details</span></h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+              </div>
+             <div class="card-body">
+              
+              <ul class="list-group">
+                      <li class="list-group-item ">
+                        Date: <span id="view_appoint_date"></span>
+                      </li>
+                      <li class="list-group-item">
+                        Schedule Time: <span id="view_appoint_time"></span>
+                      </li>
+                       <li class="list-group-item">
+                        Appointment Status: <span id="view_appoint_status"></span>
+                      </li>
+                      <li class="list-group-item"> Reason: <span id="view_appointment_reason"></span>
+                      </li>
+                    </ul>       
+        
+              </div>
+            </div>
+          </div>
+        </div>
+
                   <!-- Modal for View Appointment Details -->
        <div class="modal fade" tabindex="-1" role="dialog" id="acceptAppointmentBhw">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Accept Appointment</h5>
+                <h5 class="modal-title"><span class="badge badge-primary badge-pill">Accept Appointment</span></h5>
                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                    <span aria-hidden="true">&times;</span>
                  </button>
@@ -350,7 +389,15 @@
               
               <form method="POST" action="../../backend/bhw_appointment_oc.php">
 
-                  <input type="hidden" name="acceptID" id="acceptID">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item text-center">Appointment Details</li>
+                        <li class="list-group-item">Patient Name: <span id="accept_appoint_patient"></span></li>
+                        <li class="list-group-item">Selected Service: <span id="accept_appoint_service"></span></li>
+                        <li class="list-group-item">Selected Date: <span id="accept_appoint_date"></span></li>
+                        <li class="list-group-item">Selected Time: <span id="accept_appoint_time"></span></li>
+                      </ul>
+
+                  <input type="hidden" name="acceptID" id="accept_appoint_id">
 
                   <div class="form-group mt-4">
                     <button type="submit" name="acceptAppointmentSubmit" class="btn btn-success btn-block" tabindex="4">
@@ -369,7 +416,7 @@
         </div>
 
 
-            <!-- Modal for View Appointment Details -->
+      <!-- Modal for View Appointment Details -->
        <div class="modal fade" tabindex="-1" role="dialog" id="cancelAppointmentBhw">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -408,6 +455,62 @@
           </div>
         </div>
 
+            <!-- Modal for View Appointment Details -->
+       <div class="modal fade" tabindex="-1" role="dialog" id="consultationLinkBhw">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title"><span class="badge badge-primary badge-pill">Provide Virtual Consultation Link</span></h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+              </div>
+             <div class="card-body">
+
+              <h4>Please Provide A Consultation Link for the Patient:</h4>
+              
+              <form method="POST" action="../../backend/bhw_appointment_oc.php">
+
+                  <input type="hidden" name="consultationLinkID" id="consult_appoint_id">
+                  <input type="hidden" name="consultationDoctorID" id="consult_doctor_id">
+                  <input type="hidden" name="consultationPatientID" id="consult_patient_id">
+                  <input type="hidden" name="consultationDate" id="consult_appoint_ddate">
+                  <input type="hidden" name="consultationStartTime" id="consult_appoint_stime">
+                  <input type="hidden" name="consultationEndTime" id="consult_appoint_etime">
+                  <input type="text" name="consultationPfname" id="consult_appoint_pfname">
+                  <input type="text" name="consultationPmname" id="consult_appoint_pmname">
+                  <input type="text" name="consultationPlname" id="consult_appoint_plname">
+
+                   <div class="form-group mt-4">
+                    <label for="reason">Type of Consultation Link</label>
+                    <select class="form-control" name="consultation_type">
+                      <option selected hidden>Select Virtual Consultation Platform</option>
+                      <option value="google-meet">Google Meet</option>
+                      <option value="zoom">Zoom</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group mt-4">
+                    <label for="reason">Provide Consultation Link</label>
+                    <input id="reason" type="text" class="form-control" name="consultation_link" tabindex="1" required="" autofocus="" placeholder="Please input the consultation link here..">
+                  </div>
+
+                  <div class="form-group">
+                    <button type="submit" name="consultationLinkSubmit" class="btn btn-primary btn-block" tabindex="4">
+                      Submit
+                    </button>
+                    <button class="btn btn-danger btn-block" tabindex="4" data-dismiss="modal">
+                      Close
+                    </button>
+                  </div>
+                </form>
+
+        
+              </div>
+            </div>
+          </div>
+        </div>
+
 
       <!-- <footer class="main-footer" style="background-color:rgba(40, 102, 199, 0.97)">
         <div class="container">
@@ -425,22 +528,255 @@
     <!-- -->
 
 
-    <script>
-      // tempo lang sani para maka display
-      $('#cancelAppointmentBhw').on('show.bs.modal', function(e) {
-        var cancelID = $(e.relatedTarget).data('cancel-id');
-      $(e.currentTarget).find('input[id="cancelID"]').val(cancelID);
-    });
-    </script>
+<!-- View Details BHW -->
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(document).on('click','.appointmentDetailsBhw', function(){
+        var viewID = $(this).attr("id");
+        $.ajax({
+          url:"../../backend/bhw_appointment_oc.php",
+            method:"POST",
+            data:{ocID:viewID},
+            dataType:"json",
+            success:function(data) {
+                // date format
+                var date = data.appoint_date;
+                var dateFormat = moment(date).format('MM/DD/YYYY');
 
-     <script>
-      // tempo lang sani para maka display
-      $('#acceptAppointmentBhw').on('show.bs.modal', function(e) {
-        var acceptID = $(e.relatedTarget).data('accept-id');
-      $(e.currentTarget).find('input[id="acceptID"]').val(acceptID);
-    });
-    </script>
+                var start_time = data.appoint_date + ' ' +data.appoint_start_time;
+                var startTimeFormat = moment(start_time).format('HH:mm A');
 
+                var end_time = data.appoint_date + ' ' +data.appoint_end_time;
+                var endTimeFormat = moment(end_time).format('HH:mm A');
+
+                var view_date = dateFormat;
+                var view_time = startTimeFormat + ' - ' + endTimeFormat;
+
+                // status format
+                if(data.appointment_status == 1) {
+                  $('#view_appoint_status').html("<span class='badge badge-primary badge-pill'>Pending</span>");
+                } else if(data.appointment_status == 2) {
+                  $('#view_appoint_status').html('');
+                } else if(data.appointment_status == 3) {
+                  $('#view_appoint_status').html("<span class='badge badge-info badge-pill'>Accepted</span>");
+                } else if(data.appointment_status == 4) {
+                  $('#view_appoint_status').html("<span class='badge badge-success badge-pill'>Approved</span>");
+                } else if(data.appointment_status == 5) {
+                  $('#view_appoint_status').html('');
+                } else if(data.appointment_status == 6) {
+                  $('#view_appoint_status').html('');
+                } else if(data.appointment_status == 7) {
+                  $('#view_appoint_status').html('');
+                } else if(data.appointment_status == 0) {
+                  $('#view_appoint_status').html("<span class='badge badge-success badge-pill'>Completed</span>");
+                }
+
+                // var test_result = "<span class='badge badge-danger'>Pending</span>";
+
+                // $('#accept_appoint_test').html(test_result);
+                
+          
+                // html - date and time
+                $('#view_appoint_date').html(view_date);
+                $('#view_appoint_time').html(view_time);
+                $('#view_appointment_reason').html(data.appointment_reason);
+                $('#appointmentDetailsBhw').modal('show');
+             }
+        })  
+    })
+});
+</script>
+
+
+<!-- Accept Book -->
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(document).on('click','.acceptAppointmentBhw', function(){
+        var acceptID = $(this).attr("id");
+        $.ajax({
+          url:"../../backend/bhw_appointment_oc.php",
+            method:"POST",
+            data:{ocID:acceptID},
+            dataType:"json",
+            success:function(data) {
+                // val - id
+                $('#accept_appoint_id').val(data.appointment_id);
+                $('#accept_doctor_id').val(data.doctor_id);
+                $('#accept_patient_id').val(data.patient_id);
+                $('#accept_appoint_dst_id').val(data.appoint_dst_id);
+                // html - current patient;
+                $('#accept_patient_account').val(data.patient_account);
+                $('#accept_patient_fname').val(data.patient_fname);
+                $('#accept_patient_mname').val(data.patient_mname);
+                $('#accept_patient_lname').val(data.patient_lname);
+                // html - doctor 
+                $('#accept_doctor_account').val(data.doctor_account);
+                $('#accept_doc_fname').val(data.doc_fname);
+                $('#accept_doc_mname').val(data.doc_mname);
+                $('#accept_doc_lname').val(data.doc_lname);
+                // html - appoint patient names
+                $('#accept_appoint_pfname').val(data.appoint_pfname);
+                $('#accept_appoint_pmname').val(data.appoint_pmname);
+                $('#accept_appoint_plname').val(data.appoint_plname);
+                $('#accept_appoint_pemail').val(data.appoint_pemail);
+                $('#accept_appoint_ppnum').val(data.appoint_ppnum);
+
+                // name format
+                var patient_fname = data.appoint_pfname;
+                var patient_mname = data.appoint_pmname;
+                var patient_lname = data.appoint_plname;
+
+                var patient_fullname = patient_fname+ ' '+patient_mname+'. '+patient_lname;
+
+                $('#accept_appoint_patient').html(patient_fullname);
+
+                // date format
+                var date = data.appoint_date;
+                var dateFormat = moment(date).format('MM/DD/YYYY');
+
+                var start_time = data.appoint_date + ' ' +data.appoint_start_time;
+                var startTimeFormat = moment(start_time).format('HH:mm A');
+
+                var end_time = data.appoint_date + ' ' +data.appoint_end_time;
+                var endTimeFormat = moment(end_time).format('HH:mm A');
+
+                var accept_date = dateFormat;
+                var accept_time = startTimeFormat + ' - ' + endTimeFormat;
+
+                // // status format
+                // if(data.appointment_status == 1) {
+                //   $('#accept_appointment_status').html('Pending');
+                // } else if(data.appointment_status == 2) {
+                //   $('#accept_appointment_status').html('Cancel');
+                // } else if(data.appointment_status == 3) {
+                //   $('#accept_appointment_status').html('Accepted');
+                // } else if(data.appointment_status == 4) {
+                //   $('#accept_appointment_status').html('Approve');
+                // } else if(data.appointment_status == 5) {
+                //   $('#accept_appointment_status').html('Reschedule');
+                // } else if(data.appointment_status == 6) {
+                //   $('#accept_appointment_status').html('On-going');
+                // } else if(data.appointment_status == 7) {
+                //   $('#accept_appointment_status').html('No-show');
+                // } else if(data.appointment_status == 0) {
+                //   $('#accept_appointment_status').html('Completed');
+                // }
+
+                // var test_result = "<span class='badge badge-danger'>Pending</span>";
+
+                // $('#accept_appoint_test').html(test_result);
+                
+          
+                // html - date and time
+                $('#accept_appoint_date').html(accept_date);
+                $('#accept_appoint_time').html(accept_time);
+                $('#accept_appointment_status').html(data.appointment_status);
+                $('#accept_appoint_service').html(data.appoint_service);
+                $('#accept_appoint_type').val(data.appointment_type);
+                $('#accept_appointment_reason').val(data.appointment_reason);
+                $('#acceptAppointmentBhw').modal('show');
+             }
+        })  
+    })
+});
+</script>
+
+<!-- Virtual Consultation Link BHW -->
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(document).on('click','.consultationLinkBhw', function(){
+        var consultationID = $(this).attr("id");
+        $.ajax({
+          url:"../../backend/bhw_appointment_oc.php",
+            method:"POST",
+            data:{ocID:consultationID},
+            dataType:"json",
+            success:function(data) {
+                // val - id
+                $('#consult_appoint_id').val(data.appointment_id);
+                $('#consult_doctor_id').val(data.doctor_id);
+                $('#consult_patient_id').val(data.patient_id);
+                $('#consult_appoint_dst_id').val(data.appoint_dst_id);
+                // html - current patient;
+                $('#consult_patient_account').val(data.patient_account);
+                $('#consult_patient_fname').val(data.patient_fname);
+                $('#consult_patient_mname').val(data.patient_mname);
+                $('#consult_patient_lname').val(data.patient_lname);
+                // html - doctor 
+                $('#consult_doctor_account').val(data.doctor_account);
+                $('#consult_doc_fname').val(data.doc_fname);
+                $('#consult_doc_mname').val(data.doc_mname);
+                $('#consult_doc_lname').val(data.doc_lname);
+                // html - appoint patient names
+                $('#consult_appoint_pfname').val(data.appoint_pfname);
+                $('#consult_appoint_pmname').val(data.appoint_pmname);
+                $('#consult_appoint_plname').val(data.appoint_plname);
+                $('#consult_appoint_pemail').val(data.appoint_pemail);
+                $('#consult_appoint_ppnum').val(data.appoint_ppnum);
+
+                // name format
+                var patient_fname = data.appoint_pfname;
+                var patient_mname = data.appoint_pmname;
+                var patient_lname = data.appoint_plname;
+
+                var patient_fullname = patient_fname+ ' '+patient_mname+'. '+patient_lname;
+
+                $('#consult_appoint_patient').html(patient_fullname);
+
+                // date format
+                var date = data.appoint_date;
+                var dateFormat = moment(date).format('MM/DD/YYYY');
+
+                var start_time = data.appoint_date + ' ' +data.appoint_start_time;
+                var startTimeFormat = moment(start_time).format('HH:mm A');
+
+                var end_time = data.appoint_date + ' ' +data.appoint_end_time;
+                var endTimeFormat = moment(end_time).format('HH:mm A');
+
+                var consult_date = dateFormat;
+                var consult_time = startTimeFormat + ' - ' + endTimeFormat;
+
+                // // status format
+                // if(data.appointment_status == 1) {
+                //   $('#consult_appointment_status').html('Pending');
+                // } else if(data.appointment_status == 2) {
+                //   $('#consult_appointment_status').html('Cancel');
+                // } else if(data.appointment_status == 3) {
+                //   $('#consult_appointment_status').html('Accepted');
+                // } else if(data.appointment_status == 4) {
+                //   $('#consult_appointment_status').html('Approve');
+                // } else if(data.appointment_status == 5) {
+                //   $('#consult_appointment_status').html('Reschedule');
+                // } else if(data.appointment_status == 6) {
+                //   $('#consult_appointment_status').html('On-going');
+                // } else if(data.appointment_status == 7) {
+                //   $('#consult_appointment_status').html('No-show');
+                // } else if(data.appointment_status == 0) {
+                //   $('#consult_appointment_status').html('Completed');
+                // }
+
+                // var test_result = "<span class='badge badge-danger'>Pending</span>";
+
+                // $('#consult_appoint_test').html(test_result);
+                $('#consult_appoint_ddate').val(data.appoint_date);
+                $('#consult_appoint_stime').val(data.appoint_start_time);
+                $('#consult_appoint_etime').val(data.appoint_end_time);
+                
+                
+          
+                // html - date and time
+                $('#consult_appoint_date').html(consult_date);
+                $('#consult_appoint_time').html(consult_time);
+                $('#consult_appointment_status').html(data.appointment_status);
+                $('#consult_appoint_service').html(data.appoint_service);
+                $('#consult_appoint_type').val(data.appointment_type);
+                $('#consult_appointment_reason').val(data.appointment_reason);
+                $('#consultationLinkBhw').modal('show');
+             }
+        })  
+    })
+});
+</script>
 
 
   </body>

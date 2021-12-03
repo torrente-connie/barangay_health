@@ -102,10 +102,10 @@
                             <th>Patient Name</th>
                             <th>Medical Service</th>
                             <th>Appointment Status</th>
-                            <th>Appointment Date</th>
-                            <th>Appointment Time</th>
-                            <!-- <th>Appointment Details</th>
-                            <th></th> -->
+                           <!--  <th>Appointment Date</th>
+                            <th>Appointment Time</th> -->
+                            <th>Appointment Details</th>
+                            <th></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -212,7 +212,7 @@
                           <td><?php echo $doc_name ?></td>
                           <td><?php echo $appoint_patient_name ?></td>
 
-                          <?php if($appointment_type == 'onlineappointment') { ?>
+                          <?php if($appointment_type == 'walkinappointment') { ?>
                             <td>None</td>
                           <?php } ?>
                           <td>
@@ -239,7 +239,7 @@
                               
                           </td>
                           <td>
-                            <button class="btn btn-info btn-block btn-sm" data-toggle="modal" data-target="#appointmentDetails"> View Details </button>
+                            <button class="btn btn-info btn-sm btn-block appointmentDetailsBhw" id='<?php echo $appointment_id ?>'> View Details </button> 
                           </td>
                           <td>
 
@@ -248,8 +248,9 @@
                           if($appointment_status == 1) {
 
                           ?>
-                            <a href="#acceptAppointmentBhw" class="btn btn-primary text-white btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Accept</a>
-                            <a href="#cancelAppointmentBhw" class="btn btn-danger btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> Cancel </a>
+                            <button class="btn btn-primary btn-sm btn-block acceptAppointmentBhw" id='<?php echo $appointment_id ?>'> Accept </button> 
+
+                            <button class="btn btn-danger btn-sm btn-block cancelAppointmentBhw" id='<?php echo $appointment_id ?>'> Reschedule </button> 
 
                           <?php 
                           // if status = cancel
@@ -282,6 +283,117 @@
     </div>
 
 
+    <!-- Modal for View Appointment Details -->
+       <div class="modal fade" tabindex="-1" role="dialog" id="appointmentDetailsBhw">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">View Appointment Details</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+              </div>
+             <div class="card-body">
+              
+              <ul class="list-group">
+                      <li class="list-group-item ">
+                        Date: <span id="view_appoint_date"></span>
+                      </li>
+                      <li class="list-group-item">
+                        Schedule Time: <span id="view_appoint_time"></span>
+                      </li>
+                       <li class="list-group-item">
+                        Appointment Status: <span id="view_appoint_status"></span>
+                      </li>
+                      <li class="list-group-item"> Reason: <span id="view_appointment_reason"></span>
+                      </li>
+                    </ul>       
+        
+              </div>
+            </div>
+          </div>
+        </div>
+
+                <!-- Modal for View Appointment Details -->
+       <div class="modal fade" tabindex="-1" role="dialog" id="acceptAppointmentBhw">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Accept Appointment</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+              </div>
+             <div class="card-body">
+
+              <h4>Are you sure you want to accept this appointment?</h4>
+
+              
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item text-center">Appointment Details</li>
+                        <li class="list-group-item">Patient Name: <span id="accept_appoint_patient"></span></li>
+                        <li class="list-group-item">Selected Service: <span id="accept_appoint_service"></span></li>
+                        <li class="list-group-item">Selected Date: <span id="accept_appoint_date"></span></li>
+                        <li class="list-group-item">Selected Time: <span id="accept_appoint_time"></span></li>
+                      </ul>
+            
+              
+               <form method="POST" action="../../backend/bhw_appointment_book.php">
+                  <input type="hidden" name="acceptID" id="accept_appoint_id">
+                  <div class="form-group mt-4">
+                    <button type="submit" name="acceptAppointmentSubmit" class="btn btn-success btn-block" tabindex="4">
+                      Yes
+                    </button>
+                    <button class="btn btn-danger btn-block" tabindex="4" data-dismiss="modal">
+                      No
+                    </button>
+                  </div>
+                </form>
+
+        
+              </div>
+            </div>
+          </div>
+        </div>
+
+            <!-- Modal for View Appointment Details -->
+       <div class="modal fade" tabindex="-1" role="dialog" id="cancelAppointmentBhw">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Cancel Appointment</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+              </div>
+             <div class="card-body">
+
+              <h4>Are you sure you want to cancel this appointment?</h4>
+              
+              <form method="POST" action="../../backend/bhw_appointment_book.php">
+
+                  <input type="hidden" name="cancelID" id="cancelID">
+
+                  <div class="form-group mt-4">
+                    <label for="reason">Reason</label>
+                    <input id="reason" type="text" class="form-control" name="reason" tabindex="1" required="" autofocus="" placeholder="Please state the reason for the cancellation of the appointment..">
+                  </div>
+
+                  <div class="form-group">
+                    <button type="submit" name="cancelAppointmentSubmit" class="btn btn-success" tabindex="4">
+                      Submit
+                    </button>
+                    <button class="btn btn-danger" tabindex="4" data-dismiss="modal">
+                      Close
+                    </button>
+                  </div>
+                </form>
+
+        
+              </div>
+            </div>
+          </div>
+        </div>
     
   
       <!-- <footer class="main-footer" style="background-color:rgba(40, 102, 199, 0.97)">
@@ -298,6 +410,159 @@
     <?php require("scripts_footer.php"); ?>
     <!-- -->
 
+
+<!-- View Details BHW -->
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(document).on('click','.appointmentDetailsBhw', function(){
+        var viewID = $(this).attr("id");
+        $.ajax({
+          url:"../../backend/bhw_appointment_walkin.php",
+            method:"POST",
+            data:{walkInID:viewID},
+            dataType:"json",
+            success:function(data) {
+                // date format
+                var date = data.appoint_date;
+                var dateFormat = moment(date).format('MM/DD/YYYY');
+
+                var start_time = data.appoint_date + ' ' +data.appoint_start_time;
+                var startTimeFormat = moment(start_time).format('HH:mm A');
+
+                var end_time = data.appoint_date + ' ' +data.appoint_end_time;
+                var endTimeFormat = moment(end_time).format('HH:mm A');
+
+                var view_date = dateFormat;
+                var view_time = startTimeFormat + ' - ' + endTimeFormat;
+
+                // status format
+                if(data.appointment_status == 1) {
+                  $('#view_appoint_status').html("<span class='badge badge-primary badge-pill'>Pending</span>");
+                } else if(data.appointment_status == 2) {
+                  $('#view_appoint_status').html('');
+                } else if(data.appointment_status == 3) {
+                  $('#view_appoint_status').html("<span class='badge badge-info badge-pill'>Accepted</span>");
+                } else if(data.appointment_status == 4) {
+                  $('#view_appoint_status').html("<span class='badge badge-success badge-pill'>Approved</span>");
+                } else if(data.appointment_status == 5) {
+                  $('#view_appoint_status').html('');
+                } else if(data.appointment_status == 6) {
+                  $('#view_appoint_status').html('');
+                } else if(data.appointment_status == 7) {
+                  $('#view_appoint_status').html('');
+                } else if(data.appointment_status == 0) {
+                  $('#view_appoint_status').html("<span class='badge badge-success badge-pill'>Completed</span>");
+                }
+
+                // var test_result = "<span class='badge badge-danger'>Pending</span>";
+
+                // $('#accept_appoint_test').html(test_result);
+                
+          
+                // html - date and time
+                $('#view_appoint_date').html(view_date);
+                $('#view_appoint_time').html(view_time);
+                $('#view_appointment_reason').html(data.appointment_reason);
+                $('#appointmentDetailsBhw').modal('show');
+             }
+        })  
+    })
+});
+</script>
+
+
+<!-- Accept Book -->
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(document).on('click','.acceptAppointmentBhw', function(){
+        var acceptID = $(this).attr("id");
+        $.ajax({
+          url:"../../backend/bhw_appointment_walkin.php",
+            method:"POST",
+            data:{walkInID:acceptID},
+            dataType:"json",
+            success:function(data) {
+                // val - id
+                $('#accept_appoint_id').val(data.appointment_id);
+                $('#accept_doctor_id').val(data.doctor_id);
+                $('#accept_patient_id').val(data.patient_id);
+                $('#accept_appoint_dst_id').val(data.appoint_dst_id);
+                // html - current patient;
+                $('#accept_patient_account').val(data.patient_account);
+                $('#accept_patient_fname').val(data.patient_fname);
+                $('#accept_patient_mname').val(data.patient_mname);
+                $('#accept_patient_lname').val(data.patient_lname);
+                // html - doctor 
+                $('#accept_doctor_account').val(data.doctor_account);
+                $('#accept_doc_fname').val(data.doc_fname);
+                $('#accept_doc_mname').val(data.doc_mname);
+                $('#accept_doc_lname').val(data.doc_lname);
+                // html - appoint patient names
+                $('#accept_appoint_pfname').val(data.appoint_pfname);
+                $('#accept_appoint_pmname').val(data.appoint_pmname);
+                $('#accept_appoint_plname').val(data.appoint_plname);
+                $('#accept_appoint_pemail').val(data.appoint_pemail);
+                $('#accept_appoint_ppnum').val(data.appoint_ppnum);
+
+                // name format
+                var patient_fname = data.appoint_pfname;
+                var patient_mname = data.appoint_pmname;
+                var patient_lname = data.appoint_plname;
+
+                var patient_fullname = patient_fname+ ' '+patient_mname+'. '+patient_lname;
+
+                $('#accept_appoint_patient').html(patient_fullname);
+
+                // date format
+                var date = data.appoint_date;
+                var dateFormat = moment(date).format('MM/DD/YYYY');
+
+                var start_time = data.appoint_date + ' ' +data.appoint_start_time;
+                var startTimeFormat = moment(start_time).format('HH:mm A');
+
+                var end_time = data.appoint_date + ' ' +data.appoint_end_time;
+                var endTimeFormat = moment(end_time).format('HH:mm A');
+
+                var accept_date = dateFormat;
+                var accept_time = startTimeFormat + ' - ' + endTimeFormat;
+
+                // // status format
+                // if(data.appointment_status == 1) {
+                //   $('#accept_appointment_status').html('Pending');
+                // } else if(data.appointment_status == 2) {
+                //   $('#accept_appointment_status').html('Cancel');
+                // } else if(data.appointment_status == 3) {
+                //   $('#accept_appointment_status').html('Accepted');
+                // } else if(data.appointment_status == 4) {
+                //   $('#accept_appointment_status').html('Approve');
+                // } else if(data.appointment_status == 5) {
+                //   $('#accept_appointment_status').html('Reschedule');
+                // } else if(data.appointment_status == 6) {
+                //   $('#accept_appointment_status').html('On-going');
+                // } else if(data.appointment_status == 7) {
+                //   $('#accept_appointment_status').html('No-show');
+                // } else if(data.appointment_status == 0) {
+                //   $('#accept_appointment_status').html('Completed');
+                // }
+
+                // var test_result = "<span class='badge badge-danger'>Pending</span>";
+
+                // $('#accept_appoint_test').html(test_result);
+                
+          
+                // html - date and time
+                $('#accept_appoint_date').html(accept_date);
+                $('#accept_appoint_time').html(accept_time);
+                $('#accept_appointment_status').html(data.appointment_status);
+                $('#accept_appoint_service').html(data.appoint_service);
+                $('#accept_appoint_type').val(data.appointment_type);
+                $('#accept_appointment_reason').val(data.appointment_reason);
+                $('#acceptAppointmentBhw').modal('show');
+             }
+        })  
+    })
+});
+</script>
 
   </body>
 </html>

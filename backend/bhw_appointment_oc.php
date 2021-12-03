@@ -89,5 +89,47 @@ if(isset($_POST['cancelAppointmentSubmit'])) {
 		}	
 	}
 
+// code for virtual consultation
+if(isset($_POST['consultationLinkSubmit'])) {
+    
+    $connection = dbConn();
+    $reason = "";
+
+    $consultationLinkID = $_POST['consultationLinkID']; // appointment ID ni;
+    $consultationDoctorID = $_POST['consultationDoctorID']; // doctor ni;
+    $consultationPatientID = $_POST['consultationPatientID']; // patient ni;
+    $consultationDate = $_POST['consultationDate']; // date ni;
+    $consultationStartTime = $_POST['consultationStartTime']; // start time ni;
+    $consultationEndTime = $_POST['consultationEndTime']; // end time ni;
+
+    $consultationPfname = $_POST['consultationPfname'];
+    $consultationPmname = $_POST['consultationPmname'];
+    $consultationPlname = $_POST['consultationPlname'];
+    
+
+    $consultation_type = $_POST['consultation_type'];
+    $consultation_link = $_POST['consultation_link'];
+
+    date_default_timezone_set('Asia/Manila');
+    $consultation_datetime = date('Y/m/d H:i:s');
+
+    $consultation_status = 1;
+    $consultation_bool = 1;
+
+    $query = "INSERT INTO virtual_consultation (virtual_consultation_id,virtual_consultation_appointment_id,virtual_consultation_user_id,virtual_consultation_patient_fname,virtual_consultation_patient_mname,virtual_consultation_patient_lname,virtual_consultation_doctor_id,virtual_consultation_type,virtual_consultation_link,virtual_consultation_date,virtual_consultation_start_time,virtual_consultation_end_time,virtual_consultation_datetime,virtual_consultation_status,virtual_consultation_bool) VALUES (NULL,'$consultationLinkID','$consultationPatientID','$consultationPfname','$consultationPmname','$consultationPlname','$consultationDoctorID','$consultation_type','$consultation_link','$consultationDate','$consultationStartTime','$consultationEndTime','$consultation_datetime','$consultation_status','$consultation_bool')";
+    $result_query = mysqli_query($connection,$query);
+
+    $sql = "UPDATE appointment SET `appointment_status` = '7', `appointment_reason` = '$reason' WHERE appointment_id = '$consultationLinkID' ";
+    $result_sql = mysqli_query($connection,$sql);
+
+    if($result_query AND $result_sql) {
+        $alert="Virtual Consultation Set by Barangay Health Worker";
+            header("Location:../views/bhw/appointments_oc.php?s=".$alert);
+        }else{
+         $alert="Error";
+            //header("Location:../views/bhw/appointments_oc.php?s=".$alert);
+        }   
+    }
+
 
 ?>

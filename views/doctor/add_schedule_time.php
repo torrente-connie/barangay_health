@@ -121,10 +121,16 @@
                     </ul>
                 </li>
 
+               <li class="nav-item">
+                   <a href="online_consultation.php" class="nav-link"><i class="fas fa-notes-medical"></i><span>Virtual Consultation</span></a>
+               </li>
+
             <li class="nav-item">
               <a href="patients.php" class="nav-link"><i class="fas fa-user-friends"></i><span>Manage Patients</span></a>
             </li>
+
             
+
             <li class="nav-item active">
               <a href="schedules.php" class="nav-link"><i class="fas fa-clock"></i><span>Schedules</span></a>
             </li>

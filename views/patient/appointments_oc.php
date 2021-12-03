@@ -150,7 +150,7 @@
                       ON a.appointment_patient_id = p.user_id 
                       JOIN doctor_schedule_time dst 
                       ON a.appointment_selected_time = dst.schedule_time_id
-                      WHERE a.appointment_type = 'onlineappointment' AND p.user_id = '$patient_id'
+                      WHERE a.appointment_type = 'onlineappointment' AND p.user_id = '$patient_id' AND a.appointment_status <= 7 
                       ORDER BY a.appointment_id ASC
                       ";
 
@@ -217,7 +217,7 @@
                          <!--  <td><a href="#" style="text-decoration: none;"><?php // echo $patient_name ?></a></td> -->
                           <td><?php echo $doc_name ?></td>
                           <td><?php echo $appoint_patient_name ?></td> 
-                          <td><?php //echo $appoint_service ?> None</td>
+                          <td><?php echo $appoint_service ?> </td>
                           <td>
                           <?php  
                           // if status = pending

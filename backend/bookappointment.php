@@ -64,7 +64,7 @@ function bookAppointment() {
 	$patient_phonenumber		= $_POST['patient_phonenumber'];
 	$date_selected 				= $_POST['selected_date'];
 	$appointmentsched_selected	= $_POST['selected_asched'];
-	$healthservices 			= "";
+	$healthservices 			= "Virtual Consultation";
 	$onlineconsultation 		= $_POST['book_appointment'];
 
 	$appointment_status			= 1;

@@ -101,9 +101,10 @@
                     <div class="table-responsive">
                       <table class="table table-hover table-bordered" id="table-subject">
                         <thead class="thead-light">
-                          <tr>
-                            <th>Online Consultation Link</th>
-                            <th>Message</th>
+                          <tr class="text-center">
+                            <th>Assigned Doctor</th>
+                            <th>Virtual Consultation Link</th>
+                            <th>Platform</th>
                             <th>Date</th>
                             <th>Time</th>
                           </tr>
@@ -112,19 +113,83 @@
 
                       <?php 
 
-                    
+                      $sql = "SELECT 
+                      d.user_id as doctor_id,
+                      d.user_account_id as doctor_account,
+                      d.user_firstname  as doc_fname, 
+                      d.user_middlename as doc_mname, 
+                      d.user_lastname   as doc_lname,
+                      p.user_firstname  as patient_fname,
+                      p.user_middlename as patient_mname,
+                      p.user_lastname   as patient_lname,
+                      p.user_account_id as patient_account,
+                      p.user_id as patient_id,
+                      a.appointment_id as appointment_id,
+                      vc.virtual_consultation_link as consultation_link,
+                      vc.virtual_consultation_type as consultation_type,
+                      vc.virtual_consultation_date as consultation_date,
+                      vc.virtual_consultation_start_time as consultation_stime,
+                      vc.virtual_consultation_end_time as consultation_etime,
+                      vc.virtual_consultation_status as consultation_status,
+                      vc.virtual_consultation_bool as consultation_bool
+                      FROM virtual_consultation vc
+                      JOIN user d 
+                      ON vc.virtual_consultation_doctor_id = d.user_id 
+                      JOIN user p 
+                      ON vc.virtual_consultation_user_id = p.user_id 
+                      JOIN appointment a 
+                      ON vc.virtual_consultation_appointment_id = a.appointment_id
+                      WHERE p.user_id = '$patient_id'
+                      ";
+                      $result = mysqli_query($connection,$sql);
+
+                      
+                      while($row = mysqli_fetch_assoc($result)) {
+
+                      // doctor fullname
+                      $doc_account      = $row['doctor_account'];
+                      $doc_firstname    = ucfirst($row['doc_fname']);
+                      $doc_middlename   = ucfirst($row['doc_mname']);
+                      $doc_lastname     = ucfirst($row['doc_lname']);
+
+                      $doc_name = $doc_firstname.' '.$doc_middlename.'.'.' '.$doc_lastname;
+
+                      // user patient fullname
+                      $patient_account      = $row['patient_account'];
+                      $patient_firstname    = ucfirst($row['patient_fname']);
+                      $patient_middlename   = ucfirst($row['patient_mname']);
+                      $patient_lastname     = ucfirst($row['patient_lname']);
+
+                      $patient_name = $patient_firstname.' '.$patient_middlename.'.'.' '.$patient_lastname;
+
+                      // format date and time
+                      $date = $row['consultation_date'];
+                      $format_start = date("h:i:A", strtotime($row['consultation_stime']));
+                      $format_end   = date("h:i:A", strtotime($row['consultation_etime']));
+
+
+                        //
+                        $consultation_link = $row['consultation_link'];
+                        $consultation_platform = $row['consultation_type'];
+
+                        if($consultation_platform == "google-meet") {
+                          $platform = "Google Meet";
+                        } else if($consultation_platform == "zoom") {
+                          $platform = "Zoom";
+                        }
 
                       ?>
 
                         <tr>
-                          <td>https://meet.google.com/dummy-pani</td>
-                          <td>This is the link for the online consultation</td>
-                          <td>8/6/2021</td>
-                          <td>10:58PM</td>
+                          <td><?php echo $doc_name ?></td>
+                          <td><a href="<?php echo $consultation_link ?>" target="_blank"><?php echo $consultation_link ?></a></td>
+                          <td><?php echo $platform ?></td>
+                          <td><?php echo $date ?></td>
+                          <td><?php echo $format_start ?> - <?php echo $format_end ?></td>
                          
                          </tr>
                       
-                      <?php  ?>
+                      <?php } ?>
 
                         </tbody>
                       </table>

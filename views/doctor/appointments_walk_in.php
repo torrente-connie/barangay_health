@@ -72,6 +72,11 @@
                     </ul>
                 </li>
 
+              <li class="nav-item">
+                   <a href="online_consultation.php" class="nav-link"><i class="fas fa-notes-medical"></i><span>Virtual Consultation</span></a>
+               </li>
+
+
             <li class="nav-item">
               <a href="patients.php" class="nav-link"><i class="fas fa-user-friends"></i><span>Manage Patients</span></a>
             </li>
@@ -448,9 +453,9 @@
     $(document).on('click','.appointmentDetailsDoctor', function(){
         var viewID = $(this).attr("id");
         $.ajax({
-          url:"../../backend/doctor_appointment_book.php",
+          url:"../../backend/doctor_appointment_walkin.php",
             method:"POST",
-            data:{bookID:viewID},
+            data:{walkInID:viewID},
             dataType:"json",
             success:function(data) {
                 // date format
@@ -508,9 +513,9 @@
     $(document).on('click','.approveAppointmentDoctor', function(){
         var approveID = $(this).attr("id");
         $.ajax({
-          url:"../../backend/doctor_appointment_book.php",
+          url:"../../backend/doctor_appointment_walkin.php",
             method:"POST",
-            data:{bookID:approveID},
+            data:{walkInID:approveID},
             dataType:"json",
             success:function(data) {
                 // val - id
