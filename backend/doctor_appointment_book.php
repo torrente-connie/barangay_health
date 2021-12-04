@@ -56,8 +56,13 @@ if(isset($_POST['approveAppointmentSubmit'])) {
 	$connection = dbConn();
 	$approveID = $_POST['approveID'];
 	$reason = "";
-	
-	$sql = "UPDATE appointment SET `appointment_status` = '4', `appointment_reason` = '$reason' WHERE appointment_id = '$approveID' ";
+
+    // generate appointment code
+
+    $permitted_chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $appointment_code = 'BHAC'.substr(str_shuffle($permitted_chars), 0, 5);
+
+	$sql = "UPDATE appointment SET `appointment_status` = '4', `appointment_reason` = '$reason', `appointment_code` = '$appointment_code' WHERE appointment_id = '$approveID' ";
 	$result = mysqli_query($connection,$sql);
 
 	if($result) {

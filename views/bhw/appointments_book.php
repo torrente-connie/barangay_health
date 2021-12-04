@@ -143,7 +143,7 @@
                       ON a.appointment_patient_id = p.user_id 
                       JOIN doctor_schedule_time dst 
                       ON a.appointment_selected_time = dst.schedule_time_id
-                      WHERE a.appointment_type = 'bookappointment' OR a.appointment_status IN (0,6,7)
+                      WHERE a.appointment_type = 'bookappointment' AND a.appointment_status IN (1,2,3,4,5,6)
                       ORDER BY a.appointment_id ASC
                       ";
 
@@ -270,7 +270,7 @@
                         
                           <?php } else if($appointment_status == 4) { ?>
 
-                             <a href="#123acceptAppointmentBhw" class="btn btn-primary text-white btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Proceed Appointment</a>
+                             <a href="#proceedAppointmentBhw" class="btn btn-primary text-white btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Proceed Appointment</a>
 
                              <a href="#123cancelAppointmentBhw" class="btn btn-danger btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> No Show </a>
 
@@ -404,6 +404,49 @@
             </div>
           </div>
         </div>
+
+                   <!-- Modal for View Appointment Details -->
+       <div class="modal fade" tabindex="-1" role="dialog" id="proceedAppointmentBhw">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Accept Appointment</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+              </div>
+             <div class="card-body">
+
+              <h4>Are you sure you want to accept this appointment?</h4>
+
+              
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item text-center">Appointment Details</li>
+                        <li class="list-group-item">Patient Name: <span id="accept_appoint_patient"></span></li>
+                        <li class="list-group-item">Selected Service: <span id="accept_appoint_service"></span></li>
+                        <li class="list-group-item">Selected Date: <span id="accept_appoint_date"></span></li>
+                        <li class="list-group-item">Selected Time: <span id="accept_appoint_time"></span></li>
+                      </ul>
+            
+              
+               <form method="POST" action="../../backend/bhw_appointment_book.php">
+                  <input type="hidden" name="acceptID" id="accept_appoint_id">
+                  <div class="form-group mt-4">
+                    <button type="submit" name="acceptAppointmentSubmit" class="btn btn-success btn-block" tabindex="4">
+                      Yes
+                    </button>
+                    <button class="btn btn-danger btn-block" tabindex="4" data-dismiss="modal">
+                      No
+                    </button>
+                  </div>
+                </form>
+
+        
+              </div>
+            </div>
+          </div>
+        </div>
+
 
 
       <!-- <footer class="main-footer" style="background-color:rgba(40, 102, 199, 0.97)">
@@ -568,6 +611,99 @@
                 $('#accept_appoint_type').val(data.appointment_type);
                 $('#accept_appointment_reason').val(data.appointment_reason);
                 $('#acceptAppointmentBhw').modal('show');
+             }
+        })  
+    })
+});
+</script>
+
+<!-- Accept Book -->
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(document).on('click','.proceedAppointmentBhw', function(){
+        var proceedID = $(this).attr("id");
+        $.ajax({
+          url:"../../backend/bhw_appointment_book.php",
+            method:"POST",
+            data:{bookID:proceedID},
+            dataType:"json",
+            success:function(data) {
+                // val - id
+                $('#proceed_appoint_id').val(data.appointment_id);
+                $('#proceed_doctor_id').val(data.doctor_id);
+                $('#proceed_patient_id').val(data.patient_id);
+                $('#proceed_appoint_dst_id').val(data.appoint_dst_id);
+                // html - current patient;
+                $('#proceed_patient_account').val(data.patient_account);
+                $('#proceed_patient_fname').val(data.patient_fname);
+                $('#proceed_patient_mname').val(data.patient_mname);
+                $('#proceed_patient_lname').val(data.patient_lname);
+                // html - doctor 
+                $('#proceed_doctor_account').val(data.doctor_account);
+                $('#proceed_doc_fname').val(data.doc_fname);
+                $('#proceed_doc_mname').val(data.doc_mname);
+                $('#proceed_doc_lname').val(data.doc_lname);
+                // html - appoint patient names
+                $('#proceed_appoint_pfname').val(data.appoint_pfname);
+                $('#proceed_appoint_pmname').val(data.appoint_pmname);
+                $('#proceed_appoint_plname').val(data.appoint_plname);
+                $('#proceed_appoint_pemail').val(data.appoint_pemail);
+                $('#proceed_appoint_ppnum').val(data.appoint_ppnum);
+
+                // name format
+                var patient_fname = data.appoint_pfname;
+                var patient_mname = data.appoint_pmname;
+                var patient_lname = data.appoint_plname;
+
+                var patient_fullname = patient_fname+ ' '+patient_mname+'. '+patient_lname;
+
+                $('#proceed_appoint_patient').html(patient_fullname);
+
+                // date format
+                var date = data.appoint_date;
+                var dateFormat = moment(date).format('MM/DD/YYYY');
+
+                var start_time = data.appoint_date + ' ' +data.appoint_start_time;
+                var startTimeFormat = moment(start_time).format('HH:mm A');
+
+                var end_time = data.appoint_date + ' ' +data.appoint_end_time;
+                var endTimeFormat = moment(end_time).format('HH:mm A');
+
+                var proceed_date = dateFormat;
+                var proceed_time = startTimeFormat + ' - ' + endTimeFormat;
+
+                // // status format
+                // if(data.appointment_status == 1) {
+                //   $('#proceed_appointment_status').html('Pending');
+                // } else if(data.appointment_status == 2) {
+                //   $('#proceed_appointment_status').html('Cancel');
+                // } else if(data.appointment_status == 3) {
+                //   $('#proceed_appointment_status').html('proceeded');
+                // } else if(data.appointment_status == 4) {
+                //   $('#proceed_appointment_status').html('Approve');
+                // } else if(data.appointment_status == 5) {
+                //   $('#proceed_appointment_status').html('Reschedule');
+                // } else if(data.appointment_status == 6) {
+                //   $('#proceed_appointment_status').html('On-going');
+                // } else if(data.appointment_status == 7) {
+                //   $('#proceed_appointment_status').html('No-show');
+                // } else if(data.appointment_status == 0) {
+                //   $('#proceed_appointment_status').html('Completed');
+                // }
+
+                // var test_result = "<span class='badge badge-danger'>Pending</span>";
+
+                // $('#proceed_appoint_test').html(test_result);
+                
+          
+                // html - date and time
+                $('#proceed_appoint_date').html(proceed_date);
+                $('#proceed_appoint_time').html(proceed_time);
+                $('#proceed_appointment_status').html(data.appointment_status);
+                $('#proceed_appoint_service').html(data.appoint_service);
+                $('#proceed_appoint_type').val(data.appointment_type);
+                $('#proceed_appointment_reason').val(data.appointment_reason);
+                $('#proceedAppointmentBhw').modal('show');
              }
         })  
     })

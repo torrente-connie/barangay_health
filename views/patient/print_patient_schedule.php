@@ -1,5 +1,7 @@
 <?php 
    require_once '../../assets/vendors/dompdf/autoload.inc.php';
+   require("../../backend/dbconn.php");
+   
    use Dompdf\Dompdf;
    $dompdf = new Dompdf();
    ob_start();
@@ -21,7 +23,75 @@
 
    <?php 
 
-   $fullname = 'Connie Rose Torrente';
+   $connection = dbConn();
+ 
+   // php code here;
+   $appointment_id = $_GET['id'];
+
+   $query = "SELECT 
+             d.user_id as doctor_id,
+             d.user_account_id as doctor_account,
+             d.user_firstname  as doc_fname, 
+             d.user_middlename as doc_mname, 
+             d.user_lastname   as doc_lname,
+             p.user_firstname  as patient_fname,
+             p.user_middlename as patient_mname,
+             p.user_lastname   as patient_lname,
+             p.user_account_id as patient_account,
+             p.user_id as patient_id,
+             a.appointment_id as appointment_id,
+             a.appointment_patient_fname as appoint_pfname,
+             a.appointment_patient_mname as appoint_pmname,
+             a.appointment_patient_lname as appoint_plname,
+             a.appointment_patient_email as appoint_pemail,
+             a.appointment_patient_pnum as appoint_ppnum,
+             a.appointment_selected_date as appoint_date,
+             a.appointment_selected_time as appoint_dst_id, 
+             dst.schedule_start_time as appoint_start_time,
+             dst.schedule_end_time as appoint_end_time,
+             a.appointment_selected_service as appoint_service,
+             a.appointment_type as appointment_type,
+             a.appointment_status as appointment_status,
+             a.appointment_reason as appointment_reason,
+             a.appointment_code as appointment_code
+             FROM appointment a
+             JOIN user d 
+             ON a.appointment_doctor_id = d.user_id 
+             JOIN user p 
+             ON a.appointment_patient_id = p.user_id 
+             JOIN doctor_schedule_time dst 
+             ON a.appointment_selected_time = dst.schedule_time_id 
+             WHERE a.appointment_id = '$appointment_id' ";
+             $result = mysqli_query($connection,$query);
+             $row = mysqli_fetch_assoc($result);
+
+   $dear_pfname = $row['patient_fname'];
+   $dear_pmname = $row['patient_mname'];
+   $dear_plname = $row['patient_lname'];
+
+   $dear_fullname = $dear_pfname.' '.$dear_pmname.'. '.$dear_plname;
+
+
+   $pfname = $row['appoint_pfname'];
+   $pmname = $row['appoint_pmname'];
+   $plname = $row['appoint_plname'];
+
+   $fullname = $pfname.' '.$pmname.'. '.$plname;
+
+   $sitename = 'Barangay San Vincente Liloan, Medical Clinic';
+
+   $appointment_code = $row['appointment_code'];
+
+   $appoint_start_time = $row['appoint_start_time'];
+   $appoint_end_time = $row['appoint_end_time'];
+
+   $appoint_date = $row['appoint_date'];   
+
+   $format_date = date('l, F d, Y',strtotime($appoint_date));
+
+    // format time
+    $format_start = date("h:i:A", strtotime($appoint_start_time));
+    $format_end   = date("h:i:A", strtotime($appoint_end_time));
 
 
    ?>
@@ -115,7 +185,7 @@
       <br/>
 
          <div class="invoice">
-      	 	<h3>Dear <span class="text-uppercase"><?php echo $fullname ?></span> </h3> 
+      	 	<h3>Dear <span class="text-uppercase"><?php echo $dear_fullname ?></span> </h3> 
       	 	<h3 class="text-capitalize">good day! </h3>
       	 	<h3 class="text-capitalize text-success">you have successfully confirmed your appointment booking </h3>
       	 </div>
@@ -127,20 +197,24 @@
             <tbody>
                <tr>
                   <td width="40%" style="font-size: 30px;">Appointment Code #: </td>
-                  <td width="60%" align="left" style="font-size: 24px;">BHAC0123</td>
+                  <td width="60%" align="left" style="font-size: 24px;"><?php echo $appointment_code ?></td>
                </tr>
                 <tr>
                   <td width="40%" style="font-size: 30px;">Site Name: </td>
                   <td width="60%" align="left" style="font-size: 24px;">Barangay San Vincente Liloan, Medical Clinic</td>
                </tr>
                 <tr>
+                  <td width="40%" style="font-size: 30px;">Patient Name: </td>
+                  <td width="60%" align="left" style="font-size: 24px;"><?php echo $fullname ?></td>
+               </tr>
+                <tr>
                   <td width="40%" style="font-size: 30px;">Date: </td>
-                  <td width="60%" align="left" style="font-size: 24px;">Monday, July 21, 2021</td>
+                  <td width="60%" align="left" style="font-size: 24px;"><?php echo $format_date ?></td>
                </tr>
 
                <tr>
                   <td width="40%" style="font-size: 30px;">Time: </td>
-                  <td width="60%" align="left" style="font-size: 24px;">15:00 - 16:00</td>
+                  <td width="60%" align="left" style="font-size: 24px;"><?php echo $format_start ?> - <?php echo $format_end ?></td>
                </tr>
               
             </tbody>
@@ -156,11 +230,15 @@
             <tbody>
             	
                <tr>
-                  <td width="60%" align="left" style="font-size: 20px;">1. Bring One Valid ID and This Printed Copy of the Appointment Booking</td>
+                  <td width="60%" align="left" style="font-size: 20px;">1. Please Present A Printed Copy of This Appointment Booking Ticket To The Barangay Health Worker.</td>
+               </tr>
+
+               <tr>
+                  <td width="60%" align="left" style="font-size: 20px;">2. Bring your vaccination ID and One Valid Government ID.</td>
                </tr>
 
                 <tr>
-                  <td width="60%" align="left" style="font-size: 20px;">2. Wear Always Face Mask and Face Shield</td>
+                  <td width="60%" align="left" style="font-size: 20px;">3. Don't Forget to wear your Face Mask and Face Shield.</td>
                </tr>
               
               

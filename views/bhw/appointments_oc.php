@@ -477,9 +477,9 @@
                   <input type="hidden" name="consultationDate" id="consult_appoint_ddate">
                   <input type="hidden" name="consultationStartTime" id="consult_appoint_stime">
                   <input type="hidden" name="consultationEndTime" id="consult_appoint_etime">
-                  <input type="text" name="consultationPfname" id="consult_appoint_pfname">
-                  <input type="text" name="consultationPmname" id="consult_appoint_pmname">
-                  <input type="text" name="consultationPlname" id="consult_appoint_plname">
+                  <input type="hidden" name="consultationPfname" id="consult_appoint_pfname">
+                  <input type="hidden" name="consultationPmname" id="consult_appoint_pmname">
+                  <input type="hidden" name="consultationPlname" id="consult_appoint_plname">
 
                    <div class="form-group mt-4">
                     <label for="reason">Type of Consultation Link</label>

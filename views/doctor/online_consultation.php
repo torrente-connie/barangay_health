@@ -154,7 +154,7 @@
                       ON vc.virtual_consultation_user_id = p.user_id 
                       JOIN appointment a 
                       ON vc.virtual_consultation_appointment_id = a.appointment_id
-                      WHERE d.user_id = '$doctor_id'
+                      WHERE d.user_id = '$doctor_id' AND vc.virtual_consultation_status = 1
                       ";
                       $result = mysqli_query($connection,$sql);
 
@@ -255,7 +255,7 @@
                       </ul>
 
               
-              <form method="POST" action="../../backend/doctor_appointment_oc.php">
+              <form method="POST" action="../../backend/doctor_online_consultation.php">
 
                   <input type="hidden" name="consultationID" id="virtual_consultation_id">
                   <input type="hidden" name="appointmentID" id="virtual_consultation_appointment_id">

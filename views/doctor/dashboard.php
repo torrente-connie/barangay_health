@@ -160,7 +160,7 @@
                 <div class="card-header">
                   <h4>On-going Appoinments</h4>
                   <div class="card-header-action">
-                    <a href="#" class="btn btn-primary">View Completed Appointments </a>
+                    <a href="view_completed_appointments.php" class="btn btn-primary">View Completed Appointments </a>
                   </div>
                 </div>
                 

@@ -67,23 +67,26 @@ if(isset($_POST['approveAppointmentSubmit'])) {
 		}	
 	}
 
-// code for accept appointment
+// code for when the virtual consultation is completed
 if(isset($_POST['completedVirtualConsultationSubmit'])) {
     
     $connection = dbConn();
     $consultationID = $_POST['consultationID'];
     $appointmentID = $_POST['appointmentID'];
     $reason = "";
-    
-    $sql = "UPDATE appointment SET `appointment_status` = '4', `appointment_reason` = '$reason' WHERE appointment_id = '$approveID' ";
+  
+    $query = "UPDATE virtual_consultation SET `virtual_consultation_status` =  '0' WHERE virtual_consultation_id = '$consultationID' ";
+    $result_query = mysqli_query($connection,$query);
+
+    $sql = "UPDATE appointment SET `appointment_status` = '0', `appointment_reason` = '$reason' WHERE appointment_id = '$appointmentID' ";
     $result = mysqli_query($connection,$sql);
 
-    if($result) {
-        $alert="Appointment Book Approve by Doctor ";
-            header("Location:../views/doctor/appointments_book.php?s=".$alert);
+    if($result_query AND $result) {
+        $alert="The Virtual Consultation Is Successfully Completed";
+            header("Location:../views/doctor/online_consultation.php?s=".$alert);
         }else{
          $alert="Error";
-            header("Location:../views/doctor/appointments_book.php?s=".$alert);
+            header("Location:../views/doctor/online_consultation.php?s=".$alert);
         }   
     }
 

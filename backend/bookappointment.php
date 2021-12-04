@@ -38,7 +38,10 @@ function bookAppointment() {
 	$old_date = explode('/', $date_selected); 
 	$new_data = $old_date[2].'-'.$old_date[0].'-'.$old_date[1];
 
-	$sql = "INSERT INTO appointment (appointment_id,appointment_doctor_id,appointment_patient_id,appointment_patient_fname,appointment_patient_mname,appointment_patient_lname,appointment_patient_email,appointment_patient_pnum,appointment_selected_date,appointment_selected_time,appointment_selected_service,appointment_type,appointment_status,appointment_reason,appointment_bool) VALUES (NULL,'$get_doctor_id','$patient_user_id','$patient_firstname','$patient_middlename','$patient_lastname','$patient_email','$patient_phonenumber','$new_data','$appointmentsched_selected','$healthservices','$bookappointment','$appointment_status','$appointment_reason','$appointment_bool')";
+	// appointment code;
+	$appointment_code 			= "";
+
+	$sql = "INSERT INTO appointment (appointment_id,appointment_doctor_id,appointment_patient_id,appointment_patient_fname,appointment_patient_mname,appointment_patient_lname,appointment_patient_email,appointment_patient_pnum,appointment_selected_date,appointment_selected_time,appointment_selected_service,appointment_type,appointment_status,appointment_reason,appointment_code,appointment_bool) VALUES (NULL,'$get_doctor_id','$patient_user_id','$patient_firstname','$patient_middlename','$patient_lastname','$patient_email','$patient_phonenumber','$new_data','$appointmentsched_selected','$healthservices','$bookappointment','$appointment_status','$appointment_reason','$appointment_code','$appointment_bool')";
 	$result = mysqli_query($conn,$sql);
 
 
