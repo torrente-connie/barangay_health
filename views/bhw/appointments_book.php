@@ -270,9 +270,9 @@
                         
                           <?php } else if($appointment_status == 4) { ?>
 
-                             <a href="#proceedAppointmentBhw" class="btn btn-primary text-white btn-sm btn-block" data-toggle="modal" data-accept-id="<?php echo $appointment_id ?>">Proceed Appointment</a>
+                             <button class="btn btn-primary btn-sm btn-block proceedAppointmentBhw" id='<?php echo $appointment_id ?>'> Proceed Appointment </button>
 
-                             <a href="#123cancelAppointmentBhw" class="btn btn-danger btn-block btn-sm" data-toggle="modal" data-cancel-id="<?php echo $appointment_id ?>"> No Show </a>
+                            <button class="btn btn-danger btn-sm btn-block cancelAppointmentBhw" id='<?php echo $appointment_id ?>'> Reschedule </button> 
 
                           <?php } ?>
                           </td>
@@ -417,26 +417,42 @@
               </div>
              <div class="card-body">
 
-              <h4>Are you sure you want to accept this appointment?</h4>
+              <h4>Please Input The Appointment Code For The Patient To Proceed To Appointment </h4>
 
               
-                      <ul class="list-group list-group-flush">
+                     <!--  <ul class="list-group list-group-flush">
                         <li class="list-group-item text-center">Appointment Details</li>
                         <li class="list-group-item">Patient Name: <span id="accept_appoint_patient"></span></li>
                         <li class="list-group-item">Selected Service: <span id="accept_appoint_service"></span></li>
                         <li class="list-group-item">Selected Date: <span id="accept_appoint_date"></span></li>
                         <li class="list-group-item">Selected Time: <span id="accept_appoint_time"></span></li>
-                      </ul>
+                      </ul> -->
             
               
                <form method="POST" action="../../backend/bhw_appointment_book.php">
-                  <input type="hidden" name="acceptID" id="accept_appoint_id">
+                  <input type="hidden" name="proceedID" id="proceed_appoint_id">
+                  <input type="hidden" name="proceedDoctorID" id="proceed_doctor_id">
+                  <input type="hidden" name="proceedPatientID" id="proceed_patient_id">
+                  <input type="hidden" name="proceedMedicalService" id="proceed_appoint_service">
+                  <input type="hidden" name="proceedAppointmentType" id="proceed_appoint_type">
+                  <input type="hidden" name="proceedDate" id="proceed_appoint_ddate">
+                  <input type="hidden" name="proceedStartTime" id="proceed_appoint_stime">
+                  <input type="hidden" name="proceedEndTime" id="proceed_appoint_etime">
+                  <input type="hidden" name="proceedPfname" id="proceed_appoint_pfname">
+                  <input type="hidden" name="proceedPmname" id="proceed_appoint_pmname">
+                  <input type="hidden" name="proceedPlname" id="proceed_appoint_plname">
+
                   <div class="form-group mt-4">
-                    <button type="submit" name="acceptAppointmentSubmit" class="btn btn-success btn-block" tabindex="4">
-                      Yes
+                    <label for="reason">Input Patient Appointment Code</label>
+                    <input type="text" class="form-control" name="appointment_code" tabindex="1" required="" autofocus="" placeholder="Please input patient appointment code here..">
+                  </div>
+
+                  <div class="form-group mt-4">
+                    <button type="submit" name="proceedAppointmentSubmit" class="btn btn-primary btn-block" tabindex="4">
+                      Submit
                     </button>
                     <button class="btn btn-danger btn-block" tabindex="4" data-dismiss="modal">
-                      No
+                      Cancel
                     </button>
                   </div>
                 </form>
@@ -628,7 +644,7 @@
             data:{bookID:proceedID},
             dataType:"json",
             success:function(data) {
-                // val - id
+                 // val - id
                 $('#proceed_appoint_id').val(data.appointment_id);
                 $('#proceed_doctor_id').val(data.doctor_id);
                 $('#proceed_patient_id').val(data.patient_id);
@@ -678,7 +694,7 @@
                 // } else if(data.appointment_status == 2) {
                 //   $('#proceed_appointment_status').html('Cancel');
                 // } else if(data.appointment_status == 3) {
-                //   $('#proceed_appointment_status').html('proceeded');
+                //   $('#proceed_appointment_status').html('Accepted');
                 // } else if(data.appointment_status == 4) {
                 //   $('#proceed_appointment_status').html('Approve');
                 // } else if(data.appointment_status == 5) {
@@ -694,13 +710,17 @@
                 // var test_result = "<span class='badge badge-danger'>Pending</span>";
 
                 // $('#proceed_appoint_test').html(test_result);
+                $('#proceed_appoint_ddate').val(data.appoint_date);
+                $('#proceed_appoint_stime').val(data.appoint_start_time);
+                $('#proceed_appoint_etime').val(data.appoint_end_time);
+                
                 
           
                 // html - date and time
                 $('#proceed_appoint_date').html(proceed_date);
                 $('#proceed_appoint_time').html(proceed_time);
                 $('#proceed_appointment_status').html(data.appointment_status);
-                $('#proceed_appoint_service').html(data.appoint_service);
+                $('#proceed_appoint_service').val(data.appoint_service);
                 $('#proceed_appoint_type').val(data.appointment_type);
                 $('#proceed_appointment_reason').val(data.appointment_reason);
                 $('#proceedAppointmentBhw').modal('show');

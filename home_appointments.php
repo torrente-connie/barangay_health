@@ -46,142 +46,134 @@ $i=0;
 
     $status = $row['appointment_status'];
 
+    $patient_pfname = $row['appoint_pfname'];
+    $patient_pmname = $row['appoint_pmname'];
+    $patient_plname = $row['appoint_plname'];
+
+    $patient_pfullname = $patient_pfname.' '.$patient_pmname.'. '.$patient_plname;
+
+    $doctor_pfname = $row['doc_fname'];
+    $doctor_pmname = $row['doc_mname'];
+    $doctor_plname = $row['doc_lname'];
+
+    $doctor_pfullname = $doctor_pfname.' '.$doctor_pmname.'. '.$doctor_plname;
+
+  
     // check if status is pending
     if($status == 1) {
       $date = $row['appoint_date'];
       $start_time = $row['appoint_start_time'];
       $end_time = $row['appoint_end_time'];
 
-      // // format time
-      // $format_start = date("h:i:A", strtotime($appoint_start_time));
-      // $format_end   = date("h:i:A", strtotime($appoint_end_time));
-
-      $data[$i]['title'] = $row['patient_fname'] . ' - ' . $row['appoint_service'];
+      // $data[$i]['title'] = $row['patient_fname'] . ' - ' . $row['appoint_service'] .' (Pending)';
+      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
       $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
       $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
-      $data[$i]['color'] =  'blue';
+      $data[$i]['color'] =  '#6777ef';
       $data[$i]['textColor'] = 'white';
       $i++;
 
-    // check if status is approve
+    // check if status is reschedule
     } else if($status == 2) {
       $date = $row['appoint_date'];
       $start_time = $row['appoint_start_time'];
       $end_time = $row['appoint_end_time'];
 
-      // // format time
-      // $format_start = date("h:i:A", strtotime($appoint_start_time));
-      // $format_end   = date("h:i:A", strtotime($appoint_end_time));
-
-      $data[$i]['title'] = $row['patient_fname'] . ' - ' . $row['appoint_service'];
+      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
       $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
       $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
-      $data[$i]['color'] =  'red';
+      $data[$i]['color'] =  '#fc544b';
       $data[$i]['textColor'] = 'white';
       $i++;
+
+    // check if status accepted
     } else if($status == 3) {
       $date = $row['appoint_date'];
       $start_time = $row['appoint_start_time'];
       $end_time = $row['appoint_end_time'];
 
-      // // format time
-      // $format_start = date("h:i:A", strtotime($appoint_start_time));
-      // $format_end   = date("h:i:A", strtotime($appoint_end_time));
-
-      $data[$i]['title'] = $row['patient_fname'] . ' - ' . $row['appoint_service'];
+      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
       $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
       $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
-      $data[$i]['color'] =  'red';
+      $data[$i]['color'] =  '#3abaf4';
       $data[$i]['textColor'] = 'white';
       $i++;
+
+    // check if status approved
     } else if($status == 4) {
       $date = $row['appoint_date'];
       $start_time = $row['appoint_start_time'];
       $end_time = $row['appoint_end_time'];
 
-      // // format time
-      // $format_start = date("h:i:A", strtotime($appoint_start_time));
-      // $format_end   = date("h:i:A", strtotime($appoint_end_time));
-
-      $data[$i]['title'] = $row['patient_fname'] . ' - ' . $row['appoint_service'];
+      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
       $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
       $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
-      $data[$i]['color'] =  'red';
+      $data[$i]['color'] =  '#47c363';
       $data[$i]['textColor'] = 'white';
       $i++;
+
+    // check if status reschedule
     } else if($status == 5) {
       $date = $row['appoint_date'];
       $start_time = $row['appoint_start_time'];
       $end_time = $row['appoint_end_time'];
 
-      // // format time
-      // $format_start = date("h:i:A", strtotime($appoint_start_time));
-      // $format_end   = date("h:i:A", strtotime($appoint_end_time));
-
-      $data[$i]['title'] = $row['patient_fname'] . ' - ' . $row['appoint_service'];
+      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
       $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
       $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
-      $data[$i]['color'] =  'red';
+      $data[$i]['color'] =  '#fc544b';
       $data[$i]['textColor'] = 'white';
       $i++;
+
+    // check if status confirmed
     } else if($status == 6) {
       $date = $row['appoint_date'];
       $start_time = $row['appoint_start_time'];
       $end_time = $row['appoint_end_time'];
 
-      // // format time
-      // $format_start = date("h:i:A", strtotime($appoint_start_time));
-      // $format_end   = date("h:i:A", strtotime($appoint_end_time));
-
-      $data[$i]['title'] = $row['patient_fname'] . ' - ' . $row['appoint_service'];
+      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
       $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
       $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
-      $data[$i]['color'] =  'red';
+      $data[$i]['color'] =  '#6777ef';
       $data[$i]['textColor'] = 'white';
       $i++;
+
+    // check if status confirmed
     } else if($status == 7) {
       $date = $row['appoint_date'];
       $start_time = $row['appoint_start_time'];
       $end_time = $row['appoint_end_time'];
 
-      // // format time
-      // $format_start = date("h:i:A", strtotime($appoint_start_time));
-      // $format_end   = date("h:i:A", strtotime($appoint_end_time));
-
-      $data[$i]['title'] = $row['patient_fname'] . ' - ' . $row['appoint_service'];
+      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
       $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
       $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
-      $data[$i]['color'] =  'red';
+      $data[$i]['color'] =  '#6777ef';
       $data[$i]['textColor'] = 'white';
       $i++;
+
+    // check if status no-show
     } else if($status == 8) {
       $date = $row['appoint_date'];
       $start_time = $row['appoint_start_time'];
       $end_time = $row['appoint_end_time'];
 
-      // // format time
-      // $format_start = date("h:i:A", strtotime($appoint_start_time));
-      // $format_end   = date("h:i:A", strtotime($appoint_end_time));
-
-      $data[$i]['title'] = $row['patient_fname'] . ' - ' . $row['appoint_service'];
+      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
       $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
       $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
-      $data[$i]['color'] =  'red';
+      $data[$i]['color'] =  '#fc544b';
       $data[$i]['textColor'] = 'white';
       $i++;
+
+    // check if status completed
     } else if($status == 0) {
       $date = $row['appoint_date'];
       $start_time = $row['appoint_start_time'];
       $end_time = $row['appoint_end_time'];
 
-      // // format time
-      // $format_start = date("h:i:A", strtotime($appoint_start_time));
-      // $format_end   = date("h:i:A", strtotime($appoint_end_time));
-
-      $data[$i]['title'] = $row['patient_fname'] . ' - ' . $row['appoint_service'];
+      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
       $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
       $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
-      $data[$i]['color'] =  'red';
+      $data[$i]['color'] =  '#47c363';
       $data[$i]['textColor'] = 'white';
       $i++;
     }
@@ -245,6 +237,7 @@ $i=0;
             <h1>Appointment Calendar</h1>
             </div>
 
+
         <div class="section-body">
             <div class="card">
             
@@ -272,6 +265,34 @@ $i=0;
 
     </div>
 
+    <div id="calendarModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Event Description</h4>
+            </div>
+            <div id="modalBody" class="modal-body">
+            <h4 id="modalTitle" class="modal-title"></h4>
+                <ul class="list-group mt-2">
+                      <li class="list-group-item ">
+                        Date: <span id="modalShowDate"></span>
+                      </li>
+                      <li class="list-group-item">
+                        Schedule Time: <span id="modalShowTime"></span>
+                      </li>
+                      </span>
+                      </li>
+                    </ul>     
+
+               <div class="form-group mt-4">
+                  
+                    <button class="btn btn-danger" tabindex="4" data-dismiss="modal">
+                      Close
+                    </button>
+                  </div>
+        </div>
+    </div>
+    </div>
 
    <!-- Menu for Footer Links -->
     <?php require("scripts_footer.php"); ?>

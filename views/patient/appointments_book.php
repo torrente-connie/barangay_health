@@ -149,7 +149,7 @@
                       ON a.appointment_patient_id = p.user_id 
                       JOIN doctor_schedule_time dst 
                       ON a.appointment_selected_time = dst.schedule_time_id
-                      WHERE a.appointment_type = 'bookappointment' AND p.user_id = '$patient_id'
+                      WHERE a.appointment_type = 'bookappointment' AND p.user_id = '$patient_id' AND a.appointment_status IN (1,2,3,4,5,6)
                       ORDER BY a.appointment_id ASC
                       ";
 

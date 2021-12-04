@@ -12,6 +12,8 @@
 
   <script src="assets/vendors/jquery-ui/jquery-ui.js"></script>
 
+  <script src="assets/vendors/moment/moment.js"></script>  
+
   <!-- JS Libraies -->
 
   <!-- Page Specific JS File -->
@@ -53,10 +55,30 @@
       navLinks: true, // can click day/week names to navigate views
       businessHours: true, // display business hours
       events: <?php echo $data ?>,
-      eventClick: function(info) {
-        alert('Event' + info.event.title);
-      }
+      eventClick:  function(info) {
+
+
+          var title = info.event.title;
+          
+          
+          var starttime = info.event.start;
+          var endtime = info.event.end;
+          
+
+          var dateFormat = moment(starttime).format('MM/DD/YYYY');
+          var startTimeFormat = moment(starttime).format('HH:mm A');
+          var startEndFormat = moment(endtime).format('HH:mm A');
+
+          var show_time = startTimeFormat + ' - ' + startEndFormat;
+
+                $('#modalTitle').html(title);
+                $('#modalShowDate').html(dateFormat);
+                $('#modalShowTime').html(show_time);
+                $('#calendarModal').modal();
+            },
     });
     calendar.render();
   });
 </script>
+
+

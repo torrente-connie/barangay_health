@@ -89,5 +89,59 @@ if(isset($_POST['cancelAppointmentSubmit'])) {
 		}	
 	}
 
+// code for face to face appointment
+if(isset($_POST['proceedAppointmentSubmit'])) {
+    
+    $connection = dbConn();
+
+    $proceedID = $_POST['proceedID']; // appointment ID ni;
+    $proceedDoctorID = $_POST['proceedDoctorID']; // doctor ni;
+    $proceedPatientID = $_POST['proceedPatientID']; // patient ni;
+    $proceedDate = $_POST['proceedDate']; // date ni;
+    $proceedStartTime = $_POST['proceedStartTime']; // start time ni;
+    $proceedEndTime = $_POST['proceedEndTime']; // end time ni;
+
+    $proceedPfname = $_POST['proceedPfname'];
+    $proceedPmname = $_POST['proceedPmname'];
+    $proceedPlname = $_POST['proceedPlname'];
+
+    $proceedAppointmentType = $_POST['proceedAppointmentType'];
+    $proceedMedicalService = $_POST['proceedMedicalService'];
+
+    $appointment_code = $_POST['appointment_code'];
+   
+    date_default_timezone_set('Asia/Manila');
+    $proceed_datetime = date('Y/m/d H:i:s');
+
+    $proceed_status = 1;
+    $proceed_bool = 1;
+
+    $getAppointmentCode = "SELECT * FROM appointment WHERE appointment_id = '$proceedID' ";
+    $resultAppointmentCode = mysqli_query($connection,$getAppointmentCode);
+    $rowAppointmentCode = mysqli_fetch_assoc($resultAppointmentCode);
+   
+    if($appointment_code == $rowAppointmentCode['appointment_code']) {
+
+    $query = "INSERT INTO patient_list (patient_list_id,patient_list_user_id,patient_list_doctor_id,patient_list_appointment_id,patient_list_pfname,patient_list_pmname,patient_list_plname,patient_list_appointment_type,patient_list_medical_service,patient_list_date,patient_list_stime,patient_list_etime,patient_list_datetime,patient_list_status,patient_list_bool) VALUES (NULL, '$proceedPatientID','$proceedDoctorID','$proceedID','$proceedPfname','$proceedPmname','$proceedPlname','$proceedAppointmentType','$proceedMedicalService','$proceedDate','$proceedStartTime','$proceedEndTime','$proceed_datetime','$proceed_status','$proceed_bool')";
+    $result_query = mysqli_query($connection,$query);
+
+    $sql = "UPDATE appointment SET `appointment_status` = '7', `appointment_code_status` = '0' WHERE appointment_id = '$proceedID' ";
+    $result_sql = mysqli_query($connection,$sql);
+
+    if($result_query AND $result_sql) {
+        $alert="Virtual Consultation Set by Barangay Health Worker";
+            header("Location:../views/bhw/appointments_book.php?s=".$alert);
+        }else{
+         $alert="Error";
+            //header("Location:../views/bhw/appointments_book.php?s=".$alert);
+         var_dump($query);
+        }   
+  } else {
+     $alert="Wrong Appointment Code Inputted";
+        header("Location:../views/bhw/appointments_book.php?s=".$alert);
+  }
+}
+
+
 
 ?>

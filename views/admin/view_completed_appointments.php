@@ -20,7 +20,23 @@
   require("../../backend/dbconn.php");
   $connection = dbConn();
 
+  // display counts
+
+  // SQL Query for Accounts
+  $sql1 = "SELECT * FROM user WHERE user_type != 'Administrator' ";
+  $result1 = mysqli_query($connection,$sql1);
+  $numrows1 = mysqli_num_rows($result1);
+
+  // SQL Query for Appoinments
+
+  // SQL Query for Schedules
+  $sql3 = "SELECT DISTINCT(doctor_id) FROM doctor_schedule WHERE schedule_status = 1 ";
+  $result3 = mysqli_query($connection,$sql3);
+  $numrows3 = mysqli_num_rows($result3); 
+
+
 ?>
+
 
 <body class="layout-3">
   <div id="app">
@@ -51,13 +67,14 @@
 
           ?>
 
+
         </ul>
       </nav>
-
+      
       <nav class="navbar navbar-secondary navbar-expand-lg">
         <div class="container">
           <ul class="navbar-nav">
-            <li class="nav-item">
+            <li class="nav-item active">
               <a href="dashboard.php" class="nav-link"><i class="fas fa-columns"></i><span>Dashboard</span></a>
             </li>
             <li class="nav-item dropdown">
@@ -69,16 +86,16 @@
                     </ul>
                 </li>
 
-          <!--  <li class="nav-item">
+             <!--  <li class="nav-item">
               <a href="activity_logs.php" class="nav-link"><i class="fas fa-clipboard-list"></i><span>Activity Logs</span></a>
              </li> -->
 
-             <li class="nav-item active dropdown">
+             <li class="nav-item dropdown">
                 <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-calendar-check"></i>
                   <span>Appointments</span>
                 </a>
                   <ul class="dropdown-menu" style="display: none;">
-                      <li class="nav-item active"><a href="appointments_book.php" class="nav-link" style="padding-right:0 !important"> <span>Face to Face Appointment</span> </a></li>
+                      <li class="nav-item"><a href="appointments_book.php" class="nav-link" style="padding-right:0 !important"> <span>Face to Face Appointment</span> </a></li>
                       <li class="nav-item"><a href="appointments_oc.php" class="nav-link"> <span>Virtual Consultation</span> </a></li>
                       <li class="nav-item"><a href="appointments_walk_in.php" class="nav-link"> <span>Walk-in Appointment</span> </a></li>
                     </ul>
@@ -88,47 +105,51 @@
               <a href="schedules.php" class="nav-link"><i class="fas fa-clock"></i><span>Schedules</span></a>
             </li>
 
-
           </ul>
         </div>
       </nav>
 
-        <!-- Main Content -->
+      <!-- Main Content -->
       <div class="main-content" style="min-height: 566px;">
         <section class="section">
           <div class="section-header">
-            <h1>Face to Face Appointments</h1>
-            </div>
+            <h1>View Completed Appointments</h1>
+            <!-- <div class="section-header-breadcrumb">
+              <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
+            </div> -->
+          </div>
 
-   
-        <div class="section-body">
-            <div class="card">
-              <div class="card-header">
-                 <h4></h4>
+
+           <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header">
+                  <h4></h4>
                   <div class="card-header-action">
+                    <a href="dashboard.php" class="btn btn-danger">Return</a>
                   </div>
-              </div>
-
-               <div class="card-body">
-                    <div class="table-responsive">
-                      <table class="table table-hover table-bordered" id="table-subject">
-                        <thead class="thead-light">
-                          <tr>
+                </div>
+                
+                <div class="card-body p-0">
+                  <div class="table-responsive table-invoice">
+                    <table class="table table-striped">
+                      <tbody>
+                      <tr>
                             <th>Appointment Booked By</th>
-                            <th>Appointment Doctor</th>
+                            <!-- <th>Appointment Doctor</th> -->
                             <th>Patient Name</th>
-                            <th>Medical Service</th><!-- 
-                            <th>Appointment Date</th> 
+                            <th>Medical Service</th>
+                           <!--  <th>Appointment Date</th>
                             <th>Appointment Time</th> -->
-                            <th>Appointment Status</th> 
-                            <th>Appointment Details</th>
+                            <th>Appointment Status</th>
+                            <th>Appointment Details</th> 
+                            <th></th>
                           </tr>
-                        </thead>
-                        <tbody>
 
-                           <?php 
+                       <?php 
 
                       $sql = "SELECT 
+                      d.user_id as doctor_id,
                       d.user_account_id as doctor_account,
                       d.user_firstname  as doc_fname, 
                       d.user_middlename as doc_mname, 
@@ -136,6 +157,7 @@
                       p.user_firstname  as patient_fname,
                       p.user_middlename as patient_mname,
                       p.user_lastname   as patient_lname,
+                      p.user_id as patient_id,
                       p.user_account_id as patient_account,
                       a.appointment_id as appointment_id,
                       a.appointment_patient_fname as appoint_pfname,
@@ -157,11 +179,12 @@
                       JOIN user p 
                       ON a.appointment_patient_id = p.user_id 
                       JOIN doctor_schedule_time dst 
-                      ON a.appointment_selected_time = dst.schedule_time_id
-                      WHERE a.appointment_type = 'bookappointment' AND a.appointment_status IN (1,2,3,4,5,6)
+                      ON a.appointment_selected_time = dst.schedule_time_id 
+                      WHERE a.appointment_status = 0 
                       ORDER BY a.appointment_id ASC
                       ";
 
+                    
                       $result = mysqli_query($connection,$sql);
 
                       while($row = mysqli_fetch_assoc($result)) {
@@ -208,7 +231,6 @@
                       $format_start = date("h:i:A", strtotime($appoint_start_time));
                       $format_end   = date("h:i:A", strtotime($appoint_end_time));
 
-
                       // for tool tip
                       $acname_tooltip = $patient_name;
 
@@ -222,9 +244,10 @@
 
                       ?>
 
+                    
                         <tr>
                           <td><a href="#" style="text-decoration: none;"><?php echo $patient_name ?></a></td>
-                          <td><?php echo $doc_name ?></td>
+                          <!-- <td><?php //echo $doc_name ?></td> -->
                           <td><?php echo $appoint_patient_name ?></td>
                           <td><?php echo $appoint_service ?></td>
                           <td>
@@ -240,7 +263,6 @@
                           } else if($appointment_status == 2) { ?>
 
                             <span class="badge badge-danger badge-pill">Cancel</span>
-
                             <p>Reason: <?php echo $appointment_reason ?></p>
 
                           <?php 
@@ -253,65 +275,82 @@
 
                             <span class="badge badge-success badge-pill">Approved</span>
 
+                          <?php } else if($appointment_status == 5) { ?>
+
+                            <span class="badge badge-danger badge-pill">Reschedule</span>
+
+                          <?php } else if($appointment_status == 6) { ?>
+
+                          
+                          <?php } else if($appointment_status == 7) { ?>
+
+                            <span class="badge badge-primary badge-pill">Confirmed</span>
+
                           <?php } ?>
                               
                           </td>
-                          <!-- <td><?php //echo $appoint_schedule_date ?></td>
-                          <td><?php //echo $format_start ?> - <?php //echo $format_end ?></td> --> 
+                         <!--  <td><?php //echo $appoint_schedule_date ?></td>
+                          <td><?php //echo $format_start ?> - <?php //echo $format_end ?></td> -->
                           <td>
-                             <button class="btn btn-info btn-sm btn-block appointmentDetailsAdmin" id='<?php echo $appointment_id ?>'> View Details </button> 
+                                <button class="btn btn-info btn-sm btn-block appointmentDetailsDoctor" id='<?php echo $appointment_id ?>'> View Details </button> 
                           </td> 
-                        </tr>
-                      
-                      <?php } ?>
+                          <td>
 
-                        </tbody>
-                      </table>
-                    </div>
-              </div>
+                          <?php  
+                          // if status = pending
+                          if($appointment_status == 1) {
+
+                          ?>
+
+                        
+                          <?php 
+                          // if status = cancel
+                          } else if($appointment_status == 2) { ?>
+
+                           
+                          <?php 
+                          // if status = accept
+                          } else if($appointment_status == 3) { ?>
+
+                              <button class="btn btn-primary btn-sm btn-block approveAppointmentDoctor" id='<?php echo $appointment_id ?>'> Approve </button> 
+
+                             <button class="btn btn-danger btn-sm btn-block rescheduleAppointmentDoctor" id='<?php echo $appointment_id ?>'> Reschedule </button> 
+
+                          <?php }
+                          // if status = approve
+                          else if($appointment_status == 4) { ?>
+
               
-              <div class="card-footer bg-whitesmoke"> </div>
+                          <?php }
+                          // if status = reschedule
+                          else if($appointment_status == 5) { ?>
+
+                           <a href="#approveAppointmentDoctor" class="btn btn-primary text-white  btn-sm btn-block" data-toggle="modal" data-approve-id="<?php echo $appointment_id ?>">Approve</a>
+                             <a href="#ssrescheduleAppointmentDoctor" class="btn btn-danger text-white btn-block btn-sm" data-toggle="modal" data-reschedule-id="<?php echo $appointment_id ?>"> Reschedule </a>
+                      
+                          <?php } ?>
+
+                          </td>
+                        </tr>
+
+                    <?php } ?>
+
+                    </tbody>
+                  </table>
+                  </div>
+                </div>
+
+              </div>
             </div>
-        </div>
+         
+          </div> 
 
 
-         </section>
+        </section>
       </div>
     </div>
+    <br>
 
- <!-- Modal for View Appointment Details -->
-       <div class="modal fade" tabindex="-1" role="dialog" id="appointmentDetailsAdmin">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">View Appointment Details</h5>
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                   <span aria-hidden="true">&times;</span>
-                 </button>
-              </div>
-             <div class="card-body">
-              
-                  <ul class="list-group">
-                      <li class="list-group-item ">
-                        Date: <span id="view_appoint_date"></span>
-                      </li>
-                      <li class="list-group-item">
-                        Schedule Time: <span id="view_appoint_time"></span>
-                      </li>
-                       <li class="list-group-item">
-                        Appointment Status: <span id="view_appoint_status"></span>
-                      </li>
-                      <li class="list-group-item"> Reason: <span id="view_appointment_reason"></span>
-                      </li>
-                    </ul>        
-          
-        
-              </div>
-            </div>
-          </div>
-        </div>
-    
-  
       <!-- <footer class="main-footer" style="background-color:rgba(40, 102, 199, 0.97)">
         <div class="container">
         <div class="footer-left text-white">
@@ -322,69 +361,9 @@
 
     </div>
 
-
-   <!-- Menu for Footer Links -->
+  <!-- Menu for Footer Links -->
     <?php require("scripts_footer.php"); ?>
     <!-- -->
-
-      <!-- View Details BHW -->
-<script type="text/javascript">
-  $(document).ready(function(){
-    $(document).on('click','.appointmentDetailsAdmin', function(){
-        var viewID = $(this).attr("id");
-        $.ajax({
-          url:"../../backend/admin_appointment_book.php",
-            method:"POST",
-            data:{bookID:viewID},
-            dataType:"json",
-            success:function(data) {
-                // date format
-                var date = data.appoint_date;
-                var dateFormat = moment(date).format('MM/DD/YYYY');
-
-                var start_time = data.appoint_date + ' ' +data.appoint_start_time;
-                var startTimeFormat = moment(start_time).format('HH:mm A');
-
-                var end_time = data.appoint_date + ' ' +data.appoint_end_time;
-                var endTimeFormat = moment(end_time).format('HH:mm A');
-
-                var view_date = dateFormat;
-                var view_time = startTimeFormat + ' - ' + endTimeFormat;
-
-                // status format
-                if(data.appointment_status == 1) {
-                  $('#view_appoint_status').html("<span class='badge badge-primary badge-pill'>Pending</span>");
-                } else if(data.appointment_status == 2) {
-                  $('#view_appoint_status').html('');
-                } else if(data.appointment_status == 3) {
-                  $('#view_appoint_status').html("<span class='badge badge-info badge-pill'>Accepted</span>");
-                } else if(data.appointment_status == 4) {
-                  $('#view_appoint_status').html("<span class='badge badge-success badge-pill'>Approved</span>");
-                } else if(data.appointment_status == 5) {
-                  $('#view_appoint_status').html('');
-                } else if(data.appointment_status == 6) {
-                  $('#view_appoint_status').html('');
-                } else if(data.appointment_status == 7) {
-                  $('#view_appoint_status').html('');
-                } else if(data.appointment_status == 0) {
-                  $('#view_appoint_status').html("<span class='badge badge-success badge-pill'>Completed</span>");
-                }
-
-                // var test_result = "<span class='badge badge-danger'>Pending</span>";
-
-                // $('#accept_appoint_test').html(test_result);
-                
-          
-                // html - date and time
-                $('#view_appoint_date').html(view_date);
-                $('#view_appoint_time').html(view_time);
-                $('#view_appointment_reason').html(data.appointment_reason);
-                $('#appointmentDetailsAdmin').modal('show');
-             }
-        })  
-    })
-});
-</script>
 
 
   </body>

@@ -58,7 +58,7 @@
        <nav class="navbar navbar-secondary navbar-expand-lg">
         <div class="container">
           <ul class="navbar-nav">
-            <li class="nav-item">
+            <li class="nav-item active">
               <a href="dashboard.php" class="nav-link"><i class="fas fa-columns"></i><span>Dashboard</span></a>
             </li>
           
