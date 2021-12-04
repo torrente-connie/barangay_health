@@ -37,6 +37,11 @@ session_start();
 
   <link rel="stylesheet" href="assets/vendors/jquery-ui/jquery-ui.css">
 
+  <link href='assets/vendors/fullcalendar/packages/core/main.css' rel='stylesheet' />
+  <link href='assets/vendors/fullcalendar/packages/daygrid/main.css' rel='stylesheet' />
+  <link href='assets/vendors/fullcalendar/packages/timegrid/main.css' rel='stylesheet' />
+  <link href='assets/vendors/fullcalendar/packages/list/main.css' rel='stylesheet' />
+
 </head>
 
 

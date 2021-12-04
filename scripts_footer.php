@@ -20,6 +20,12 @@
   <script src="assets/js/scripts.js"></script>
   <script src="assets/js/custom.js"></script>
 
+  <script src='assets/vendors/fullcalendar/packages/core/main.js'></script>
+  <script src='assets/vendors/fullcalendar/packages/interaction/main.js'></script>
+  <script src='assets/vendors/fullcalendar/packages/daygrid/main.js'></script>
+  <script src='assets/vendors/fullcalendar/packages/timegrid/main.js'></script>
+  <script src='assets/vendors/fullcalendar/packages/list/main.js'></script>
+
 </body>
 </html>
 
@@ -31,12 +37,26 @@
 }
 </script>
 
- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth'
-        });
-        calendar.render();
-      });
-  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
+      //plugins: [ 'interaction', 'list' ],
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridDay,listMonth'
+        //right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+      },
+      defaultDate:  new Date(),
+      navLinks: true, // can click day/week names to navigate views
+      businessHours: true, // display business hours
+      events: <?php echo $data ?>,
+      eventClick: function(info) {
+        alert('Event' + info.event.title);
+      }
+    });
+    calendar.render();
+  });
+</script>
