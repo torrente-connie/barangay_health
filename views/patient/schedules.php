@@ -87,6 +87,10 @@
               <a href="schedules.php" class="nav-link"><i class="fas fa-clock"></i><span>Schedules</span></a>
             </li>
 
+              <li class="nav-item">
+                   <a href="medical_history.php" class="nav-link"><i class="fas fa-pen"></i><span>Medical History</span></a>
+                </li>
+
 
           </ul>
         </div>

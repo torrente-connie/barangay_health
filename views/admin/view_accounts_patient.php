@@ -166,7 +166,7 @@
               <div class="col-12 col-md-12 col-lg-7">
                 <div class="card">
                     <div class="card-header">
-                     <h4>Medical Records</h4>
+                     <h4>Medical History</h4>
                         <div class="card-header-action">
                           <a href="accounts_patient.php" class="btn btn-danger btn-sm">Return</a>
                         </div>
@@ -221,7 +221,7 @@
             </div>
           </div>
 
-       <div class="section-body">
+    <!--    <div class="section-body">
             <div class="card">
               <div class="card-header">
                  <h4>Appointment History</h4>
@@ -246,34 +246,34 @@
 
                       <?php 
 
-                      // query for appointment
-                      $sql = "SELECT * FROM appointment a
-                      JOIN user d
-                      ON a.appointment_doctor_id = d.user_id
-                      JOIN service s 
-                      ON a.appointment_service_id = s.service_id
-                      WHERE a.appointment_user_id = '$patient_id'
-                      ";
-                      $result = mysqli_query($connection,$sql);
+                      //query for appointment
+                      //$sql = "SELECT * FROM appointment a
+                      //JOIN user d
+                      //ON a.appointment_doctor_id = d.user_id
+                      //JOIN service s 
+                      //ON a.appointment_service_id = s.service_id
+                      //WHERE a.appointment_user_id = '$patient_id'
+                      //";
+                      //$result = mysqli_query($connection,$sql);
 
-                      while($row = mysqli_fetch_assoc($result)) {
+                      //while($row = mysqli_fetch_assoc($result)) {
                     
-                      $service_name = $row['service_name'];
+                      //$service_name = $row['service_name'];
 
-                      $appointment_type = $row['appointment_consultation_type'];
+                      //$appointment_type = $row['appointment_consultation_type'];
 
-                      ?>
+                      //?>
 
                         <tr>
-                          <td><?php echo $service_name ?></td>
+                          <td><?php// echo $service_name ?></td>
                           <td>Remie Kaye Pulmones</td>
-                          <td><?php echo $appointment_type ?></td>
+                          <td><?php// echo $appointment_type ?></td>
                           <td>12:00PM - 1:30PM</td>
                           <td>8/6/2021</td>
                          
                          </tr>
                       
-                      <?php } ?>
+                      <?php// } ?>
 
                         </tbody>
                       </table>
@@ -283,7 +283,9 @@
 
               <div class="card-footer bg-whitesmoke"> </div>
             </div>
-          </div>
+          </div> -->
+
+
         </section>
       </div>
 

@@ -77,7 +77,11 @@
 
                  <li class="nav-item">
                    <a href="online_consultation.php" class="nav-link"><i class="fas fa-notes-medical"></i><span>Virtual Consultation</span></a>
-               </li>
+                </li>
+
+                  <li class="nav-item">
+                   <a href="medical_history.php" class="nav-link"><i class="fas fa-pen"></i><span>Medical History</span></a>
+                </li>
 
           </ul>
         </div>

@@ -74,11 +74,11 @@
                     </ul>
                 </li>
 
-                 <li class="nav-item active">
+                 <li class="nav-item">
                    <a href="online_consultation.php" class="nav-link"><i class="fas fa-notes-medical"></i><span>Virtual Consultation</span></a>
                </li>
 
-                 <li class="nav-item">
+                 <li class="nav-item active">
                    <a href="medical_history.php" class="nav-link"><i class="fas fa-pen"></i><span>Medical History</span></a>
                 </li>
 
@@ -89,7 +89,7 @@
       <div class="main-content" style="min-height: 566px;">
         <section class="section">
           <div class="section-header">
-            <h1>Virtual Consultation</h1>
+            <h1>Medical History</h1>
             </div>
 
    
@@ -101,16 +101,17 @@
                   </div>
               </div>
 
-            <div class="card-body">
+                 <div class="card-body">
                     <div class="table-responsive">
-                      <table class="table table-hover table-bordered" id="table-subject">
+                        <table class="table table-hover table-bordered" id="table-subject">
                         <thead class="thead-light">
                           <tr class="text-center">
-                            <th>Assigned Doctor</th>
-                            <th>Virtual Consultation Link</th>
-                            <th>Platform</th>
+                            <th>Assigned Patient</th>
+                            <th>Medical Service</th>
+                            <th>Appointment Type</th>
                             <th>Date</th>
                             <th>Time</th>
+                            <th>Medical Description</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -129,25 +130,42 @@
                       p.user_account_id as patient_account,
                       p.user_id as patient_id,
                       a.appointment_id as appointment_id,
-                      vc.virtual_consultation_link as consultation_link,
-                      vc.virtual_consultation_type as consultation_type,
-                      vc.virtual_consultation_date as consultation_date,
-                      vc.virtual_consultation_start_time as consultation_stime,
-                      vc.virtual_consultation_end_time as consultation_etime,
-                      vc.virtual_consultation_status as consultation_status,
-                      vc.virtual_consultation_bool as consultation_bool
-                      FROM virtual_consultation vc
-                      JOIN user d 
-                      ON vc.virtual_consultation_doctor_id = d.user_id 
+                      mh.medical_history_id as medical_history_id,
+                      mh.medical_history_user_id as mh_user_id,
+                      mh.medical_history_doctor_id as mh_doctor_id,
+                      mh.medical_history_appointment_id as mh_appointment_id,
+                      mh.medical_history_pfname as mh_pfname,
+                      mh.medical_history_pmname as mh_pmname,
+                      mh.medical_history_plname as mh_plname,
+                      mh.medical_history_page as mh_page,
+                      mh.medical_history_pallergy as mh_pallergy,
+                      mh.medical_history_psymptoms as mh_psymptoms,
+                      mh.medical_history_ptemp as mh_ptemp,
+                      mh.medical_history_pheart as mh_pheart,
+                      mh.medical_history_pbp as mh_pbp,
+                      mh.medical_history_pulse as mh_pulse,
+                      mh.medical_history_pcomments as mh_pcomments,
+                      mh.medical_history_pprescription as mh_pprescription,
+                      mh.medical_history_appointment_type as mh_atype,
+                      mh.medical_history_medical_service as mh_mservice,
+                      mh.medical_history_date as mh_date,
+                      mh.medical_history_stime as mh_stime,
+                      mh.medical_history_etime as mh_etime,
+                      mh.medical_history_datetime as mh_datetime,
+                      mh.medical_history_status as mh_status,
+                      mh.medical_history_bool as mh_bool
+                      FROM medical_history mh
                       JOIN user p 
-                      ON vc.virtual_consultation_user_id = p.user_id 
+                      ON mh.medical_history_user_id = p.user_id 
+                      JOIN user d 
+                      ON mh.medical_history_doctor_id = d.user_id
                       JOIN appointment a 
-                      ON vc.virtual_consultation_appointment_id = a.appointment_id
-                      WHERE p.user_id = '$patient_id'
+                      ON mh.medical_history_appointment_id = a.appointment_id
+                      WHERE mh.medical_history_user_id = '$patient_id' AND mh.medical_history_status = 1
                       ";
+                    
                       $result = mysqli_query($connection,$sql);
-
-                      
+        
                       while($row = mysqli_fetch_assoc($result)) {
 
                       // doctor fullname
@@ -159,38 +177,50 @@
                       $doc_name = $doc_firstname.' '.$doc_middlename.'.'.' '.$doc_lastname;
 
                       // user patient fullname
-                      $patient_account      = $row['patient_account'];
-                      $patient_firstname    = ucfirst($row['patient_fname']);
-                      $patient_middlename   = ucfirst($row['patient_mname']);
-                      $patient_lastname     = ucfirst($row['patient_lname']);
+                      $book_patient_account      = $row['patient_account'];
+                      $book_patient_firstname    = ucfirst($row['patient_fname']);
+                      $book_patient_middlename   = ucfirst($row['patient_mname']);
+                      $book_patient_lastname     = ucfirst($row['patient_lname']);
 
-                      $patient_name = $patient_firstname.' '.$patient_middlename.'.'.' '.$patient_lastname;
+                      $book_patient_name = $book_patient_firstname.' '.$book_patient_middlename.'.'.' '.$book_patient_lastname;
+
+                      // user patient fullname
+                      $mh_firstname    = ucfirst($row['mh_pfname']);
+                      $mh_middlename   = ucfirst($row['mh_pmname']);
+                      $mh_lastname     = ucfirst($row['mh_plname']);
+
+                      $mh_name = $mh_firstname.' '.$mh_middlename.'.'.' '.$mh_lastname;
 
                       // format date and time
-                      $date = $row['consultation_date'];
-                      $format_start = date("h:i:A", strtotime($row['consultation_stime']));
-                      $format_end   = date("h:i:A", strtotime($row['consultation_etime']));
+                      $date = $row['mh_date'];
+                      $format_start = date("h:i:A", strtotime($row['mh_stime']));
+                      $format_end   = date("h:i:A", strtotime($row['mh_etime']));
 
 
                         //
-                        $consultation_link = $row['consultation_link'];
-                        $consultation_platform = $row['consultation_type'];
+                        $mh_id = $row['medical_history_id'];
+                        $mh_mservice = $row['mh_mservice'];
+                        $mh_atype = $row['mh_atype'];
 
-                        if($consultation_platform == "google-meet") {
-                          $platform = "Google Meet";
-                        } else if($consultation_platform == "zoom") {
-                          $platform = "Zoom";
+                        if($mh_atype == "bookappointment") {
+                          $atype = "Face to Face Appointment";
+                        } else if($mh_atype == "onlineappointment") {
+                          $atype = "Virtual Consultation";
+                        } else if($mh_atype = "walkinappointment") {
+                          $atype = "Walk-In Appointment";
                         }
 
                       ?>
 
                         <tr>
-                          <td><?php echo $doc_name ?></td>
-                          <td><a href="<?php echo $consultation_link ?>" target="_blank"><?php echo $consultation_link ?></a></td>
-                          <td><?php echo $platform ?></td>
+                          <td><?php echo $mh_name ?></td>
+                          <td><?php echo $mh_mservice ?></td>
+                          <td><?php echo $atype ?></td>
                           <td><?php echo $date ?></td>
                           <td><?php echo $format_start ?> - <?php echo $format_end ?></td>
-                         
+                          <td>
+                            <a href="#patients_add_description.php?plid=<?php echo $mh_id ?>" class="btn btn-primary btn-sm btn-block"> View </a> 
+                          </td>
                          </tr>
                       
                       <?php } ?>

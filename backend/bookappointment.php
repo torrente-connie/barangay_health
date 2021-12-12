@@ -40,8 +40,9 @@ function bookAppointment() {
 
 	// appointment code;
 	$appointment_code 			= "";
+    $appointment_code_status    = 0;
 
-	$sql = "INSERT INTO appointment (appointment_id,appointment_doctor_id,appointment_patient_id,appointment_patient_fname,appointment_patient_mname,appointment_patient_lname,appointment_patient_email,appointment_patient_pnum,appointment_selected_date,appointment_selected_time,appointment_selected_service,appointment_type,appointment_status,appointment_reason,appointment_code,appointment_bool) VALUES (NULL,'$get_doctor_id','$patient_user_id','$patient_firstname','$patient_middlename','$patient_lastname','$patient_email','$patient_phonenumber','$new_data','$appointmentsched_selected','$healthservices','$bookappointment','$appointment_status','$appointment_reason','$appointment_code','$appointment_bool')";
+	$sql = "INSERT INTO appointment (appointment_id,appointment_doctor_id,appointment_patient_id,appointment_patient_fname,appointment_patient_mname,appointment_patient_lname,appointment_patient_email,appointment_patient_pnum,appointment_selected_date,appointment_selected_time,appointment_selected_service,appointment_type,appointment_status,appointment_reason,appointment_code,appointment_code_status,appointment_bool) VALUES (NULL,'$get_doctor_id','$patient_user_id','$patient_firstname','$patient_middlename','$patient_lastname','$patient_email','$patient_phonenumber','$new_data','$appointmentsched_selected','$healthservices','$bookappointment','$appointment_status','$appointment_reason','$appointment_code','$appointment_code_status','$appointment_bool')";
 	$result = mysqli_query($conn,$sql);
 
 
@@ -50,7 +51,9 @@ function bookAppointment() {
 			header("Location:../home_schedules.php?s=".$alert);
 		}else{
 		 $alert="Error";
-			header("Location:../home_schedules.php?f=".$alert);
+        //  var_dump($conn);
+        //  var_dump($sql);
+        header("Location:../home_schedules.php?f=".$alert);
 		}
  }
 
@@ -77,7 +80,11 @@ function bookAppointment() {
 	$old_date = explode('/', $date_selected); 
 	$new_data = $old_date[2].'-'.$old_date[0].'-'.$old_date[1];
 
-	$sql = "INSERT INTO appointment (appointment_id,appointment_doctor_id,appointment_patient_id,appointment_patient_fname,appointment_patient_mname,appointment_patient_lname,appointment_patient_email,appointment_patient_pnum,appointment_selected_date,appointment_selected_time,appointment_selected_service,appointment_type,appointment_status,appointment_reason,appointment_bool) VALUES (NULL,'$get_doctor_id','$patient_user_id','$patient_firstname','$patient_middlename','$patient_lastname','$patient_email','$patient_phonenumber','$new_data','$appointmentsched_selected','$healthservices','$onlineconsultation','$appointment_status','$appointment_reason','$appointment_bool')";
+    	// appointment code;
+	$appointment_code 			= "";
+    $appointment_code_status    = 0;
+
+	$sql = "INSERT INTO appointment (appointment_id,appointment_doctor_id,appointment_patient_id,appointment_patient_fname,appointment_patient_mname,appointment_patient_lname,appointment_patient_email,appointment_patient_pnum,appointment_selected_date,appointment_selected_time,appointment_selected_service,appointment_type,appointment_status,appointment_reason,appointment_code,appointment_code_status,appointment_bool) VALUES (NULL,'$get_doctor_id','$patient_user_id','$patient_firstname','$patient_middlename','$patient_lastname','$patient_email','$patient_phonenumber','$new_data','$appointmentsched_selected','$healthservices','$onlineconsultation','$appointment_status','$appointment_reason','$appointment_code','$appointment_code_status','$appointment_bool')";
 	$result = mysqli_query($conn,$sql);
 
 	if($result){
@@ -85,7 +92,7 @@ function bookAppointment() {
 			header("Location:../home_schedules.php?s=".$alert);
 		}else{
 		 $alert="Error";
-			header("Location:../home_schedules.php?f=".$alert);
+         header("Location:../home_schedules.php?f=".$alert);
 		}
 
  }

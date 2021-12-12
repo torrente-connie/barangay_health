@@ -157,7 +157,7 @@
                           <td><div class="badge badge-primary"><?php echo $user_type ?></div></td>
                           <td><?php echo $user_cnum ?></td>
                           <td><?php echo $user_dob ?></td>
-                          <td><a href="#view_accounts_patient.php?pid=<?php echo $rowPatient['user_id']?>" class="btn btn-primary">VIEW</a></td>
+                          <td><a href="view_accounts_patient.php?pid=<?php echo $rowPatient['user_id']?>" class="btn btn-primary">VIEW</a></td>
                          
                          </tr>
                       

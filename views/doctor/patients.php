@@ -101,7 +101,7 @@
         <div class="section-body">
             <div class="card">
               <div class="card-header">
-                 <h4></h4>
+                 <h4>Current Appointment Patient</h4>
                   <div class="card-header-action">
                    <!--  <a href="class_add.php" class="btn btn-success btn-sm">Add Class</a> -->
                   </div>
@@ -109,56 +109,119 @@
  
                   <div class="card-body">
                     <div class="table-responsive">
-                      <table class="table table-hover table-bordered" id="table-subject">
+                        <table class="table table-hover table-bordered" id="table-subject">
                         <thead class="thead-light">
-                          <tr>
-                            <th>Account ID</th>
-                            <th>Patient Name</th>
+                          <tr class="text-center">
+                            <th>Booked By</th>
+                            <th>Assigned Patient</th>
                             <th>Medical Service</th>
-                            <th>Contact Number</th>
-                            <th></th>
+                            <th>Appointment Type</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Medical Description</th>
                           </tr>
                         </thead>
                         <tbody>
 
-                    <!--   <?php 
+                      <?php 
 
-                      // query for getting patient
-                      $sqlPatient = "SELECT * FROM user
-                      WHERE user_type = 'Patient'
+                      $sql = "SELECT 
+                      d.user_id as doctor_id,
+                      d.user_account_id as doctor_account,
+                      d.user_firstname  as doc_fname, 
+                      d.user_middlename as doc_mname, 
+                      d.user_lastname   as doc_lname,
+                      p.user_firstname  as patient_fname,
+                      p.user_middlename as patient_mname,
+                      p.user_lastname   as patient_lname,
+                      p.user_account_id as patient_account,
+                      p.user_id as patient_id,
+                      a.appointment_id as appointment_id,
+                      pl.patient_list_pfname as plist_pfname,
+                      pl.patient_list_pmname as plist_pmname,
+                      pl.patient_list_plname as plist_plname,
+                      pl.patient_list_id as plist_id,
+                      pl.patient_list_appointment_type as plist_atype,
+                      pl.patient_list_medical_Service as plist_mservice,
+                      pl.patient_list_date as plist_date,
+                      pl.patient_list_stime as plist_stime,
+                      pl.patient_list_etime as plist_etime,
+                      pl.patient_list_status as plist_status,
+                      pl.patient_list_bool as plist_bool
+                      FROM patient_list pl 
+                      JOIN user p 
+                      ON pl.patient_list_user_id = p.user_id 
+                      JOIN user d 
+                      ON pl.patient_list_doctor_id = d.user_id
+                      JOIN appointment a 
+                      ON pl.patient_list_appointment_id = a.appointment_id
+                      WHERE d.user_id = '$doctor_id' AND pl.patient_list_status = 1
                       ";
 
-                      $resultPatient = mysqli_query($connection,$sqlPatient);
-                      while($rowPatient = mysqli_fetch_assoc($resultPatient)) {
+                     
+                      $result = mysqli_query($connection,$sql);
 
-                        // user account id
-                        $account_id   = $rowPatient['user_account_id'];
+                      
+                      while($row = mysqli_fetch_assoc($result)) {
 
-                        // user full name
-                        $firstname    = ucfirst($rowPatient['user_firstname']);
-                        $middlename   = ucfirst($rowPatient['user_middlename']);
-                        $lastname     = ucfirst($rowPatient['user_lastname']);
+                      // doctor fullname
+                      $doc_account      = $row['doctor_account'];
+                      $doc_firstname    = ucfirst($row['doc_fname']);
+                      $doc_middlename   = ucfirst($row['doc_mname']);
+                      $doc_lastname     = ucfirst($row['doc_lname']);
 
-                        $fullname = $firstname.' '.$middlename.'.'.' '.$lastname;
+                      $doc_name = $doc_firstname.' '.$doc_middlename.'.'.' '.$doc_lastname;
 
-                        // user info
-                        $user_dob  = $rowPatient['user_dob'];
-                        $user_cnum = ucfirst($rowPatient['user_cnum']); 
-                        $user_type = ucfirst($rowPatient['user_type']);
+                      // user patient fullname
+                      $book_patient_account      = $row['patient_account'];
+                      $book_patient_firstname    = ucfirst($row['patient_fname']);
+                      $book_patient_middlename   = ucfirst($row['patient_mname']);
+                      $book_patient_lastname     = ucfirst($row['patient_lname']);
+
+                      $book_patient_name = $book_patient_firstname.' '.$book_patient_middlename.'.'.' '.$book_patient_lastname;
+
+                      // user patient fullname
+                      $plist_firstname    = ucfirst($row['plist_pfname']);
+                      $plist_middlename   = ucfirst($row['plist_pmname']);
+                      $plist_lastname     = ucfirst($row['plist_plname']);
+
+                      $plist_name = $plist_firstname.' '.$plist_middlename.'.'.' '.$plist_lastname;
+
+                      // format date and time
+                      $date = $row['plist_date'];
+                      $format_start = date("h:i:A", strtotime($row['plist_stime']));
+                      $format_end   = date("h:i:A", strtotime($row['plist_etime']));
+
+
+                        //
+                        $plist_id = $row['plist_id'];
+                        $plist_mservice = $row['plist_mservice'];
+                        $plist_atype = $row['plist_atype'];
+
+                        if($plist_atype == "bookappointment") {
+                          $atype = "Face to Face Appointment";
+                        } else if($plist_atype == "onlineappointment") {
+                          $atype = "Virtual Consultation";
+                        } else if($plist_atype = "walkinappointment") {
+                          $atype = "Walk-In Appointment";
+                        }
 
                       ?>
 
                         <tr>
-                          <td><?php echo $account_id ?> </td>
-                          <td><?php echo $fullname ?></td>
-                          <td><div class="badge badge-primary"><?php echo $user_type ?></div></td>
-                          <td><?php echo $user_cnum ?></td>
-                          <td><?php echo $user_dob ?></td>
-                         
+                          <td><?php echo $book_patient_name ?></td>
+                          <td><?php echo $plist_name ?></td>
+                          <td><?php echo $plist_mservice ?></td>
+                          <td><?php echo $atype ?></td>
+                          <td><?php echo $date ?></td>
+                          <td><?php echo $format_start ?> - <?php echo $format_end ?></td>
+                          <td>
+                            <a href="patients_add_description.php?plid=<?php echo $plist_id ?>" class="btn btn-primary btn-sm btn-block"> Add </a> 
+                          </td>
                          </tr>
                       
                       <?php } ?>
- -->
+
                         </tbody>
                       </table>
                     </div>

@@ -17,6 +17,8 @@ function registerUser() {
 	$first_name 	= $_POST['first_name'];
 	$middle_name 	= $_POST['middle_name'];
 	$last_name 		= $_POST['last_name'];
+	$password 	    = $_POST['password'];
+
 
 	  // user type,status and bool 
     $user_type = 'Patient';

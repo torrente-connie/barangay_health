@@ -130,7 +130,8 @@ if(isset($_POST['proceedAppointmentSubmit'])) {
 
     if($result_query AND $result_sql) {
         $alert="Virtual Consultation Set by Barangay Health Worker";
-            header("Location:../views/bhw/appointments_book.php?s=".$alert);
+            //header("Location:../views/bhw/appointments_book.php?s=".$alert);
+            header("Location:../views/bhw/dashboard.php?s=".$alert);
         }else{
          $alert="Error";
             //header("Location:../views/bhw/appointments_book.php?s=".$alert);
