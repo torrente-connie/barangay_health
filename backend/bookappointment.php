@@ -273,8 +273,11 @@ function sendEmailNotification($patientId,$doctorId) {
 	   //    $url = "http://" . $_SERVER['HTTP_POST'] . "localhost/mca_new_db/reset_password.php?email=$email&TID=$id";
 	   // }
 
+	    date_default_timezone_set('Asia/Manila');
+ 	    $get_date = date('Y/m/d');
+
 	    $mail->Subject = 'You Have Successfully Book An Appointment For Face to Face Appointment';
-	    $mail->Body    = "Your Appointment Schedule: 12/16/2021. Please Dont Forgot to Wear Face Mask and Face Shield and Also Always Follow Health Protocol";
+	    $mail->Body    = "Your Appointment Schedule:". $get_date.".Please Dont Forgot to Wear Face Mask and Face Shield and Also Always Follow Health Protocol";
 	 
 	    if(!$mail->send()) {
 	            echo 'Message could not be sent.';
