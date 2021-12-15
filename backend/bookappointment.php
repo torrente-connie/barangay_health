@@ -228,7 +228,8 @@ function sendEmailNotification($patientId,$doctorId) {
 	   require '../assets/mailer/PHPMailerAutoload.php';
        require '../assets/mailer/credential.php';
 
-       $email = "louisadolfo08@gmail.com";
+       // $email = "louisadolfo08@gmail.com";
+       $email = "ctorrente_ccs@uspf.edu.ph";
 
 	        // Instantiation and passing `true` enables exceptions
 	    $mail = new PHPMailer;
@@ -273,7 +274,7 @@ function sendEmailNotification($patientId,$doctorId) {
 	   // }
 
 	    $mail->Subject = 'You Have Successfully Book An Appointment For Face to Face Appointment';
-	    $mail->Body    = "Your Appointment Schedule: 12/15/2021. Please Dont Forgot to Wear Face Mask and Face Shield and Also Always Follow Health Protocol";
+	    $mail->Body    = "Your Appointment Schedule: 12/16/2021. Please Dont Forgot to Wear Face Mask and Face Shield and Also Always Follow Health Protocol";
 	 
 	    if(!$mail->send()) {
 	            echo 'Message could not be sent.';
