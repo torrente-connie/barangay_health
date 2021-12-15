@@ -8,6 +8,12 @@ session_start();
   $patient_fullname = $_SESSION['patient_fullname'];
   $patient_image = $_SESSION['patient_image'];
 
+  } else if(!empty($_SESSION['bhw_id'])) {
+
+  $bhw_id = $_SESSION['bhw_id'];
+  $bhw_fullname = $_SESSION['bhw_fullname'];
+  $bhw_image = $_SESSION['bhw_image'];
+
   }
 
 ?>

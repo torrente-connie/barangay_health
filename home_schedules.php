@@ -113,13 +113,14 @@
                         <span class="text-small text-muted"><h5>General Physician</h5></span><br><br>
 
                       <?php 
-                        if(empty($_SESSION['patient_id'])) {
+                        if(!empty($_SESSION['patient_id'])) {
                       ?>
-                       <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#bookAppointment"> Book An Appointment </button>
-                      
+
+                      <a href="book_appointments.php?adid=<?php echo $doctor_id?>" class="btn btn-primary btn-sm text-white">Book An Appointment </a>
+                       
                       <?php 
 
-                      } else { 
+                      } else if((!empty($_SESSION['bhw_id']))) { 
 
                       ?>
 
@@ -127,9 +128,13 @@
                      
                       <?php 
 
-                      }
+                      } else {
 
                       ?>
+
+                      <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#bookAppointment"> Book An Appointment </button>
+                      
+                      <?php } ?>
 
 
                       </div>

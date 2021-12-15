@@ -19,8 +19,9 @@
   // db connection
   require("../../backend/dbconn.php");
   $connection = dbConn();
-  
+
 ?>
+
 
 <body class="layout-3">
   <div id="app">
@@ -41,36 +42,20 @@
         </form>
         <ul class="navbar-nav navbar-right">
 
-           <?php 
+          <?php 
 
             // notification here
             require("show_notification.php");
           
+            // profile dropdown here
+            require("show_listdropdown.php"); 
+
           ?>
 
-          <!-- profile here -->
-          <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <img alt="image" src="../<?php echo $bhw_image ?>" class="rounded-circle mr-1" style="width:30px;height:30px;">
-            <div class="d-sm-none d-lg-inline-block text-capitalize">Hi, <?php echo $bhw_fullname; ?></div></a>
-            <div class="dropdown-menu dropdown-menu-right">
-                <a href="../../home_page.php" class="dropdown-item has-icon"><i class="fas fa-arrow-left"></i> Homepage </a>
-              <a class="dropdown-item active has-icon" href="show_changepassword.php" style="cursor: pointer">
-                <i class="fas fa-unlock"></i> Change Password
-              </a>
-              <a class="dropdown-item has-icon" href="show_profile.php" style="cursor: pointer">
-                <i class="far fa-user"></i> Profile
-              </a>
-              <div class="dropdown-divider"></div>
-              <a href="../../logout.php" class="dropdown-item has-icon text-danger">
-                <i class="fas fa-sign-out-alt"></i> Logout
-              </a>
-            </div>
-          </li>
 
-        
         </ul>
       </nav>
-
+      
       <nav class="navbar navbar-secondary navbar-expand-lg">
         <div class="container">
           <ul class="navbar-nav">
@@ -98,65 +83,69 @@
         </div>
       </nav>
 
-          <!-- Main Content -->
-     <div class="main-content" style="min-height: 566px;">
+            <!-- Main Content -->
+      <div class="main-content" style="min-height: 566px;">
         <section class="section">
           <div class="section-header">
-            <h1>Account Change Password</h1>
-          </div>
-          <div class="section-body">
-            <div class="row mt-sm-4">
-              <div class="col-12 col-md-12 col-lg-12">
-                <div class="card">
-                  <form method="POST" action="../../backend/change_password.php">
-                    <div class="card-header">
-                      <h4>Change Password</h4>
-                    </div>
+            <h1>Show All Notifications</h1>
+            </div>
 
-                    <input type="hidden" value="<?php echo $bhw_id ?>" name="bhw_id"> 
+   
+        <div class="section-body">
+            <div class="card">
+              <div class="card-header">
+                 <h4></h4>
+               </div>
 
-                    <div class="card-body">
-                        <div class="row">
-                          <div class="form-group col-md-6 col-12">
-                            <label>Old Password</label>
-                            <input type="password" class="form-control" name="old_password" required="">
-                          </div>
-                        </div>
-                         <div class="row">
-                          <div class="form-group col-md-6 col-12">
-                            <label>New Password</label>
-                            <input type="password" class="form-control" name="new_password" required="">
-                          </div>
-                        </div>
-                         <div class="row">
-                          <div class="form-group col-md-6 col-12">
-                            <label>Confirm New Password</label>
-                            <input type="password" class="form-control" name="confirm_new_password" required="">
-                          </div>
-                        </div>
-                    </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table table-hover table-bordered" id="table-subject">
+                        <thead class="thead-light">
+                          <tr>
+                            <th>Notification Message</th>
+                            <th>Notification Date and Time</th>
+                           </tr>
+                        </thead>
+                        <tbody>
 
-                    <div class="card-footer text-left">
-                      <button class="btn btn-primary" name="bhwChangePasswordSubmit">Save Changes</button>
+                      <?php 
+
+                      // query getting all notifications
+                      $sqlNotification = "SELECT * FROM notification WHERE notification_usertype = 'bhw' OR notification_bhw_id = '$bhw_id' AND notification_status = 1 ORDER BY notification_datetime DESC
+                      ";
+
+                      $resultNotification = mysqli_query($connection,$sqlNotification);
+                      while($rowNotification = mysqli_fetch_assoc($resultNotification)) {
+
+                       $notification_message = $rowNotification['notification_message'];
+                       $notification_datetime = $rowNotification['notification_datetime'];
+
+                       $datetime_format = date('m/d/Y h:i A',strtotime($rowNotification['notification_datetime']));
+
+                      ?>
+
+                        <tr>
+                          <td><?php echo $notification_message ?> </td>
+                          <td><?php echo $datetime_format ?></td>
+                        </tr>
+                      
+                      <?php } ?>
+
+                        </tbody>
+                      </table>
                     </div>
-                  </form>
-                </div>
-              </div>
+                  </div>
+
+              <div class="card-footer bg-whitesmoke"> </div>
             </div>
           </div>
-
-     
-        </section>
+         </section>
       </div>
 
 
-
-
     </div>
+    <br>
 
-
-    
-  
       <!-- <footer class="main-footer" style="background-color:rgba(40, 102, 199, 0.97)">
         <div class="container">
         <div class="footer-left text-white">
@@ -167,8 +156,7 @@
 
     </div>
 
-
-   <!-- Menu for Footer Links -->
+  <!-- Menu for Footer Links -->
     <?php require("scripts_footer.php"); ?>
     <!-- -->
 

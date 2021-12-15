@@ -78,6 +78,7 @@
 						<img alt="image" src="../<?php echo $bhw_image ?>" class="rounded-circle mr-1" style="width:30px;height:30px;">
 						<div class="d-sm-none d-lg-inline-block text-capitalize">Hi, <?php echo $bhw_fullname; ?></div></a>
 						<div class="dropdown-menu dropdown-menu-right">
+							<a href="../../home_page.php" class="dropdown-item has-icon"><i class="fas fa-arrow-left"></i> Homepage </a>
 							<a class="dropdown-item has-icon" href="show_changepassword.php" style="cursor: pointer">
 								<i class="fas fa-unlock"></i> Change Password
 							</a>
@@ -109,7 +110,12 @@
 									<ul class="dropdown-menu" style="display: none;">
 											<li class="nav-item"><a href="appointments_book.php" class="nav-link" style="padding-right:0 !important"> <span>Face to Face Appointment</span> </a></li>
 											<li class="nav-item"><a href="appointments_oc.php" class="nav-link"> <span>Virtual Consultation</span> </a></li>
-											<li class="nav-item"><a href="appointments_walk_in.php" class="nav-link"> <span>Walk-in Appointment</span> </a></li>
+											<li class="nav-item dropdown"><a class="nav-link has-dropdown">Walk-in Appointment</a>
+					                        <ul class="dropdown-menu">
+					                          <li class="nav-item"><a href="appointments_walk_in.php" class="nav-link">With Account</a></li>
+					                          <li class="nav-item"><a href="appointments_walk_in_noacc.php" class="nav-link">Without Account</a></li>
+					                        </ul>
+					                      </li>
 										</ul>
 								</li>
 

@@ -219,7 +219,7 @@
                           <td><?php echo $date ?></td>
                           <td><?php echo $format_start ?> - <?php echo $format_end ?></td>
                           <td>
-                            <a href="#patients_add_description.php?plid=<?php echo $mh_id ?>" class="btn btn-primary btn-sm btn-block"> View </a> 
+                             <button class="btn btn-primary btn-block patientMedicalDetails" id='<?php echo $mh_id ?>'> View </button> 
                           </td>
                          </tr>
                       
@@ -239,8 +239,64 @@
     </div>
 
 
-    
-  
+   <!-- Modal for View Appointment Details -->
+       <div class="modal fade" tabindex="-1" role="dialog" id="patientMedicalDetails">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">View Patient Medical History</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+              </div>
+             <div class="card-body">
+              
+                  <ul class="list-group">
+                     <!--  <li class="list-group-item ">
+                        Date: <span id="view_mh_date"></span>
+                      </li>
+                      <li class="list-group-item ">
+                        Time: <span id="view_mh_time"></span>
+                      </li> -->
+                      <li class="list-group-item">
+                        Doctor Checked By: <span id="view_mh_doctor"></span>
+                      </li>
+                       <li class="list-group-item">
+                        Patient Name: <span id="view_mh_patient"></span>
+                      </li>
+                      <li class="list-group-item">
+                        Patient Age: <span id="view_mh_age"></span>
+                      </li>
+                      <li class="list-group-item">
+                        Patient Allergy: <span id="view_mh_allergy"></span>
+                      </li>
+                      <li class="list-group-item">
+                        Patient Symptoms: <span id="view_mh_symptoms"></span>
+                      </li>
+                       <li class="list-group-item">
+                        Patient Temperature: <span id="view_mh_temp"></span>
+                      </li>
+                       <li class="list-group-item">
+                        Patient Heart Rate: <span id="view_mh_heart"></span>
+                      </li>
+                       <li class="list-group-item">
+                        Patient Blood Pressure Rate: <span id="view_mh_bp"></span>
+                      </li>
+                       <li class="list-group-item">
+                        Patient Pulse Rate: <span id="view_mh_pulse"></span>
+                      </li>
+                      <li class="list-group-item">
+                        Patient Comments: <span id="view_mh_comments"></span>
+                      </li>
+                      <li class="list-group-item">
+                        Patient Prescription: <span id="view_mh_comments"></span>
+                      </li>
+                    </ul>        
+              </div>
+            </div>
+          </div>
+        </div>
+
       <!-- <footer class="main-footer" style="background-color:rgba(40, 102, 199, 0.97)">
         <div class="container">
         <div class="footer-left text-white">
@@ -255,6 +311,84 @@
    <!-- Menu for Footer Links -->
     <?php require("scripts_footer.php"); ?>
     <!-- -->
+
+     <!-- View Details BHW -->
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(document).on('click','.patientMedicalDetails', function(){
+        var viewID = $(this).attr("id");
+        $.ajax({
+          url:"../../backend/patient_medical_history.php",
+            method:"POST",
+            data:{mhID:viewID},
+            dataType:"json",
+            success:function(data) {
+                 // name format
+                var patient_fname = data.mh_pfname;
+                var patient_mname = data.mh_pmname;
+                var patient_lname = data.mh_plname;
+
+                var patient_fullname = patient_fname+ ' '+patient_mname+'. '+patient_lname;
+
+                $('#view_mh_patient').html(patient_fullname);
+
+                // name format
+                var doctor_fname = data.doc_fname;
+                var doctor_mname = data.doc_mname;
+                var doctor_lname = data.doc_lname;
+
+                var doctor_fullname = doctor_fname+ ' '+doctor_mname+'. '+doctor_lname;
+
+                $('#view_mh_doctor').html(doctor_fullname);
+
+
+                // date format
+                var date = data.mh_date;
+                var dateFormat = moment(date).format('MM/DD/YYYY');
+
+                var start_time = data.mh_date + ' ' +data.mh_stime;
+                var startTimeFormat = moment(start_time).format('HH:mm A');
+
+                var end_time = data.mh_date + ' ' +data.mh_etime;
+                var endTimeFormat = moment(end_time).format('HH:mm A');
+
+                var view_date = dateFormat;
+                var view_time = startTimeFormat + ' - ' + endTimeFormat;
+
+                $('#view_mh_atype').html(data.mh_atype);
+                
+                var atype = data.mh_atype;
+
+                if(atype == 'bookappointment') {
+                   $('#view_mh_atype').html('Face to Face Appointment');
+                } else if(atype == 'onlineconsultation') {
+                   $('#view_mh_atype').html('Virtual Consultation');
+                } else if(atype == 'walkinappointment') {
+                   $('#view_mh_atype').html('Walk-In Appointment');
+                }
+            
+                // html - date and time
+                $('#view_mh_date').html(view_date);
+                $('#view_mh_time').html(view_time);
+                $('#view_mh_age').html(data.mh_page);
+                $('#view_mh_allergy').html(data.mh_pallergy);
+                $('#view_mh_symptoms').html(data.mh_psymptoms);
+
+                $('#view_mh_temp').html(data.mh_ptemp);
+                $('#view_mh_heart').html(data.mh_pheart);
+                $('#view_mh_bp').html(data.mh_pbp);
+                $('#view_mh_pulse').html(data.mh_pulse);
+                
+                $('#view_mh_comments').html(data.mh_pcomments);
+                $('#view_mh_mservice').html(data.mh_mservice);
+                $('#patientMedicalDetails').modal('show');
+             }
+        })  
+    })
+});
+</script>
+
+
 
 
   </body>

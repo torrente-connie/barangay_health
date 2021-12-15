@@ -43,8 +43,10 @@ function registerUser() {
 
 	$result = mysqli_query($conn,$sql);
 
+
+
 	if($result){
-		 $alert="Added New Account";
+		 //$alert="Added New Account";
 			header("Location:../login.php?s=".$alert);
 		}else{
 		 $alert="Error";

@@ -68,7 +68,12 @@
                   <ul class="dropdown-menu" style="display: none;">
                       <li class="nav-item active"><a href="appointments_book.php" class="nav-link" style="padding-right:0 !important"> <span>Face to Face Appointment</span> </a></li>
                       <li class="nav-item"><a href="appointments_oc.php" class="nav-link"> <span>Virtual Consultation</span> </a></li>
-                      <li class="nav-item"><a href="appointments_walk_in.php" class="nav-link"> <span>Walk-in Appointment</span> </a></li>
+                      <li class="nav-item dropdown"><a class="nav-link has-dropdown">Walk-in Appointment</a>
+                        <ul class="dropdown-menu">
+                          <li class="nav-item"><a href="appointments_walk_in.php" class="nav-link">With Account</a></li>
+                          <li class="nav-item"><a href="appointments_walk_in_noacc.php" class="nav-link">Without Account</a></li>
+                        </ul>
+                      </li>
                     </ul>
                 </li>
 

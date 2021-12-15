@@ -33,4 +33,39 @@
   if ( window.history.replaceState ) {
     window.history.replaceState( null, null, window.location.href );
 }
+
+</script>
+
+<script>
+$(document).ready(function(){
+// updating the view with notifications using ajax
+function load_unseen_notification(view = '')
+{
+
+  var session_id = <?php echo $bhw_id ?>;
+  var session_login = 'bhw';
+
+ $.ajax({
+  url:"../../backend/notification.php",
+  method:"POST",
+  data:{view:view,session_id:session_id,session_login:session_login},
+  dataType:"json",
+  success:function(data)
+  {
+   $('.dropdown-notif').html(data.notification);
+     if(data.unseen_notification < 1)
+   {
+    $('span.beep').hide();
+   }
+  }
+ });
+}
+load_unseen_notification();
+
+// load new notifications
+$(document).on('click', '#notif-toggle', function() {
+  $('span.beep').html('');
+ load_unseen_notification('yes');
+  });
+});
 </script>

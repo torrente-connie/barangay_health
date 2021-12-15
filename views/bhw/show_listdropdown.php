@@ -2,6 +2,7 @@
             <img alt="image" src="../<?php echo $bhw_image ?>" class="rounded-circle mr-1" style="width:30px;height:30px;">
             <div class="d-sm-none d-lg-inline-block text-capitalize">Hi, <?php echo $bhw_fullname; ?></div></a>
             <div class="dropdown-menu dropdown-menu-right">
+              <a href="../../home_page.php" class="dropdown-item has-icon"><i class="fas fa-arrow-left"></i> Homepage </a>
               <a class="dropdown-item has-icon" href="show_changepassword.php" style="cursor: pointer">
                 <i class="fas fa-unlock"></i> Change Password
               </a>

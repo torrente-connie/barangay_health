@@ -7,6 +7,8 @@
   $connection = dbConn();
 
   // get patient fullname 
+
+  if(!empty($_SESSION['patient_id'])) {
   $sqlPatientName = "SELECT * FROM user WHERE user_id = '$patient_id' AND user_type = 'Patient' ";
   $resultPatientName = mysqli_query($connection,$sqlPatientName);
 
@@ -14,8 +16,19 @@
     $pfname = $rowPatientName['user_firstname'];
     $pmname = $rowPatientName['user_middlename'];
     $plname = $rowPatientName['user_lastname'];
-
   }
+
+}else if(!empty($_SESSION['bhw_id'])) {
+
+   $sqlBhwName = "SELECT * FROM user WHERE user_id = '$bhw_id' AND user_type = 'Barangay Health Worker' ";
+  $resultBhwName = mysqli_query($connection,$sqlBhwName);
+  while($rowBhwName = mysqli_fetch_assoc($resultBhwName)) {
+    $bfname = $rowBhwName['user_firstname'];
+    $bmname = $rowBhwName['user_middlename'];
+    $blname = $rowBhwName['user_lastname'];
+  }
+
+}
 
 
   
@@ -199,9 +212,24 @@
             <form action="backend/bookappointment.php" method="POST">
                <div class="card-body">
 
+                      <?php  
+
+                      if(!empty($_SESSION['patient_id'])) {
+
+                      ?>
+
                         <input type="hidden" value="<?php echo $patient_id ?>" name="patient_user_id">
 
+                       <?php } ?>
+
+
                         <input type="hidden" value="<?php echo $appointment_docid ?>" name="selected_doctor_id">
+
+                      <?php  
+
+                      if(!empty($_SESSION['patient_id'])) {
+
+                      ?>
 
                         <div class="row">
                           <div class="form-group col-md-4 col-12">
@@ -217,6 +245,35 @@
                             <input type="text" class="form-control" value="<?php echo $plname ?>" name="patient_lastname" required>
                           </div>
                         </div>
+
+                       <?php 
+
+                       } else if((!empty($_SESSION['bhw_id']))) {  ?>
+
+                        <div class="row">
+                          <div class="form-group col-md-6 col-12">
+                            <label>Patient Account ID</label>
+                            <input type="text" class="form-control" name="patient_account_id">
+                          </div>
+                        </div>
+
+                         <div class="row">
+                          <div class="form-group col-md-4 col-12">
+                            <label>First Name</label>
+                            <input type="text" class="form-control" name="patient_firstname" required>
+                          </div>
+                           <div class="form-group col-md-4 col-12">
+                            <label>Middle Name</label>
+                            <input type="text" class="form-control" name="patient_middlename">
+                          </div>
+                           <div class="form-group col-md-4 col-12">
+                            <label>Last Name</label>
+                            <input type="text" class="form-control" name="patient_lastname" required>
+                          </div>
+                        </div>
+
+                      <?php } ?>
+
                          <div class="row">
                           <div class="form-group col-md-6 col-12">
                             <label>Email</label>
@@ -240,7 +297,11 @@
                              </select>
                           </div>
                         </div>
+
                          <div class="row">
+
+
+                          <?php if(!empty($_SESSION['patient_id'])) { ?>
                             <div class="form-group col-md-6 col-12">
                              <label>Select An Appointment Type</label>
                             <div class="form-check">
@@ -256,6 +317,23 @@
                               </label>
                             </div>
                           </div>
+
+                          <?php } else if((!empty($_SESSION['bhw_id']))) {  ?>
+
+                           <div class="form-group col-md-6 col-12">
+                             <label>Select An Appointment Type</label>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="book_appointment" id="exampleRadios1" value="walkinappointment" checked="">
+                              <label class="form-check-label" for="exampleRadios1">
+                                Walk-In Appointment
+                              </label>
+                            </div>
+                          </div>
+
+
+                          <?php } ?>
+
+
                             <div class="form-group col-md-6 col-12">
                              <label>Select Barangay Health Service</label>
                               <select class="form-control" name="selected_service" id="selected_service" required>
@@ -269,21 +347,19 @@
                               </select>
                           </div>
                         </div>
-
-                      
                     </div>
+
                     <div class="card-footer text-left">
                       <button name="bookAppointmentSubmit" class="btn btn-primary">Submit</button>
                        <a href="home_schedules.php" class="btn btn-danger">Cancel</a>
                     </div>
+
                      </form>
                  </div>
-            </div>
-
-            
+              </div> 
           </div>
-        </div>
 
+           </div>
          </section>
       </div>
     </div>

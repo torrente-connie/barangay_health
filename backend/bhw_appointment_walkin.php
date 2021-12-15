@@ -49,6 +49,46 @@ function getAllDataForAppointmentWalkIn(){
     echo json_encode($row);
 }
 
+//fetch data for subject using update,delete and view
+if(isset($_POST['walkInNoAccID'])){
+  getAllDataForAppointmentWalkInNoAcc();
+}
+
+
+function getAllDataForAppointmentWalkInNoAcc(){
+    $conn = dbConn();
+    $id = $_POST['walkInNoAccID'];
+    $sql = "SELECT 
+            d.user_id as doctor_id,
+            d.user_account_id as doctor_account,
+            d.user_firstname  as doc_fname, 
+            d.user_middlename as doc_mname, 
+            d.user_lastname   as doc_lname,
+            a.appointment_id as appointment_id,
+            a.appointment_patient_fname as appoint_pfname,
+            a.appointment_patient_mname as appoint_pmname,
+            a.appointment_patient_lname as appoint_plname,
+            a.appointment_patient_email as appoint_pemail,
+            a.appointment_patient_pnum as appoint_ppnum,
+            a.appointment_selected_date as appoint_date,
+            a.appointment_selected_time as appoint_dst_id, 
+            dst.schedule_start_time as appoint_start_time,
+            dst.schedule_end_time as appoint_end_time,
+            a.appointment_selected_service as appoint_service,
+            a.appointment_type as appointment_type,
+            a.appointment_status as appointment_status,
+            a.appointment_reason as appointment_reason
+            FROM appointment a
+            JOIN user d 
+            ON a.appointment_doctor_id = d.user_id 
+            JOIN doctor_schedule_time dst 
+            ON a.appointment_selected_time = dst.schedule_time_id
+            WHERE a.appointment_id = '$id' ";
+    $result = mysqli_query($conn,$sql);
+    $row = mysqli_fetch_array($result);
+    echo json_encode($row);
+}
+
 
 // code for accept appointment
 if(isset($_POST['acceptAppointmentSubmit'])) {

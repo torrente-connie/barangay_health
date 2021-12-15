@@ -81,7 +81,7 @@
               <a href="patients.php" class="nav-link"><i class="fas fa-user-friends"></i><span>Manage Patients</span></a>
             </li>
 
-            <li class="nav-item active">
+            <li class="nav-item">
               <a href="schedules.php" class="nav-link"><i class="fas fa-clock"></i><span>Schedules</span></a>
             </li>
 
@@ -89,11 +89,12 @@
         </div>
       </nav>
 
+    
         <!-- Main Content -->
       <div class="main-content" style="min-height: 566px;">
         <section class="section">
           <div class="section-header">
-            <h1>Schedules</h1>
+            <h1>Show All Notifications</h1>
             </div>
 
    
@@ -101,83 +102,47 @@
             <div class="card">
               <div class="card-header">
                  <h4></h4>
-                  <div class="card-header-action">
-                    <a href="add_schedules.php" class="btn btn-success btn-sm">Add Schedules</a>
-                  </div>
-              </div>
+               </div>
 
-                  <div class="card-body">
+                <div class="card-body">
                     <div class="table-responsive">
-                      <table class="table table-striped">
-                      <tbody>
-                        <tr>
-                          <th>Doctor Available Day</th>
-                          <th>Doctor Available Time</th>
-                          <th>View Time Schedule</th>
-                          <th></th>
-                        </tr>
+                      <table class="table table-hover table-bordered" id="table-subject">
+                        <thead class="thead-light">
+                          <tr>
+                            <th>Notification Message</th>
+                            <th>Notification Date and Time</th>
+                           </tr>
+                        </thead>
+                        <tbody>
 
                       <?php 
-                      // query for getting doctor schedules
-                      $sqlDoctorSched = "SELECT * FROM doctor_schedule ds
-                      JOIN user u 
-                      ON ds.doctor_id = u.user_id 
-                      WHERE u.user_bool = '1' AND u.user_type = 'Doctor' 
-                      AND ds.doctor_id = '$doctor_id' ORDER BY ds.schedule_day ASC
+
+                      // query getting all notifications
+                      $sqlNotification = "SELECT * FROM notification WHERE notification_usertype = 'doctor' OR notification_doctor_id = '$doctor_id' AND notification_status = 1 ORDER BY notification_datetime DESC
                       ";
 
-                      $resultDoctorSched = mysqli_query($connection,$sqlDoctorSched);
-                      while($rowDoctorSched = mysqli_fetch_assoc($resultDoctorSched)) {
+                      $resultNotification = mysqli_query($connection,$sqlNotification);
+                      while($rowNotification = mysqli_fetch_assoc($resultNotification)) {
 
+                       $notification_message = $rowNotification['notification_message'];
+                       $notification_datetime = $rowNotification['notification_datetime'];
+
+                       $datetime_format = date('m/d/Y h:i A',strtotime($rowNotification['notification_datetime']));
+
+                      ?>
+
+                        <tr>
+                          <td><?php echo $notification_message ?> </td>
+                          <td><?php echo $datetime_format ?></td>
+                        </tr>
                       
-                        // doctor schedule
-                        $sched_day    = $rowDoctorSched['schedule_day'];
-                        $sched_start  = $rowDoctorSched['schedule_start_time']; 
-                        $sched_end    = $rowDoctorSched['schedule_end_time'];
-                        $sched_time_interval = $rowDoctorSched['schedule_time_interval'];
-
-                        // time format
-
-                        $format_start = date("h:i:A", strtotime($sched_start));
-                        $format_end   = date("h:i:A", strtotime($sched_end));
-
-                         if($sched_day == 0) {
-                          $display_day = "Sunday";
-                        } else if($sched_day == 1) {
-                          $display_day = "Monday";
-                        } else if($sched_day == 2) {
-                          $display_day = "Tuesday";
-                        } else if($sched_day == 3) {
-                          $display_day = "Wednesday";
-                        } else if($sched_day == 4) {
-                          $display_day = "Thursday";
-                        } else if($sched_day == 5) {
-                          $display_day = "Friday";
-                        } else if($sched_day == 6) {
-                          $display_day = "Saturday";
-                        } 
-
-
-                      ?>   
-                      <tr>
-                        <td><?php echo $display_day ?></td>
-                        <td><?php echo $format_start ?> - <?php echo $format_end ?> <!-- <span class="badge badge-success ml-2"> <?php // echo $sched_time_interval ?></span> --> </td>
-                        <!-- <td><span></span></td> -->
-                        <td><a class="btn btn-info text-white" href="schedule_time.php?sched_id=<?php echo $rowDoctorSched['schedule_id']?>&ti=<?php echo $sched_time_interval?>">View Time Schedules</a></td>
-                        <td>
-                         <!--  <a class="btn btn-primary text-white">Edit</a>
-                          <a class="btn btn-danger text-white">Delete</a> -->
-                        </td>
-                      </tr>
-
-                      <?php 
-                          }
-                        ?>
+                      <?php } ?>
 
                         </tbody>
-                      </table>                    
+                      </table>
                     </div>
                   </div>
+
               <div class="card-footer bg-whitesmoke"> </div>
             </div>
           </div>
