@@ -229,7 +229,7 @@ function sendEmailNotification($patientId,$doctorId) {
        require '../assets/mailer/credential.php';
 
        // $email = "louisadolfo08@gmail.com";
-       $email = "ctorrente_ccs@uspf.edu.ph";
+       $email = "cc112.torrente@gmail­.com";
 
 	        // Instantiation and passing `true` enables exceptions
 	    $mail = new PHPMailer;
