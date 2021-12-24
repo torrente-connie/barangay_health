@@ -343,7 +343,7 @@
                          <!--  <td><?php //echo $appoint_schedule_date ?></td>
                           <td><?php //echo $format_start ?> - <?php //echo $format_end ?></td> -->
                           <td>
-                                <button class="btn btn-info btn-sm btn-block appointmentDetailsDoctor" id='<?php echo $appointment_id ?>'> View Details </button> 
+                                <button class="btn btn-info btn-sm btn-block appointmentDetailsDoctor" id='<?php echo $appointment_id ?>'> View Details 123 </button> 
                           </td> 
                           <td>
 
