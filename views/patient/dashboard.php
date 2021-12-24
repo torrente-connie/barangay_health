@@ -20,6 +20,18 @@
   require("../../backend/dbconn.php");
   $connection = dbConn();
 
+
+  // SQL Query for Completed f2f Appointments
+  $sql1 = "SELECT * FROM appointment WHERE appointment_type = 'bookappointment' AND appointment_status = 0 AND appointment_patient_id = '$patient_id' ";
+  $result1 = mysqli_query($connection,$sql1);
+  $numrows1 = mysqli_num_rows($result1);
+
+  // SQL Query for Completed Virtual Consultation
+  $sql2 = "SELECT * FROM appointment WHERE appointment_type = 'onlineappointment' AND appointment_status = 0 AND appointment_patient_id = '$patient_id' ";
+  $result2 = mysqli_query($connection,$sql2);
+  $numrows2 = mysqli_num_rows($result2);
+
+
 ?>
 
 
@@ -112,10 +124,10 @@
                 </div>
                 <div class="card-wrap">
                   <div class="card-header">
-                    <h4>Total Appointment Bookings</h4>
+                    <h4>Total Face to Face Appointments</h4>
                   </div>
                   <div class="card-body">
-                    3                  
+                    <?php echo $numrows1 ?>                  
                   </div>
                 </div>
               </div>
@@ -129,10 +141,10 @@
                 </div>
                 <div class="card-wrap">
                   <div class="card-header">
-                    <h4>Total Online Consultations</h4>
+                    <h4>Total Virtual Consultation</h4>
                   </div>
                   <div class="card-body">
-                    12 </div>
+                    <?php echo $numrows2 ?> </div>
                 </div>
               </div>
             </div>
@@ -310,7 +322,7 @@
                          <!--  <td><?php //echo $appoint_schedule_date ?></td>
                           <td><?php //echo $format_start ?> - <?php //echo $format_end ?></td> -->
                           <td>
-                                <button class="btn btn-info btn-sm btn-block appointmentDetailsDoctor" id='<?php echo $appointment_id ?>'> View Details </button> 
+                                <button class="btn btn-info btn-sm btn-block onGoingAppointmentsPatient" id='<?php echo $appointment_id ?>'> View Details </button> 
                           </td> 
                           <td>
 
@@ -368,6 +380,40 @@
     </div>
     <br>
 
+     <!-- Modal for View Appointment Details -->
+       <div class="modal fade" tabindex="-1" role="dialog" id="onGoingAppointmentsPatient">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">View Appointment Details</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+              </div>
+             <div class="card-body">
+              
+                  <ul class="list-group">
+                      <li class="list-group-item ">
+                        Date: <span id="view_appoint_date"></span>
+                      </li>
+                      <li class="list-group-item">
+                        Schedule Time: <span id="view_appoint_time"></span>
+                      </li>
+                       <li class="list-group-item">
+                        Appointment Status: <span id="view_appoint_status"></span>
+                      </li>
+                      <li class="list-group-item"> Reason: <span id="view_appointment_reason"></span>
+                      </li>
+                    </ul>        
+          
+        
+              </div>
+            </div>
+          </div>
+        </div>
+    
+
+
       <!-- <footer class="main-footer" style="background-color:rgba(40, 102, 199, 0.97)">
         <div class="container">
         <div class="footer-left text-white">
@@ -381,6 +427,67 @@
   <!-- Menu for Footer Links -->
     <?php require("scripts_footer.php"); ?>
     <!-- -->
+
+
+        <!-- View Details BHW -->
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(document).on('click','.onGoingAppointmentsPatient', function(){
+        var viewID = $(this).attr("id");
+        $.ajax({
+          url:"../../backend/patient_appointment_complete.php",
+            method:"POST",
+            data:{ongoingID:viewID},
+            dataType:"json",
+            success:function(data) {
+                // date format
+                var date = data.appoint_date;
+                var dateFormat = moment(date).format('MM/DD/YYYY');
+
+                var start_time = data.appoint_date + ' ' +data.appoint_start_time;
+                var startTimeFormat = moment(start_time).format('HH:mm A');
+
+                var end_time = data.appoint_date + ' ' +data.appoint_end_time;
+                var endTimeFormat = moment(end_time).format('HH:mm A');
+
+                var view_date = dateFormat;
+                var view_time = startTimeFormat + ' - ' + endTimeFormat;
+
+                // status format
+                if(data.appointment_status == 1) {
+                  $('#view_appoint_status').html("<span class='badge badge-primary badge-pill'>Pending</span>");
+                } else if(data.appointment_status == 2) {
+                  $('#view_appoint_status').html('');
+                } else if(data.appointment_status == 3) {
+                  $('#view_appoint_status').html("<span class='badge badge-info badge-pill'>Accepted</span>");
+                } else if(data.appointment_status == 4) {
+                  $('#view_appoint_status').html("<span class='badge badge-success badge-pill'>Approved</span>");
+                } else if(data.appointment_status == 5) {
+                  $('#view_appoint_status').html('');
+                } else if(data.appointment_status == 6) {
+                  $('#view_appoint_status').html('');
+                } else if(data.appointment_status == 7) {
+                  $('#view_appoint_status').html('');
+                } else if(data.appointment_status == 0) {
+                  $('#view_appoint_status').html("<span class='badge badge-success badge-pill'>Completed</span>");
+                }
+
+                // var test_result = "<span class='badge badge-danger'>Pending</span>";
+
+                // $('#accept_appoint_test').html(test_result);
+                
+          
+                // html - date and time
+                $('#view_appoint_date').html(view_date);
+                $('#view_appoint_time').html(view_time);
+                $('#view_appointment_reason').html(data.appointment_reason);
+                $('#onGoingAppointmentsPatient').modal('show');
+             }
+        })  
+    })
+});
+</script>
+
 
 
   </body>
