@@ -78,7 +78,7 @@
         <div class="container">
           <ul class="navbar-nav">
             <li class="nav-item active">
-              <a href="dashboard.php" class="nav-link"><i class="fas fa-columns"></i><span>Dashboard</span></a>
+              <a href="dashboard.php" class="nav-link"><i class="fas fa-columns"></i><span>Dashboard 123</span></a>
             </li>
             <li class="nav-item dropdown">
                     <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-user-friends"></i><span>Accounts</span></a>
