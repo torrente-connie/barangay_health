@@ -286,7 +286,7 @@
                          <!--  <td><?php //echo $appoint_schedule_date ?></td>
                           <td><?php //echo $format_start ?> - <?php //echo $format_end ?></td> -->
                           <td>
-                                <button class="btn btn-info btn-sm btn-block appointmentDetailsDoctor" id='<?php echo $appointment_id ?>'> View Details </button> 
+                                <button class="btn btn-info btn-sm btn-block completedAppointmentDoctor" id='<?php echo $appointment_id ?>'> View Details </button> 
                           </td> 
                           <td>
 
@@ -342,8 +342,9 @@
     </div>
 
 
-<!-- Modal for View Appointment Details -->
-       <div class="modal fade" tabindex="-1" role="dialog" id="appointmentDetailsDoctor">
+ 
+ <!-- Modal for View Appointment Details -->
+       <div class="modal fade" tabindex="-1" role="dialog" id="completedAppointmentDoctor">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -354,7 +355,7 @@
               </div>
              <div class="card-body">
               
-               <ul class="list-group">
+                  <ul class="list-group">
                       <li class="list-group-item ">
                         Date: <span id="view_appoint_date"></span>
                       </li>
@@ -367,95 +368,13 @@
                       <li class="list-group-item"> Reason: <span id="view_appointment_reason"></span>
                       </li>
                     </ul>        
+          
         
               </div>
             </div>
           </div>
         </div>
-
-
-
-                <!-- Modal for View Appointment Details -->
-       <div class="modal fade" tabindex="-1" role="dialog" id="approveAppointmentDoctor">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title"><span class="badge badge-primary badge-pill">Approve Appointment</span></h5>
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                   <span aria-hidden="true">&times;</span>
-                 </button>
-              </div>
-             <div class="card-body">
-
-              <h4>Are you sure you want to approve this appointment?</h4>
-
-                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item text-center">Appointment Details</li>
-                        <li class="list-group-item">Patient Name: <span id="approve_appoint_patient"></span></li>
-                        <li class="list-group-item">Selected Service: <span id="approve_appoint_service"></span></li>
-                        <li class="list-group-item">Selected Date: <span id="approve_appoint_date"></span></li>
-                        <li class="list-group-item">Selected Time: <span id="approve_appoint_time"></span></li>
-                      </ul>
-              
-              <form method="POST" action="../../backend/doctor_appointment_oc.php">
-
-                  <input type="hidden" name="approveID" id="approve_appoint_id">
-
-                  <div class="form-group mt-4">
-                    <button type="submit" name="approveAppointmentSubmit" class="btn btn-success btn-block" tabindex="4">
-                      Yes
-                    </button>
-                    <button class="btn btn-danger btn-block" tabindex="4" data-dismiss="modal">
-                      No
-                    </button>
-                  </div>
-                </form>
-
-        
-              </div>
-            </div>
-          </div>
-        </div>
-
-               <!-- Modal for View Appointment Details -->
-       <div class="modal fade" tabindex="-1" role="dialog" id="123rescheduleAppointmentDoctor">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Cancel Appointment</h5>
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                   <span aria-hidden="true">&times;</span>
-                 </button>
-              </div>
-             <div class="card-body">
-
-              <h4>Are you sure you want to cancel this appointment?</h4>
-              
-              <form method="POST" action="../../backend/doctor_appointment_oc.php">
-
-                  <input type="hidden" name="rescheduleID" id="rescheduleID">
-
-                  <div class="form-group mt-4">
-                    <label for="reason">Reason</label>
-                    <input id="reason" type="text" class="form-control" name="reason" tabindex="1" required="" autofocus="" placeholder="Please state the reason for the cancellation of the appointment..">
-                  </div>
-
-                  <div class="form-group">
-                    <button type="submit" name="rescheduleAppointmentSubmit" class="btn btn-success" tabindex="4">
-                      Submit
-                    </button>
-                    <button class="btn btn-danger" tabindex="4" data-dismiss="modal">
-                      Close
-                    </button>
-                  </div>
-                </form>
-
-        
-              </div>
-            </div>
-          </div>
-        </div>
-
+    
     
   
       <!-- <footer class="main-footer" style="background-color:rgba(40, 102, 199, 0.97)">
@@ -477,12 +396,12 @@
     <!-- View Details BHW -->
 <script type="text/javascript">
   $(document).ready(function(){
-    $(document).on('click','.appointmentDetailsDoctor', function(){
+    $(document).on('click','.completedAppointmentDoctor', function(){
         var viewID = $(this).attr("id");
         $.ajax({
-          url:"../../backend/doctor_appointment_oc.php",
+          url:"../../backend/doctor_appointment_complete.php",
             method:"POST",
-            data:{ocID:viewID},
+            data:{completeID:viewID},
             dataType:"json",
             success:function(data) {
                 // date format
@@ -526,107 +445,12 @@
                 $('#view_appoint_date').html(view_date);
                 $('#view_appoint_time').html(view_time);
                 $('#view_appointment_reason').html(data.appointment_reason);
-                $('#appointmentDetailsDoctor').modal('show');
+                $('#completedAppointmentDoctor').modal('show');
              }
         })  
     })
 });
 </script>
-
-
-<!-- Approve Doctor OC -->
-<script type="text/javascript">
-  $(document).ready(function(){
-    $(document).on('click','.approveAppointmentDoctor', function(){
-        var approveID = $(this).attr("id");
-        $.ajax({
-          url:"../../backend/doctor_appointment_oc.php",
-            method:"POST",
-            data:{ocID:approveID},
-            dataType:"json",
-            success:function(data) {
-                // val - id
-                $('#approve_appoint_id').val(data.appointment_id);
-                $('#approve_doctor_id').val(data.doctor_id);
-                $('#approve_patient_id').val(data.patient_id);
-                $('#approve_appoint_dst_id').val(data.appoint_dst_id);
-                // html - current patient;
-                $('#approve_patient_account').val(data.patient_account);
-                $('#approve_patient_fname').val(data.patient_fname);
-                $('#approve_patient_mname').val(data.patient_mname);
-                $('#approve_patient_lname').val(data.patient_lname);
-                // html - doctor 
-                $('#approve_doctor_account').val(data.doctor_account);
-                $('#approve_doc_fname').val(data.doc_fname);
-                $('#approve_doc_mname').val(data.doc_mname);
-                $('#approve_doc_lname').val(data.doc_lname);
-                // html - appoint patient names
-                $('#approve_appoint_pfname').val(data.appoint_pfname);
-                $('#approve_appoint_pmname').val(data.appoint_pmname);
-                $('#approve_appoint_plname').val(data.appoint_plname);
-                $('#approve_appoint_pemail').val(data.appoint_pemail);
-                $('#approve_appoint_ppnum').val(data.appoint_ppnum);
-
-                // name format
-                var patient_fname = data.appoint_pfname;
-                var patient_mname = data.appoint_pmname;
-                var patient_lname = data.appoint_plname;
-
-                var patient_fullname = patient_fname+ ' '+patient_mname+'. '+patient_lname;
-
-                $('#approve_appoint_patient').html(patient_fullname);
-
-                // date format
-                var date = data.appoint_date;
-                var dateFormat = moment(date).format('MM/DD/YYYY');
-
-                var start_time = data.appoint_date + ' ' +data.appoint_start_time;
-                var startTimeFormat = moment(start_time).format('HH:mm A');
-
-                var end_time = data.appoint_date + ' ' +data.appoint_end_time;
-                var endTimeFormat = moment(end_time).format('HH:mm A');
-
-                var approve_date = dateFormat;
-                var approve_time = startTimeFormat + ' - ' + endTimeFormat;
-
-                // // status format
-                // if(data.appointment_status == 1) {
-                //   $('#approve_appointment_status').html('Pending');
-                // } else if(data.appointment_status == 2) {
-                //   $('#approve_appointment_status').html('Cancel');
-                // } else if(data.appointment_status == 3) {
-                //   $('#approve_appointment_status').html('Accepted');
-                // } else if(data.appointment_status == 4) {
-                //   $('#approve_appointment_status').html('Approve');
-                // } else if(data.appointment_status == 5) {
-                //   $('#approve_appointment_status').html('Reschedule');
-                // } else if(data.appointment_status == 6) {
-                //   $('#approve_appointment_status').html('On-going');
-                // } else if(data.appointment_status == 7) {
-                //   $('#approve_appointment_status').html('No-show');
-                // } else if(data.appointment_status == 0) {
-                //   $('#approve_appointment_status').html('Completed');
-                // }
-
-                // var test_result = "<span class='badge badge-danger'>Pending</span>";
-
-                // $('#approve_appoint_test').html(test_result);
-                
-          
-                // html - date and time
-                $('#approve_appoint_date').html(approve_date);
-                $('#approve_appoint_time').html(approve_time);
-                $('#approve_appointment_status').html(data.appointment_status);
-                $('#approve_appoint_service').html(data.appoint_service);
-                $('#approve_appoint_type').val(data.appointment_type);
-                $('#approve_appointment_reason').val(data.appointment_reason);
-                $('#approveAppointmentDoctor').modal('show');
-             }
-        })  
-    })
-});
-</script>
-
 
   </body>
 </html>

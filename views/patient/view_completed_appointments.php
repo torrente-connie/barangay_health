@@ -273,7 +273,7 @@
                          <!--  <td><?php //echo $appoint_schedule_date ?></td>
                           <td><?php //echo $format_start ?> - <?php //echo $format_end ?></td> -->
                           <td>
-                                <button class="btn btn-info btn-sm btn-block appointmentDetailsDoctor" id='<?php echo $appointment_id ?>'> View Details </button> 
+                                <button class="btn btn-info btn-sm btn-block completedAppointmentPatient" id='<?php echo $appointment_id ?>'> View Details </button> 
                           </td> 
                           <td>
 
@@ -332,7 +332,7 @@
     <br>
 
     <!-- Modal for View Appointment Details -->
-       <div class="modal fade" tabindex="-1" role="dialog" id="appointmentDetailsPatient">
+       <div class="modal fade" tabindex="-1" role="dialog" id="completedAppointmentPatient">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -380,12 +380,12 @@
     <!-- View Details BHW -->
 <script type="text/javascript">
   $(document).ready(function(){
-    $(document).on('click','.appointmentDetailsPatient', function(){
+    $(document).on('click','.completedAppointmentPatient', function(){
         var viewID = $(this).attr("id");
         $.ajax({
-          url:"../../backend/patient_appointment_oc.php",
+          url:"../../backend/patient_appointment_complete.php",
             method:"POST",
-            data:{ocID:viewID},
+            data:{completeID:viewID},
             dataType:"json",
             success:function(data) {
                 // date format
@@ -429,7 +429,7 @@
                 $('#view_appoint_date').html(view_date);
                 $('#view_appoint_time').html(view_time);
                 $('#view_appointment_reason').html(data.appointment_reason);
-                $('#appointmentDetailsPatient').modal('show');
+                $('#completedAppointmentPatient').modal('show');
              }
         })  
     })

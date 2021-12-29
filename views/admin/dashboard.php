@@ -78,7 +78,7 @@
         <div class="container">
           <ul class="navbar-nav">
             <li class="nav-item active">
-              <a href="dashboard.php" class="nav-link"><i class="fas fa-columns"></i><span>Dashboard 123</span></a>
+              <a href="dashboard.php" class="nav-link"><i class="fas fa-columns"></i><span>Dashboard</span></a>
             </li>
             <li class="nav-item dropdown">
                     <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-user-friends"></i><span>Accounts</span></a>
@@ -492,7 +492,7 @@
                 } else if(data.appointment_status == 6) {
                   $('#view_appoint_status').html('');
                 } else if(data.appointment_status == 7) {
-                  $('#view_appoint_status').html('');
+                  $('#view_appoint_status').html("<span class='badge badge-primary badge-pill'>Confirmed</span>");
                 } else if(data.appointment_status == 0) {
                   $('#view_appoint_status').html("<span class='badge badge-success badge-pill'>Completed</span>");
                 }

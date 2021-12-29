@@ -467,7 +467,7 @@
                 } else if(data.appointment_status == 6) {
                   $('#view_appoint_status').html('');
                 } else if(data.appointment_status == 7) {
-                  $('#view_appoint_status').html('');
+                  $('#view_appoint_status').html("<span class='badge badge-primary badge-pill'>Confirmed</span>");
                 } else if(data.appointment_status == 0) {
                   $('#view_appoint_status').html("<span class='badge badge-success badge-pill'>Completed</span>");
                 }
