@@ -1,11 +1,13 @@
 <?php 
 
+require("backend/dbconn.php");
+
+$connection = dbConn();
 
 if(isset($_POST['dayOfWeek'])) {
   $appointment_docid = $_POST['appointmentID'];
   $dayOfWeek = $_POST['dayOfWeek'];
 
-  $connection = mysqli_connect("localhost","root","","barangayhealth_db");
   $sqlSched = "SELECT * FROM doctor_schedule WHERE doctor_id = '$appointment_docid' AND schedule_day = '$dayOfWeek' ";
   $result1 = mysqli_query($connection,$sqlSched);
   $output = "";
