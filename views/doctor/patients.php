@@ -149,7 +149,7 @@
                       pl.patient_list_status as plist_status,
                       pl.patient_list_bool as plist_bool
                       FROM patient_list pl 
-                      JOIN user p 
+                      LEFT JOIN user p 
                       ON pl.patient_list_user_id = p.user_id 
                       JOIN user d 
                       ON pl.patient_list_doctor_id = d.user_id
@@ -173,6 +173,7 @@
                       $doc_name = $doc_firstname.' '.$doc_middlename.'.'.' '.$doc_lastname;
 
                       // user patient fullname
+                      $patient_id           = $row['patient_id'];
                       $book_patient_account      = $row['patient_account'];
                       $book_patient_firstname    = ucfirst($row['patient_fname']);
                       $book_patient_middlename   = ucfirst($row['patient_mname']);
@@ -186,6 +187,8 @@
                       $plist_lastname     = ucfirst($row['plist_plname']);
 
                       $plist_name = $plist_firstname.' '.$plist_middlename.'.'.' '.$plist_lastname;
+
+
 
                       // format date and time
                       $date = $row['plist_date'];
@@ -209,7 +212,15 @@
                       ?>
 
                         <tr>
-                          <td><?php echo $book_patient_name ?></td>
+
+                          <td>
+                            <?php if($patient_id == 0) { ?>
+                              No Account
+                            <?php } else { echo $book_patient_name  ?>
+                              
+                            <?php } ?>
+                          </td>
+                          
                           <td><?php echo $plist_name ?></td>
                           <td><?php echo $plist_mservice ?></td>
                           <td><?php echo $atype ?></td>

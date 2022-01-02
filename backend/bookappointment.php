@@ -71,7 +71,7 @@ function bookAppointment() {
 
 	if($result AND $resultNotification){
 		 $alert="Successfully Booked A Face to Face Appointment";
-		 sendEmailNotification($patient_user_id,$get_doctor_id);
+		 //sendEmailNotification($patient_user_id,$get_doctor_id);
 			header("Location:../home_schedules.php?s=".$alert);
 		}else{
 		 $alert="Error";
@@ -176,7 +176,7 @@ function walkInConsultation() {
 	$healthservices 			= $_POST['selected_service'];
 	$bookappointment 			= $_POST['book_appointment'];
 
-	$appointment_status			= 1;
+	$appointment_status			= 13; // only for walk-ins must be double digits
 	$appointment_reason			= "";
 	$appointment_bool			= 1;
 

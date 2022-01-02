@@ -48,7 +48,7 @@
        pl.patient_list_status as plist_status,
        pl.patient_list_bool as plist_bool
        FROM patient_list pl 
-       JOIN user p 
+       LEFT JOIN user p 
        ON pl.patient_list_user_id = p.user_id 
        JOIN user d 
        ON pl.patient_list_doctor_id = d.user_id
@@ -107,8 +107,10 @@
         $atype = "Face to Face Appointment";
     } else if($plist_atype == "onlineappointment") {
         $atype = "Virtual Consultation";
-    } else if($plist_atype = "walkinappointment") {
-        $atype = "Walk-In Appointment";
+    } else if($plist_atype = "walkinappointment" AND $plist_user_id == 0) {
+        $atype = "Walk-In Appointment Without Account";
+    } else if($plist_atype = "walkinappointment" AND $plist_user_id != 0) {
+        $atype = "Walk-In Appointment With Account";   
     }
 
   }
@@ -205,7 +207,12 @@
                         <div class="row">
                           <div class="form-group col-md-4 col-12">
                             <label>Booked By</label>
+
+                          <?php if($plist_user_id == 0) { ?>
+                            <input type="text" class="form-control" value="No Account" readonly>
+                          <?php } else { ?>
                             <input type="text" class="form-control" value="<?php echo $booked_name ?>" readonly>
+                          <?php } ?>
                           </div>
 
                            <div class="form-group col-md-4 col-12">

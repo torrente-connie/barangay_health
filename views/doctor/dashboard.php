@@ -167,6 +167,7 @@
                             <!-- <th>Appointment Doctor</th> -->
                             <th>Patient Name</th>
                             <th>Medical Service</th>
+                            <th>Appointment Type</th>
                            <!--  <th>Appointment Date</th>
                             <th>Appointment Time</th> -->
                             <th>Appointment Status</th>
@@ -226,6 +227,7 @@
                       $doc_name = $doc_firstname.' '.$doc_middlename.'.'.' '.$doc_lastname;
 
                       // user patient fullname
+                      $patient_id           = $row['patient_id'];
                       $patient_account      = $row['patient_account'];
                       $patient_firstname    = ucfirst($row['patient_fname']);
                       $patient_middlename   = ucfirst($row['patient_mname']);
@@ -274,10 +276,26 @@
 
                     
                         <tr>
-                          <td><a href="#" style="text-decoration: none;"><?php echo $patient_name ?></a></td>
+                          <td> 
+                            <?php if($patient_id == 0) { ?>
+                              <a href="#" style="text-decoration: none;">No Account</a>
+                            <?php } else { ?>
+                              <a href="#" style="text-decoration: none;"><?php echo $patient_name ?></a></td>
+                            <?php } ?>
                           <!-- <td><?php //echo $doc_name ?></td> -->
                           <td><?php echo $appoint_patient_name ?></td>
                           <td><?php echo $appoint_service ?></td>
+                          <td>
+                            <?php if($appoint_type == 'bookappointment') { ?>
+                              Face to Face Appointment 
+                            <?php } else if($appoint_type == 'onlineappointment') { ?>
+                              Virtual Appointment
+                            <?php } else if($appoint_type == 'walkinappointment' AND $patient_id != 0) { ?>
+                              Walk-in Appointment With Account
+                            <?php } else if($appoint_type == 'walkinappointment' AND $patient_id == 0) { ?>
+                              Walk-in Appointment Without Account
+                            <?php } ?>
+                          </td>
                           <td>
                           <?php  
                           // if status = pending

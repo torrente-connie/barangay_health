@@ -284,7 +284,14 @@
                             <input type="text" class="form-control" placeholder="Enter Phone Number" name="patient_phonenumber" required>
                           </div>
                         </div>
-                         <div class="row">
+
+                        <?php  
+
+                          if(!empty($_SESSION['patient_id'])) {
+
+                        ?>
+
+                        <div class="row">
                           <div class="form-group col-md-6 col-12">
                             <label>Selected Date</label>
                             <input type="text" id="datepicker" class="form-control" placeholder="MM/DD/YYYY" name="selected_date" required>
@@ -297,6 +304,24 @@
                              </select>
                           </div>
                         </div>
+
+                        <?php } else if((!empty($_SESSION['bhw_id']))) {  ?>
+
+                        <div class="row">
+                          <div class="form-group col-md-6 col-12">
+                            <label>Selected Date</label>
+                            <input type="text" id="datepicker2" class="form-control" placeholder="MM/DD/YYYY" name="selected_date" required>
+                          </div>
+
+                          <div class="form-group col-md-6 col-12">
+                            <label>Selected Appointment Schedule</label>
+                             <select class="form-control" name="selected_asched" id="selected_asched" required>
+                              <option selected hidden value="">Choose A Schedule Time</option>
+                             </select>
+                          </div>
+                        </div>
+
+                        <?php } ?>
 
                          <div class="row">
 
@@ -398,7 +423,7 @@ var showDays = $.parseJSON('<?php echo json_encode($arrDays); ?>');
  // }
 
     var mindateToday = new Date();
-
+   
     // code for disabled current week
     // var dateToday = new Date();
     // var dayNo = dateToday.getDay();
@@ -446,10 +471,74 @@ var weekday=new Array(7);
                    },
   beforeShowDay: filterDays,
   });
+</script>
+
+<script>  
+
+//var disabledHolidayDays = ["2021-11-02","2021-11-09"];
+var showDays = $.parseJSON('<?php echo json_encode($arrDays); ?>');
+
+ function filterDays(date) {
+    var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+    return [showDays.indexOf(date.getDay()) > -1 ];
+ }
+
+ //  function filterDays(date) {
+ //    var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+ //    return [showDays.indexOf(date.getDay()) > -1 && disabledHolidayDays.indexOf(string) == -1 ];
+ // }
+
+    var mindateToday = new Date();
+    var maxdateToday = new Date();
+
+    // code for disabled current week
+    // var dateToday = new Date();
+    // var dayNo = dateToday.getDay();
+    // var mindateToday = (8-dayNo);
 
 
+var weekday=new Array(7);
+    weekday[1]=1;
+    weekday[2]=2;
+    weekday[3]=3;
+    weekday[4]=4;
+    weekday[5]=5;
+    weekday[6]=6;
+    weekday[7]=0;
 
- 
+   
+  $("#datepicker2").datepicker({
+   // firstDay: 1,
+   minDate: mindateToday,
+   maxDate: maxdateToday,
+   onSelect: function(dateText, inst) {
+                var date = $(this).datepicker('getDate'),
+                    day  = date.getDate(),
+                    month = date.getMonth() + 1,
+                    year =  date.getFullYear();
+                var dayOfWeek = weekday[date.getUTCDay()+1];
+                var appointmentID = <?php echo $appointment_docid ?>;
+                //var 
+                  //       $("#day").val(dayOfWeek);
+                  //       $("#month").val(month); 
+                  
+                       $.ajax({
+                      url: "book_selectappointmenttime.php",
+                      type: "POST",
+                      data: {
+                         dayOfWeek: dayOfWeek,
+                         appointmentID: appointmentID
+                      },
+                      success:function(data){
+                        $("#selected_asched").html(data);
+                      }, 
+                      error:function(){
+                        alert("fail")
+                      }
+                      }); 
+                   },
+  beforeShowDay: filterDays,
+  });
 </script>
 
 

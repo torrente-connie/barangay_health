@@ -14,6 +14,13 @@ function addPatientMedicalDescription() {
 	
 	// save this into database
 	$plist_user_id = $_POST['plist_user_id'];
+
+	if($plist_user_id == 0) {
+		$patient_user_id = 0;
+	} else {
+		$patient_user_id = $plist_user_id;
+	}
+
 	$plist_doctor_id = $_POST['plist_doctor_id'];
 	$plist_appointment_id = $_POST['plist_appointment_id'];
 	$plist_firstname = $_POST['plist_firstname'];
@@ -51,7 +58,7 @@ function addPatientMedicalDescription() {
 	$status = '1';
 	$bool = '1';
 
-	$sql = "INSERT INTO medical_history (medical_history_id,medical_history_user_id,medical_history_doctor_id,medical_history_appointment_id,medical_history_pfname,medical_history_pmname,medical_history_plname,medical_history_page,medical_history_pallergy,medical_history_psymptoms,medical_history_ptemp,medical_history_pheart,medical_history_pbp,medical_history_pulse,medical_history_pcomments,medical_history_pprescription,medical_history_appointment_type,medical_history_medical_service,medical_history_date,medical_history_stime,medical_history_etime,medical_history_datetime,medical_history_status,medical_history_bool) VALUES (NULL,'$plist_user_id','$plist_doctor_id','$plist_appointment_id','$plist_firstname','$plist_middlename','$plist_lastname','$patient_age','$patient_allergy','$patient_symptoms','$patient_temperature','$patient_hr','$patient_bp','$patient_pr','$patient_comments','$patient_prescription','$plist_atype','$plist_mservice','$plist_date','$plist_stime','$plist_etime','$plist_datetime','$status','$bool')";
+	$sql = "INSERT INTO medical_history (medical_history_id,medical_history_user_id,medical_history_doctor_id,medical_history_appointment_id,medical_history_pfname,medical_history_pmname,medical_history_plname,medical_history_page,medical_history_pallergy,medical_history_psymptoms,medical_history_ptemp,medical_history_pheart,medical_history_pbp,medical_history_pulse,medical_history_pcomments,medical_history_pprescription,medical_history_appointment_type,medical_history_medical_service,medical_history_date,medical_history_stime,medical_history_etime,medical_history_datetime,medical_history_status,medical_history_bool) VALUES (NULL,'$patient_user_id','$plist_doctor_id','$plist_appointment_id','$plist_firstname','$plist_middlename','$plist_lastname','$patient_age','$patient_allergy','$patient_symptoms','$patient_temperature','$patient_hr','$patient_bp','$patient_pr','$patient_comments','$patient_prescription','$plist_atype','$plist_mservice','$plist_date','$plist_stime','$plist_etime','$plist_datetime','$status','$bool')";
 	$result = mysqli_query($conn,$sql);
 
 	// completed appointment

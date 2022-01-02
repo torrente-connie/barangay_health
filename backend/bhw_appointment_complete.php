@@ -39,7 +39,7 @@ function getAllDataForOngoingAppointment(){
             FROM appointment a
             JOIN user d 
             ON a.appointment_doctor_id = d.user_id 
-            JOIN user p 
+            LEFT JOIN user p 
             ON a.appointment_patient_id = p.user_id 
             JOIN doctor_schedule_time dst 
             ON a.appointment_selected_time = dst.schedule_time_id
@@ -89,7 +89,7 @@ function getAllDataForCompleteAppointment(){
             FROM appointment a
             JOIN user d 
             ON a.appointment_doctor_id = d.user_id 
-            JOIN user p 
+            LEFT JOIN user p 
             ON a.appointment_patient_id = p.user_id 
             JOIN doctor_schedule_time dst 
             ON a.appointment_selected_time = dst.schedule_time_id

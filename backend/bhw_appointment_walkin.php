@@ -94,18 +94,40 @@ function getAllDataForAppointmentWalkInNoAcc(){
 if(isset($_POST['acceptAppointmentSubmit'])) {
 	
 	$connection = dbConn();
-	$acceptID = $_POST['acceptID'];
+	$acceptID = $_POST['proceedID'];
 	$reason = "";
-	
-	$sql = "UPDATE appointment SET `appointment_status` = '3', `appointment_reason` = '$reason' WHERE appointment_id = '$acceptID' ";
-	$result = mysqli_query($connection,$sql);
 
-	if($result) {
+    $proceedDoctorID = $_POST['proceedDoctorID']; // doctor ni;
+    $proceedPatientID = $_POST['proceedPatientID']; // patient ni;
+    $proceedDate = $_POST['proceedDate']; // date ni;
+    $proceedStartTime = $_POST['proceedStartTime']; // start time ni;
+    $proceedEndTime = $_POST['proceedEndTime']; // end time ni;
+
+    $proceedPfname = $_POST['proceedPfname'];
+    $proceedPmname = $_POST['proceedPmname'];
+    $proceedPlname = $_POST['proceedPlname'];
+
+    $proceedAppointmentType = $_POST['proceedAppointmentType'];
+    $proceedMedicalService = $_POST['proceedMedicalService'];
+    
+    date_default_timezone_set('Asia/Manila');
+    $proceed_datetime = date('Y/m/d H:i:s');
+
+    $proceed_status = 1;
+    $proceed_bool = 1;
+
+     $query = "INSERT INTO patient_list (patient_list_id,patient_list_user_id,patient_list_doctor_id,patient_list_appointment_id,patient_list_pfname,patient_list_pmname,patient_list_plname,patient_list_appointment_type,patient_list_medical_service,patient_list_date,patient_list_stime,patient_list_etime,patient_list_datetime,patient_list_status,patient_list_bool) VALUES (NULL, '$proceedPatientID','$proceedDoctorID','$acceptID','$proceedPfname','$proceedPmname','$proceedPlname','$proceedAppointmentType','$proceedMedicalService','$proceedDate','$proceedStartTime','$proceedEndTime','$proceed_datetime','$proceed_status','$proceed_bool')";
+    $result_query = mysqli_query($connection,$query);
+	
+	$sql = "UPDATE appointment SET `appointment_status` = '14', `appointment_reason` = '$reason' WHERE appointment_id = '$acceptID' ";
+	$result_sql = mysqli_query($connection,$sql);
+
+	if($$result_query AND $result_sql) {
 	 	$alert="Appointment Book Accept by Barangay Health Worker";
-			header("Location:../views/bhw/appointments_oc.php?s=".$alert);
+			header("Location:../views/bhw/dashboard.php?s=".$alert);
 		}else{
 		 $alert="Error";
-			header("Location:../views/bhw/appointments_oc.php?s=".$alert);
+			header("Location:../views/bhw/dashboard.php?e=".$alert);
 		}	
 	}
 
@@ -117,7 +139,7 @@ if(isset($_POST['cancelAppointmentSubmit'])) {
 	$cancelID = $_POST['cancelID'];
 	$reason = $_POST['reason'];
 
-	$sql = "UPDATE appointment SET `appointment_status` = '2', `appointment_reason` = '$reason' WHERE appointment_id = '$cancelID' ";
+	$sql = "UPDATE appointment SET `appointment_status` = '12', `appointment_reason` = '$reason' WHERE appointment_id = '$cancelID' ";
 	$result = mysqli_query($connection,$sql);
 
 	if($result) {

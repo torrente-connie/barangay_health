@@ -32,7 +32,7 @@ $sql = "SELECT
         FROM appointment a
         JOIN user d 
         ON a.appointment_doctor_id = d.user_id 
-        JOIN user p 
+        LEFT JOIN user p 
         ON a.appointment_patient_id = p.user_id 
         JOIN doctor_schedule_time dst 
         ON a.appointment_selected_time = dst.schedule_time_id";
@@ -166,6 +166,28 @@ $i=0;
 
     // check if status completed
     } else if($status == 0) {
+      $date = $row['appoint_date'];
+      $start_time = $row['appoint_start_time'];
+      $end_time = $row['appoint_end_time'];
+
+      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
+      $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
+      $data[$i]['color'] =  '#47c363';
+      $data[$i]['textColor'] = 'white';
+      $i++;
+    } else if($status == 14) {
+      $date = $row['appoint_date'];
+      $start_time = $row['appoint_start_time'];
+      $end_time = $row['appoint_end_time'];
+
+      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
+      $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
+      $data[$i]['color'] =  '#6777ef';
+      $data[$i]['textColor'] = 'white';
+      $i++;
+    } else if($status == 17) {
       $date = $row['appoint_date'];
       $start_time = $row['appoint_start_time'];
       $end_time = $row['appoint_end_time'];
