@@ -111,6 +111,7 @@
                             <th>Date</th>
                             <th>Time</th>
                             <th>Medical Description</th>
+                            <th></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -167,6 +168,8 @@
         
                       while($row = mysqli_fetch_assoc($result)) {
 
+                      $patient_id = $row['patient_id'];
+
                       // doctor fullname
                       $doc_account      = $row['doctor_account'];
                       $doc_firstname    = ucfirst($row['doc_fname']);
@@ -205,10 +208,13 @@
                           $atype = "Face to Face Appointment";
                         } else if($mh_atype == "onlineappointment") {
                           $atype = "Virtual Consultation";
-                        } else if($mh_atype = "walkinappointment") {
-                          $atype = "Walk-In Appointment";
+                        } else if($mh_atype == "walkinappointment" AND $patient_id != 0 ) {
+                          $atype = "Walk-In Appointment With Account";
+                        } else if($mh_atype == "walkinappointment" AND $patient_id == 0) {
+                          $atype = "Walk-In Appointment Without Account";
                         }
 
+            
                       ?>
 
                         <tr>
@@ -218,7 +224,11 @@
                           <td><?php echo $date ?></td>
                           <td><?php echo $format_start ?> - <?php echo $format_end ?></td>
                           <td>
-                             <button class="btn btn-primary btn-block patientMedicalDetails" id='<?php echo $mh_id ?>'> View </button> 
+                             <button class="btn btn-info btn-block patientMedicalDetails" id='<?php echo $mh_id ?>'> View </button> 
+                          </td>
+                          <td> 
+                            <a href="print_patient_medical_history.php?id=<?php echo $mh_id ?>" class="btn btn-primary btn-block text-white" target="_blank">Print</a>
+
                           </td>
                          </tr>
                       
