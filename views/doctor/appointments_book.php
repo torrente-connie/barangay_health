@@ -287,7 +287,7 @@
 
                             <button class="btn btn-primary btn-sm btn-block approveAppointmentDoctor" id='<?php echo $appointment_id ?>'> Approve </button> 
 
-                            <button class="btn btn-danger btn-sm btn-block rescheduleAppointmentDoctor" id='<?php echo $appointment_id ?>'> Reschedule </button> 
+                           <!--  <button class="btn btn-danger btn-sm btn-block rescheduleAppointmentDoctor" id='<?php //echo $appointment_id ?>'> Reschedule </button> --> 
 
             
                           <?php }
@@ -299,8 +299,9 @@
                           // if status = reschedule
                           else if($appointment_status == 5) { ?>
 
-                           <a href="#approveAppointmentDoctor" class="btn btn-primary text-white  btn-sm btn-block" data-toggle="modal" data-approve-id="<?php echo $appointment_id ?>">Approve</a>
-                             <a href="#ssrescheduleAppointmentDoctor" class="btn btn-danger text-white btn-block btn-sm" data-toggle="modal" data-reschedule-id="<?php echo $appointment_id ?>"> Reschedule </a>
+                           <!-- <a href="#approveAppointmentDoctor" class="btn btn-primary text-white  btn-sm btn-block" data-toggle="modal" data-approve-id="<?php //echo $appointment_id ?>">Approve</a> -->
+
+                            <!--  <a href="#ssrescheduleAppointmentDoctor" class="btn btn-danger text-white btn-block btn-sm" data-toggle="modal" data-reschedule-id="<?php //echo $appointment_id ?>"> Reschedule </a> -->
                       
                           <?php } ?>
 

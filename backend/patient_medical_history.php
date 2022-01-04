@@ -48,7 +48,7 @@ function getAllDataForMedicalHistory(){
             mh.medical_history_status as mh_status,
             mh.medical_history_bool as mh_bool
             FROM medical_history mh
-            JOIN user p 
+            LEFT JOIN user p 
             ON mh.medical_history_user_id = p.user_id 
             JOIN user d 
             ON mh.medical_history_doctor_id = d.user_id

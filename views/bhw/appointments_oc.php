@@ -77,6 +77,11 @@
                     </ul>
                 </li>
 
+                 <li class="nav-item">
+                       <a href="medical_history.php" class="nav-link"><i class="fas fa-pen"></i><span>Medical History</span></a>
+                     </li>
+
+
           </ul>
         </div>
       </nav>
@@ -262,7 +267,7 @@
 
                             <button class="btn btn-primary btn-sm btn-block acceptAppointmentBhw" id='<?php echo $appointment_id ?>'> Accept </button> 
 
-                            <button class="btn btn-danger btn-sm btn-block cancelAppointmentBhw" id='<?php echo $appointment_id ?>'> Reschedule </button> 
+                           <!--  <button class="btn btn-danger btn-sm btn-block cancelAppointmentBhw" id='<?php //echo $appointment_id ?>'> Reschedule </button> --> 
 
 
                           <?php 

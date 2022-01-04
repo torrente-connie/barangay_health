@@ -76,6 +76,11 @@
                     </ul>
                 </li>
 
+                 <li class="nav-item">
+                       <a href="medical_history.php" class="nav-link"><i class="fas fa-pen"></i><span>Medical History</span></a>
+                     </li>
+
+
           </ul>
         </div>
       </nav>
@@ -84,7 +89,7 @@
       <div class="main-content" style="min-height: 566px;">
         <section class="section">
           <div class="section-header">
-            <h1>Walk-in Appointments</h1>
+            <h1>Walk-in Appointments For Patients With Account</h1>
             </div>
 
    
