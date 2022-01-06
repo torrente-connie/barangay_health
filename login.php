@@ -38,11 +38,11 @@ require('scripts_header.php');
                   <div class="form-group">
                     <div class="d-block">
                       <label for="password" class="control-label">Password</label>
-                      <div class="float-right">
+                    <!--   <div class="float-right">
                         <a href="forgot_password.php" class="text-small">
                           Forgot Password?
                         </a>
-                      </div>
+                      </div> -->
                     </div>
                     <input id="password" type="password" class="form-control" name="password" tabindex="2" required="">
                     <!-- <div class="invalid-feedback">
@@ -65,7 +65,7 @@ require('scripts_header.php');
                     </button>
                   </div>
                 </form>
-                 <div class="row sm-gutters">
+               <!--   <div class="row sm-gutters">
                 
                   <div class="col-6">
                     <a class="btn btn-block btn-lg btn-social btn-google">
@@ -78,7 +78,7 @@ require('scripts_header.php');
                       <span class="fab fa-facebook"></span> Facebook
                     </a>
                   </div>
-                </div>
+                </div> -->
                 </div>
             </div>
           </div>
