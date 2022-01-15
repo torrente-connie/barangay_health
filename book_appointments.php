@@ -367,8 +367,9 @@
                                  <option value="Maternal Check-up">Maternal Check-up</option>
                                  <option value="Senior Citizen Check-up">Senior Citizen Check-up</option>
                                  <option value="Health Check-up">Health Check-up</option>
-                                 <!-- <option>Prenatal Care</option> -->
-                                 <!-- <option>Immunizations</option> -->
+                                 <option value="Prenatal Care">Prenatal Care</option>
+                                 <option value="Immunizations">Immunizations</option>
+                                 <option value="PWD Assistance">PWD Assistance</option>
                               </select>
                           </div>
                         </div>

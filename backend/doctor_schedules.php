@@ -36,6 +36,32 @@ function addDoctorSched() {
 
 }
 
+if(isset($_POST['updateDoctorTimeSchedule'])) {
+	updateDoctorSched();
+}
+
+function updateDoctorSched() {
+	$conn = dbConn();
+
+	$ti = $_POST['schedID'];
+	$time_interval = $_POST['time_interval'];
+
+	$status = '1';
+	$bool = '1';
+
+	$sql = "UPDATE doctor_schedule SET `schedule_time_interval` = '$time_interval' WHERE `schedule_id` = '$ti' ";
+	$result = mysqli_query($conn,$sql);
+
+	if($result){
+		 $alert="Updated Time Schedule";
+			header("Location:../views/doctor/schedules.php?s=".$alert);
+		}else{
+		 $alert="Error";
+			header("Location:../views/doctor/schedules.php?s=".$alert);
+		}
+
+}
+
 
 // code for add new doctor
 

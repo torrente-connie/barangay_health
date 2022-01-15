@@ -38,22 +38,32 @@ function registerUser() {
 	$user_uname = 'BH'.''.$getUniqueYear.''.$getUniqueAccNum.''.$displayUnique[0];
 	$user_pass = md5($password);
 
-	 $sql = "INSERT INTO user (user_id,user_account_id,user_email,user_password,user_firstname,user_middlename,user_lastname,user_dob,user_cnum,user_type,user_status,user_bool) VALUES
-	(NULL,'$user_uname','$email','$user_pass','$first_name','$middle_name','$last_name','$dob','$pnum','$user_type','$user_status','$user_bool')";
+	// generate code;
+
+	$permitted_chars = '0123456789';
+    $account_code = substr(str_shuffle($permitted_chars), 0, 6);
+
+    $account_status = 0;
+
+    $user_image = "../assets/img/user.png";
+
+	 $sql = "INSERT INTO user (user_id,user_account_id,user_email,user_password,user_firstname,user_middlename,user_lastname,user_dob,user_cnum,user_type,user_image,user_status,user_account_status,user_account_code,user_bool) VALUES
+	(NULL,'$user_uname','$email','$user_pass','$first_name','$middle_name','$last_name','$dob','$pnum','$user_type','$user_image','$user_status','$account_status','$account_code','$user_bool')";
 
 	$result = mysqli_query($conn,$sql);
 
-
-
 	if($result){
+		 $last_id = mysqli_insert_id($conn);
 		 //$alert="Added New Account";
 			header("Location:../login.php?s=".$alert);
 		}else{
 		 $alert="Error";
 			header("Location:../login.php?s=".$alert);
 		}
+	}
 
-}
+
+
 
 
 ?>

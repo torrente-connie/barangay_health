@@ -49,6 +49,22 @@
             // profile dropdown here
             require("show_listdropdown.php"); 
 
+            // code here 
+
+            $schedule_id = $_GET['sched_id'];
+
+            $ti = $_GET['ti'];
+
+            if($ti == 60) {
+              $ti_name = '60 mins';
+            } else if($ti == 45) {
+              $ti_name = '45 mins';
+            } else if($ti == 30) {
+              $ti_name = '30 mins';
+            } else if($ti == 15) {
+              $ti_name = '15 mins';
+            }
+
           ?>
 
         </ul>
@@ -68,7 +84,7 @@
                   <ul class="dropdown-menu" style="display: none;">
                       <li class="nav-item"><a href="appointments_book.php" class="nav-link" style="padding-right:0 !important"> <span>Face to Face Appointment</span> </a></li>
                       <li class="nav-item"><a href="appointments_oc.php" class="nav-link"> <span>Virtual Consultation</span> </a></li>
-                     </ul>
+                      </ul>
                 </li>
 
               <li class="nav-item">
@@ -79,6 +95,7 @@
             <li class="nav-item">
               <a href="patients.php" class="nav-link"><i class="fas fa-user-friends"></i><span>Manage Patients</span></a>
             </li>
+
 
             <li class="nav-item active">
               <a href="schedules.php" class="nav-link"><i class="fas fa-clock"></i><span>Schedules</span></a>
@@ -92,100 +109,48 @@
       <div class="main-content" style="min-height: 566px;">
         <section class="section">
           <div class="section-header">
-            <h1>Schedules</h1>
+            <h1>Update Time Interval</h1>
             </div>
 
    
-        <div class="section-body">
-            <div class="card">
-              <div class="card-header">
+         <div class="section-body">
+            <div class="row mt-sm-4">
+              <div class="col-12 col-md-12 col-lg-12">
+                <div class="card">
+                  <form method="POST" action="../../backend/doctor_schedules.php">
+                   <div class="card-header">
                  <h4></h4>
-                  <div class="card-header-action">
-                    <a href="add_schedules.php" class="btn btn-success btn-sm">Add Schedules</a>
-                  </div>
               </div>
+                    <div class="card-body">
 
-                  <div class="card-body">
-                    <div class="table-responsive">
-                      <table class="table table-striped">
-                      <tbody>
-                        <tr>
-                          <th>Doctor Available Day</th>
-                          <th>Doctor Available Time</th>
-                          <th>View Time Schedule</th>
-                          <th></th>
-                        </tr>
+                      <input type="hidden" value="<?php echo $schedule_id ?>" name="schedID">
 
-                      <?php 
-                      // query for getting doctor schedules
-                      $sqlDoctorSched = "SELECT * FROM doctor_schedule ds
-                      JOIN user u 
-                      ON ds.doctor_id = u.user_id 
-                      WHERE u.user_bool = '1' AND u.user_type = 'Doctor' 
-                      AND ds.doctor_id = '$doctor_id' ORDER BY ds.schedule_day ASC
-                      ";
-
-                      $resultDoctorSched = mysqli_query($connection,$sqlDoctorSched);
-                      while($rowDoctorSched = mysqli_fetch_assoc($resultDoctorSched)) {
-
-                        $schedule_id = $rowDoctorSched['schedule_id'];
-
-                        // doctor schedule
-                        $sched_day    = $rowDoctorSched['schedule_day'];
-                        $sched_start  = $rowDoctorSched['schedule_start_time']; 
-                        $sched_end    = $rowDoctorSched['schedule_end_time'];
-                        $sched_time_interval = $rowDoctorSched['schedule_time_interval'];
-
-                        // time format
-
-                        $format_start = date("h:i:A", strtotime($sched_start));
-                        $format_end   = date("h:i:A", strtotime($sched_end));
-
-                         if($sched_day == 0) {
-                          $display_day = "Sunday";
-                        } else if($sched_day == 1) {
-                          $display_day = "Monday";
-                        } else if($sched_day == 2) {
-                          $display_day = "Tuesday";
-                        } else if($sched_day == 3) {
-                          $display_day = "Wednesday";
-                        } else if($sched_day == 4) {
-                          $display_day = "Thursday";
-                        } else if($sched_day == 5) {
-                          $display_day = "Friday";
-                        } else if($sched_day == 6) {
-                          $display_day = "Saturday";
-                        } 
-
-
-                      ?>   
-                      <tr>
-                        <td><?php echo $display_day ?></td>
-                        <td><?php echo $format_start ?> - <?php echo $format_end ?> <!-- <span class="badge badge-success ml-2"> <?php // echo $sched_time_interval ?></span> --> </td>
-                        <!-- <td><span></span></td> -->
-                        <td><a class="btn btn-info text-white" href="schedule_time.php?sched_id=<?php echo $rowDoctorSched['schedule_id']?>&ti=<?php echo $sched_time_interval?>">View Time Schedules</a>
-                         <a href="schedule_update_interval.php?sched_id=<?php echo $schedule_id ?>&ti=<?php echo $sched_time_interval?>" class="btn btn-primary text-white">Update Time Interval</a>
-                       </td>
-                        <td>
-                          <a href="../../backend/doctor_schedules_delete.php?sched_id=<?php echo $schedule_id ?>" class="btn btn-danger text-white">Delete</a>
-                        </td>
-                      </tr>
-
-                      <?php 
-                          }
-                        ?>
-
-                        </tbody>
-                      </table>                    
+                        <div class="row">
+                          <div class="form-group col-md-6 col-12">
+                            <label>Time Interval</label>
+                              <select class="form-control" name="time_interval" required>
+                                <option value="<?php echo $ti ?>" selected hidden><?php echo $ti_name ?></option>
+                                <option disabled>Select A Time Schedule</option>
+                                <option value="60">60 mins</option>
+                                <option value="45">45 mins</option>
+                                <option value="30">30 mins</option>
+                                <option value="15">15 mins</option>
+                              </select>
+                          </div>  
+                        </div>
+                        
                     </div>
-                  </div>
-              <div class="card-footer bg-whitesmoke"> </div>
+                    <div class="card-footer text-left">
+                      <button name="updateDoctorTimeSchedule" class="btn btn-primary">Submit</button>
+                      <a href="schedules.php" class="btn btn-danger">Cancel</a>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
          </section>
       </div>
-
-      
     </div>
 
 

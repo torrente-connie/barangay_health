@@ -66,7 +66,8 @@ $i=0;
       $end_time = $row['appoint_end_time'];
 
       // $data[$i]['title'] = $row['patient_fname'] . ' - ' . $row['appoint_service'] .' (Pending)';
-      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      //$data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      $data[$i]['title'] = $row['appoint_service'];
       $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
       $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
       $data[$i]['color'] =  '#6777ef';
@@ -79,7 +80,8 @@ $i=0;
       $start_time = $row['appoint_start_time'];
       $end_time = $row['appoint_end_time'];
 
-      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      //$data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      $data[$i]['title'] = $row['appoint_service'];
       $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
       $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
       $data[$i]['color'] =  '#fc544b';
@@ -92,7 +94,8 @@ $i=0;
       $start_time = $row['appoint_start_time'];
       $end_time = $row['appoint_end_time'];
 
-      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      //$data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      $data[$i]['title'] = $row['appoint_service'];
       $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
       $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
       $data[$i]['color'] =  '#3abaf4';
@@ -105,7 +108,8 @@ $i=0;
       $start_time = $row['appoint_start_time'];
       $end_time = $row['appoint_end_time'];
 
-      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      //$data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      $data[$i]['title'] = $row['appoint_service'];
       $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
       $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
       $data[$i]['color'] =  '#47c363';
@@ -118,7 +122,8 @@ $i=0;
       $start_time = $row['appoint_start_time'];
       $end_time = $row['appoint_end_time'];
 
-      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      //$data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      $data[$i]['title'] = $row['appoint_service'];
       $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
       $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
       $data[$i]['color'] =  '#fc544b';
@@ -131,7 +136,8 @@ $i=0;
       $start_time = $row['appoint_start_time'];
       $end_time = $row['appoint_end_time'];
 
-      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      //$data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      $data[$i]['title'] = $row['appoint_service'];
       $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
       $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
       $data[$i]['color'] =  '#6777ef';
@@ -144,7 +150,8 @@ $i=0;
       $start_time = $row['appoint_start_time'];
       $end_time = $row['appoint_end_time'];
 
-      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      //$data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      $data[$i]['title'] = $row['appoint_service'];
       $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
       $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
       $data[$i]['color'] =  '#6777ef';
@@ -157,7 +164,8 @@ $i=0;
       $start_time = $row['appoint_start_time'];
       $end_time = $row['appoint_end_time'];
 
-      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      //$data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      $data[$i]['title'] = $row['appoint_service'];
       $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
       $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
       $data[$i]['color'] =  '#fc544b';
@@ -170,7 +178,8 @@ $i=0;
       $start_time = $row['appoint_start_time'];
       $end_time = $row['appoint_end_time'];
 
-      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      //$data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      $data[$i]['title'] = $row['appoint_service'];
       $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
       $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
       $data[$i]['color'] =  '#47c363';
@@ -181,7 +190,8 @@ $i=0;
       $start_time = $row['appoint_start_time'];
       $end_time = $row['appoint_end_time'];
 
-      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      //$data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      $data[$i]['title'] = $row['appoint_service'];
       $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
       $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
       $data[$i]['color'] =  '#6777ef';
@@ -192,7 +202,8 @@ $i=0;
       $start_time = $row['appoint_start_time'];
       $end_time = $row['appoint_end_time'];
 
-      $data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      //$data[$i]['title'] = $patient_pfullname . ' - ' . $row['appoint_service'];
+      $data[$i]['title'] = $row['appoint_service'];
       $data[$i]['start'] =  date('Y-m-d H:i:s', strtotime("$date $start_time"));
       $data[$i]['end'] =  date('Y-m-d H:i:s', strtotime("$date $end_time"));
       $data[$i]['color'] =  '#47c363';

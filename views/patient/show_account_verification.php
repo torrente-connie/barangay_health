@@ -3,7 +3,7 @@
   // session info here
   session_start();
 
-   $patient_id = $_SESSION['patient_id']; // get session admin id
+  $patient_id = $_SESSION['patient_id']; // get session admin id
   $patient_fullname = $_SESSION['patient_fullname']; // get session admin fullname
   $patient_image = $_SESSION['patient_image'];
 
@@ -97,7 +97,7 @@
         </ul>
       </nav>
 
-          <nav class="navbar navbar-secondary navbar-expand-lg">
+      <nav class="navbar navbar-secondary navbar-expand-lg">
         <div class="container">
           <ul class="navbar-nav">
 
@@ -127,96 +127,126 @@
         </div>
       </nav>
 
+    <?php 
+
+    if(isset($_GET['verify']) == 'yes' ) {
+
+      $conn = dbConn();
+
+      $patientID = $_GET['user_id'];
+
+      $getPatient = "SELECT * FROM user WHERE user_type = 'Patient' AND user_id = '$patientID' ";
+      $resultGetPatient = mysqli_query($conn,$getPatient);
+      $rowGetPatient = mysqli_fetch_assoc($resultGetPatient);
+
+      $patientEMAIL = $rowGetPatient['user_email'];
+      $patientCODE = $rowGetPatient['user_account_code'];
+
+      sendEmailNotification($patientID,$patientEMAIL,$patientCODE);
+    }
+
+    function sendEmailNotification($patientId,$patientEmail,$verifyCode) {
+
+       require   '../../assets/mailer/PHPMailerAutoload.php';
+       require '../../assets/mailer/credential.php';
+
+       $email = $patientEmail;
+       $getCode = $verifyCode;
+
+       // $email = "louisadolfo08@gmail.com";
+       //$email = "louisadolfo08@gmail.com";
+
+          // Instantiation and passing `true` enables exceptions
+      $mail = new PHPMailer;
+
+      //$mail->SMTPDebug = 1;
+
+      $mail->SMTPDebug = 0;
+
+      // new
+      $mail->Mailer = "smtp";
+      $mail->SMTPOptions = array(
+      'ssl' => array(
+          'verify_peer' => false,
+          'verify_peer_name' => false,
+          'allow_self_signed' => true
+      )
+      );
+                                                            // Send using SMTP
+      $mail->IsSMTP();                                      // Set mailer to use SMTP
+      $mail->Host = 'smtp.gmail.com';                       // Specify main and backup SMTP servers
+      $mail->SMTPAuth = true;                               // Enable SMTP authentication
+      $mail->Username = EMAIL;                              // SMTP username
+      $mail->Password = PASS;                               // SMTP password
+      $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+      //$mail->Port = 587 / 465 / 25;  
+      $mail->Port = 587;   
+                                                // TCP port to connect to
+
+      //Recipients
+      $mail->setFrom(EMAIL, 'ACCOUNT VERIFICATION FOR BRGYHEALTH: Barangay Health Center Appointment, Scheduling and Online Consultation System');
+      $mail->addAddress($email);     // Add a recipient
+      $mail->addReplyTo(EMAIL);
+   
+      // Content
+      $mail->isHTML(true);   
+      // Set email format to HTML
+
+     // if($_GET['studentID'] == '$id') {
+     //   $url = "http://" . $_SERVER['HTTP_POST'] . "localhost/mca_new_db/reset_password.php?email=$email&SID=$id";
+     //  }
+
+     // if($_GET['teacherID'] == '$id') {
+     //    $url = "http://" . $_SERVER['HTTP_POST'] . "localhost/mca_new_db/reset_password.php?email=$email&TID=$id";
+     // }
+
+      date_default_timezone_set('Asia/Manila');
+      $get_date = date('Y/m/d');
+
+      $mail->Subject = 'Here is your verification code';
+      $mail->Body    = "Verification Code:". $getCode."";
+   
+      if(!$mail->send()) {
+              echo 'Message could not be sent.';
+              echo 'Mailer Error: ' . $mail->ErrorInfo;
+          } else {
+              $str = 'The Verification Code Has Been Sent';
+              //header("location:dashboard.php?success=".$str);
+          }
+    } 
+
+    
+    ?>
+
     <!-- Main Content -->
        <div class="main-content" style="min-height: 566px;">
         <section class="section">
           <div class="section-header">
-            <h1>Account Profile</h1>
+            <h1>Account Verification</h1>
           </div>
           <div class="section-body">
             <div class="row mt-sm-4">
-              <div class="col-12 col-md-12 col-lg-5">
-                <div class="card profile-widget">
-                  <div class="profile-widget-header">
-                    <img alt="image" src="../<?php echo $account_profile ?>" class="rounded-circle profile-widget-picture" style="width:100px;height: 100px;">
-                    <div class="profile-widget-items">
-                      <div class="profile-widget-item">
-                        <div class="profile-widget-item-label">Account ID</div>
-                        <div class="profile-widget-item-value"><?php echo $account_id ?></div>
-                      </div>
-                      <div class="profile-widget-item">
-                        <div class="profile-widget-item-label">Account Type</div>
-                        <div class="profile-widget-item-value"><?php echo $account_type ?></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="profile-widget-description">
-                    <div class="profile-widget-name"> <?php echo $fullname ?> </div>
-                      <ul class="list-group list-group-flush">
-                      <li class="list-group-item">Email: <?php echo $account_email ?></li>
-                      <li class="list-group-item">Phone: <?php echo $account_phone ?></li>
-                      <li class="list-group-item">Account Status: 
-                        <?php if($account_status == 0) { ?>
-                         <p class="p-lead text-danger"> Not Verified </p> </li>
-                         <a href="show_account_verification.php?user_id=<?php echo $patient_id ?>&verify=yes" class="btn btn-primary btn-md text-white">Verify This Account</a>
-                        <?php } else { ?>
-                         <p class="p-lead text-success"> Verified </p> </li>
-                        <?php } ?>
-                    </ul>
-                   
-                  </div>
-                  <div class="card-footer text-center">
-                    <hr>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 col-md-12 col-lg-7">
+              <div class="col-12 col-md-12 col-lg-9">
                 <div class="card">
-                  <form action="../../backend/patient_profile.php" method="POST" enctype="multipart/form-data">
+                  <form action="../../backend/patient_account_verification.php" method="POST">
                     <div class="card-header">
-                      <h4>Edit Profile</h4>
+                      <h4>Verify Account</h4>
                     </div>
                     <div class="card-body">
 
-                        <input type="hidden" name="user_id" value="<?php echo $patient_id ?>">
-                        <input type="hidden" name="account_image" value="<?php echo $account_profile ?>">
+                        <input type="hidden" name="patient_id" value="<?php echo $patient_id ?>">
 
-
-                          <div class="row">
-                              <div class="form-group col-md-12 col-12">
-                                  <label>Profile Picture</label>
-                                     <input type="file" class="form-control" name="profile_image">
-                                 </div>
-                              </div>
-
-                        <div class="row">
-                          <div class="form-group col-md-4 col-12">
-                            <label>First Name</label>
-                            <input type="text" class="form-control" name="firstname" value="<?php echo $firstname ?>" >
-                          </div>
-                           <div class="form-group col-md-4 col-12">
-                            <label>Middle Name</label>
-                            <input type="text" class="form-control" name="middlename" value="<?php echo $middlename ?>" >
-                          </div>
-                          <div class="form-group col-md-4 col-12">
-                            <label>Last Name</label>
-                            <input type="text" class="form-control" name="lastname" value="<?php echo $lastname ?>">
-                          </div>
-                        </div>
+                        <h2 class="lead">Please check your email address for the verification code.</h2>
+                          
                         <div class="row">
                           <div class="form-group col-md-7 col-12">
-                            <label>Email</label>
-                            <input type="email" class="form-control" name="email" value="<?php echo $account_email ?>">
+                            <label>Verification Code</label>
+                            <input type="text" class="form-control" name="verification_code">
                           </div>
-                          <div class="form-group col-md-5 col-12">
-                            <label>Phone</label>
-                            <input type="text" class="form-control" name="phone" value="<?php echo $account_phone ?>">
-                          </div>
-
                         </div>
                        </div>
                     <div class="card-footer text-right">
-                      <button class="btn btn-primary" type="submit" name="editPatientProfile">Save Changes</button>
+                      <button class="btn btn-primary" type="submit" name="accountVerification">Submit</button>
                       <a href="dashboard.php"  class="btn btn-danger text-white">Cancel</a>
                     </div>
                   </form>

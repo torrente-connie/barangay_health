@@ -71,7 +71,6 @@ function bookAppointment() {
 
 	if($result AND $resultNotification){
 		 $alert="Successfully Booked A Face to Face Appointment";
-		 //sendEmailNotification($patient_user_id,$get_doctor_id);
 			header("Location:../home_schedules.php?s=".$alert);
 		}else{
 		 $alert="Error";
@@ -211,7 +210,6 @@ function walkInConsultation() {
 	$insertNotification = "INSERT INTO notification (`notification_id`,`notification_admin_id`,`notification_patient_id`,`notification_doctor_id`,`notification_bhw_id`,`notification_message`,`notification_status`,`notification_usertype`,`notification_datetime`) VALUES (NULL,'$notif_admin','$notif_patient','$notif_doctor','$notif_bhw','$notif_message','$notif_status','$notif_usertype','$notif_datetime')";
 	$resultNotification = mysqli_query($conn,$insertNotification);
 
-
 	if($result AND $resultNotification) {
 		 $alert="Successfully Booked An Appointment";
 			header("Location:../home_schedules.php?s=".$alert);
@@ -222,73 +220,4 @@ function walkInConsultation() {
         	header("Location:../home_schedules.php?f=".$alert);
 		}
  	}
-
-function sendEmailNotification($patientId,$doctorId) {
-
-	   require '../assets/mailer/PHPMailerAutoload.php';
-       require '../assets/mailer/credential.php';
-
-       // $email = "louisadolfo08@gmail.com";
-       $email = "cc112.torrente@gmail­.com";
-
-	        // Instantiation and passing `true` enables exceptions
-	    $mail = new PHPMailer;
-
-	    $mail->SMTPDebug = 1;
-
-	    // new
-	    $mail->Mailer = "smtp";
-	    $mail->SMTPOptions = array(
-	    'ssl' => array(
-	        'verify_peer' => false,
-	        'verify_peer_name' => false,
-	        'allow_self_signed' => true
-	    )
-	    );
-	                                                          // Send using SMTP
-	    $mail->IsSMTP();                                      // Set mailer to use SMTP
-	    $mail->Host = 'smtp.gmail.com';                       // Specify main and backup SMTP servers
-	    $mail->SMTPAuth = true;                               // Enable SMTP authentication
-	    $mail->Username = EMAIL;                              // SMTP username
-	    $mail->Password = PASS;                               // SMTP password
-	    $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-	    //$mail->Port = 587 / 465 / 25;  
-	    $mail->Port = 587;   
-	                                              // TCP port to connect to
-
-	    //Recipients
-	    $mail->setFrom(EMAIL, 'EMAIL NOTIFICATION BRGYHEALTH: Barangay Health Center Appointment, Scheduling and Online Consultation System');
-	    $mail->addAddress($email);     // Add a recipient
-	    $mail->addReplyTo(EMAIL);
-	 
-	    // Content
-	    $mail->isHTML(true);   
-	    // Set email format to HTML
-
-	   // if($_GET['studentID'] == '$id') {
-	   //   $url = "http://" . $_SERVER['HTTP_POST'] . "localhost/mca_new_db/reset_password.php?email=$email&SID=$id";
-	   //  }
-
-	   // if($_GET['teacherID'] == '$id') {
-	   //    $url = "http://" . $_SERVER['HTTP_POST'] . "localhost/mca_new_db/reset_password.php?email=$email&TID=$id";
-	   // }
-
-	    date_default_timezone_set('Asia/Manila');
- 	    $get_date = date('Y/m/d');
-
-	    $mail->Subject = 'You Have Successfully Book An Appointment For Face to Face Appointment';
-	    $mail->Body    = "Your Appointment Schedule:". $get_date.".Please Dont Forgot to Wear Face Mask and Face Shield and Also Always Follow Health Protocol";
-	 
-	    if(!$mail->send()) {
-	            echo 'Message could not be sent.';
-	            echo 'Mailer Error: ' . $mail->ErrorInfo;
-	        } else {
-	            $str = 'Reset password link has been sent to your email';
-	            header("location:../home_schedules.php?success=".$str);
-	        }
-
-
-}
-
-
 ?>
