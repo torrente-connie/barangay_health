@@ -298,7 +298,7 @@
                         Patient Comments: <span id="view_mh_comments"></span>
                       </li>
                       <li class="list-group-item">
-                        Patient Prescription: <span id="view_mh_comments"></span>
+                        Patient Prescription: <span id="view_mh_prescription"></span>
                       </li>
                     </ul>        
               </div>
@@ -390,6 +390,8 @@
                 
                 $('#view_mh_comments').html(data.mh_pcomments);
                 $('#view_mh_mservice').html(data.mh_mservice);
+                $('#view_mh_prescription').html(data.mh_pprescription);
+                
                 $('#patientMedicalDetails').modal('show');
              }
         })  
